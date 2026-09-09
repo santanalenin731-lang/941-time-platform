@@ -51,7 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
           title="9:41 AM"
         >
           <img
-            src="/941am.PNG"
+            src={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/'}941am.PNG`}
             alt="Logo 9:41 AM"
             style={{
               height: '60px',

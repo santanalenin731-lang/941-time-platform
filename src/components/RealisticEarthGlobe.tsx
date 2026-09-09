@@ -81,15 +81,26 @@ export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }
     const globeRadius = 90;
     const earthGeometry = new THREE.SphereGeometry(globeRadius, 64, 64);
 
-    // Load High-Res 1.4MB NASA Blue Marble Satellite Photograph
+    // Load High-Res NASA Blue Marble Satellite Photograph with base path fallback
+    const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+      ? import.meta.env.BASE_URL
+      : import.meta.env.BASE_URL + '/';
+    const textureUrl = `${baseUrl}earth-blue-marble.jpg`;
+
     const textureLoader = new THREE.TextureLoader();
-    const earthTexture = textureLoader.load('/earth-blue-marble.jpg');
+    const earthTexture = textureLoader.load(
+      textureUrl,
+      undefined,
+      undefined,
+      (err) => console.warn('Earth texture loading error:', err)
+    );
     earthTexture.colorSpace = THREE.SRGBColorSpace;
 
     const earthMaterial = new THREE.MeshPhongMaterial({
+      color: new THREE.Color(0x1d4ed8), // Base ocean blue tint (prevents black sphere on initial load)
       map: earthTexture,
-      shininess: 20,
-      specular: new THREE.Color(0x336699)
+      shininess: 25,
+      specular: new THREE.Color(0x38bdf8)
     });
 
     const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
