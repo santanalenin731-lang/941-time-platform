@@ -97,7 +97,7 @@ export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }
     earthTexture.colorSpace = THREE.SRGBColorSpace;
 
     const earthMaterial = new THREE.MeshPhongMaterial({
-      color: new THREE.Color(0x1d4ed8), // Base ocean blue tint (prevents black sphere on initial load)
+      color: new THREE.Color(0xffffff), // White base so the texture renders with its original colors
       map: earthTexture,
       shininess: 25,
       specular: new THREE.Color(0x38bdf8)
