@@ -15,6 +15,7 @@ import { BlogPostPage } from './components/BlogPostPage';
 import { CITIES_DATABASE, City, getDetectedUserCity } from './data/cities';
 import { getBlogPostBySlug } from './data/blogPosts';
 import { LanguageProvider } from './lib/i18n.tsx';
+import { trackPageView, trackCitySelect } from './lib/firebase';
 
 export type TabType = 'home' | 'world-clock' | 'compare' | 'tools' | 'about' | 'privacy' | 'blog';
 
@@ -55,20 +56,24 @@ const AppContent: React.FC = () => {
     }
   }, [worldClockCities]);
 
-  // Dynamic SEO Title & URL Hash Routing
+  // Dynamic SEO Title, URL Hash Routing & Firebase Analytics
   useEffect(() => {
+    let pageTitle = '9:41 AM — Time, beautifully simple';
     if (activeTab === 'blog') {
       if (activeBlogSlug) {
         window.location.hash = `blog/${activeBlogSlug}`;
+        pageTitle = `Blog 9:41 AM — ${activeBlogSlug}`;
       } else {
         window.location.hash = 'blog';
-        document.title = 'Blog 9:41 AM — Inteligencia Horaria, Tiempo & Cultura Tech';
+        pageTitle = 'Blog 9:41 AM — Inteligencia Horaria, Tiempo & Cultura Tech';
       }
     } else if (primaryCity) {
       const slug = primaryCity.seoSlug || `hora-en-${primaryCity.id}`;
       window.location.hash = slug;
-      document.title = `${primaryCity.seoTitle || `Hora exacta en ${primaryCity.name}`} — 9:41 AM`;
+      pageTitle = `${primaryCity.seoTitle || `Hora exacta en ${primaryCity.name}`} — 9:41 AM`;
     }
+    document.title = pageTitle;
+    trackPageView(pageTitle);
   }, [primaryCity, activeTab, activeBlogSlug]);
 
   // Initial SEO Hash Resolution on Load
@@ -104,6 +109,7 @@ const AppContent: React.FC = () => {
   const handleSelectCityFromSearch = (city: City) => {
     setPrimaryCity(city);
     setActiveTab('home');
+    trackCitySelect(city.name, city.country);
   };
 
   const handleSelectBlogPost = (slug: string) => {
