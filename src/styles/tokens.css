@@ -1,0 +1,50 @@
+:root {
+  /* Brand Color Tokens (Vibrant Royal Blue #0D47A1, Sky Blue #38BDF8, Pure White #FFFFFF) */
+  --color-navy: #0D47A1;
+  --color-navy-dark: #071A33;
+  --color-navy-deep: #0D47A1;
+  --color-sky: #38BDF8;
+  --color-sky-light: #E0F2FE;
+  --color-sky-hover: #0284C7;
+  --color-white: #FFFFFF;
+
+  /* Background Colors */
+  --color-bg-main: #FFFFFF;
+  --color-bg-secondary: #F5F9FC;
+  --color-bg-card: #FFFFFF;
+
+  /* Typography Colors - Vibrant Royal Blue */
+  --color-text-main: #0D47A1;
+  --color-text-dark: #0D47A1;
+  --color-text-muted: #475569;
+  --color-text-light: #64748B;
+  --color-border: #E2E8F0;
+
+  /* Sole Permanent Typography Font: Inter */
+  --font-clock: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Inter', sans-serif;
+
+  /* Layout */
+  --max-width: 1240px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-smooth: 0.25s ease;
+}
+
+[data-theme="dark"] {
+  --color-bg-main: #071A33;
+  --color-bg-secondary: #0A1424;
+  --color-text-main: #F8FAFC;
+  --color-text-dark: #FFFFFF;
+  --color-text-muted: #94A3B8;
+  --color-border: #1E293B;
+}

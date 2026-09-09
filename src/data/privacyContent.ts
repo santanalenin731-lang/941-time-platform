@@ -1,0 +1,247 @@
+import { LanguageCode } from '../lib/i18n';
+
+export interface PrivacySectionContent {
+  backToClock: string;
+  title: string;
+  subtitle: string;
+  principlesTitle: string;
+  principlesP1: string;
+  principlesP2: string;
+  noCookiesTitle: string;
+  noCookiesIntro: string;
+  noCookiesItem1Title: string;
+  noCookiesItem1Desc: string;
+  noCookiesItem2Title: string;
+  noCookiesItem2Desc: string;
+  noCookiesItem3Title: string;
+  noCookiesItem3Desc: string;
+  localStorageTitle: string;
+  localStorageP1: string;
+  localStorageP2: string;
+  legalTitle: string;
+  legalP1: string;
+  legalP2: string;
+}
+
+export const PRIVACY_CONTENT: Record<LanguageCode, PrivacySectionContent> = {
+  es: {
+    backToClock: "← Volver al Reloj Principal",
+    title: "Política de Privacidad y Seguridad",
+    subtitle: "© 2026 9:41 AM — Garantía absoluta de privacidad, cero cookies de rastreo y procesamiento 100% local",
+    principlesTitle: "1. Declaración de Principios Inviolables de Privacidad",
+    principlesP1: "En la plataforma 9:41 AM, la privacidad y protección de los derechos digitales de nuestros usuarios constituyen un pilar fundamental e innegociable de nuestra ingeniería. Sostenemos con firmeza la filosofía de que consultar la hora exacta global debe ser un servicio transparente, rápido y completamente libre de mecanismos de rastreo o vigilancia digital.",
+    principlesP2: "Todos los componentes del sistema han sido construidos desde cero bajo el principio de Privacy by Design (Privacidad desde el Diseño), garantizando que tu navegación por nuestra plataforma permanezca en todo momento anónima y protegida.",
+    noCookiesTitle: "2. Cero Cookies Invasivas y Cero Rastreo Publicitario",
+    noCookiesIntro: "Nos comprometemos formalmente a cumplir con las siguientes garantías estrictas de confidencialidad:",
+    noCookiesItem1Title: "No Comercialización de Datos:",
+    noCookiesItem1Desc: "No recopilamos, compartimos, alquilamos ni vendemos ningún tipo de datos personales, direcciones IP, historial de navegación ni hábitos de uso a terceros, anunciantes o agencias de inteligencia comercial.",
+    noCookiesItem2Title: "Sin Cookies de Seguimiento Terceras:",
+    noCookiesItem2Desc: "No empleamos cookies publicitarias, píxeles de remarketing de redes sociales ni scripts de perfilado entre sitios web.",
+    noCookiesItem3Title: "Acceso Libre sin Registro:",
+    noCookiesItem3Desc: "No requerimos la creación de cuentas de usuario, contraseñas ni la entrega de correos electrónicos para utilizar el 100% de nuestras herramientas.",
+    localStorageTitle: "3. Procesamiento y Almacenamiento 100% Local (localStorage)",
+    localStorageP1: "Para recordar tus preferencias personales de uso entre visitas (como el idioma seleccionado entre los 10 idiomas disponibles, el formato horario de 12H o 24H y tu lista de ciudades guardadas en el Reloj Mundial), utilizamos exclusivamente el almacenamiento web local aislado de tu navegador (localStorage).",
+    localStorageP2: "Estos datos permanecen 100% guardados dentro de tu propio dispositivo. En ningún momento se transmiten a servidores externos ni a bases de datos en la nube. Tú posees el control total de esta información y puedes borrarla en cualquier instante limpiando los datos de navegación de tu explorador web.",
+    legalTitle: "4. Derechos de Propiedad y Versión Legal",
+    legalP1: "Derechos Reservados: Todo el diseño, nombre de marca, código fuente y elementos visuales están protegidos bajo los derechos de autor de © 2026 9:41 AM — Todos los derechos reservados.",
+    legalP2: "Documento legal y de privacidad actualizado para el año 2026. Versión 1.8.0."
+  },
+  en: {
+    backToClock: "← Back to Main Clock",
+    title: "Privacy and Security Policy",
+    subtitle: "© 2026 9:41 AM — Absolute privacy guarantee, zero tracking cookies, and 100% local processing",
+    principlesTitle: "1. Declaration of Inviolable Privacy Principles",
+    principlesP1: "At 9:41 AM, privacy and the protection of our users' digital rights form a fundamental and non-negotiable pillar of our engineering. We firmly hold that consulting exact global time should be a transparent, fast service completely free of digital tracking or surveillance.",
+    principlesP2: "All system components were built from scratch under Privacy by Design principles, ensuring your navigation across our platform remains anonymous and protected at all times.",
+    noCookiesTitle: "2. Zero Invasive Cookies and Zero Tracking",
+    noCookiesIntro: "We formally commit to strict confidentiality guarantees:",
+    noCookiesItem1Title: "No Data Commercialization:",
+    noCookiesItem1Desc: "We do not collect, share, rent, or sell any personal data, IP addresses, browsing history, or usage habits to third parties, advertisers, or commercial agencies.",
+    noCookiesItem2Title: "No Third-Party Tracking Cookies:",
+    noCookiesItem2Desc: "We do not deploy ad tracking cookies, social media remarketing pixels, or cross-site profiling scripts.",
+    noCookiesItem3Title: "Free Access Without Registration:",
+    noCookiesItem3Desc: "We do not require account creation, passwords, or emails to access 100% of our tools.",
+    localStorageTitle: "3. 100% Local Processing & Storage (localStorage)",
+    localStorageP1: "To remember your preferences between visits (such as selected language across 10 supported options, 12H/24H format, and saved World Clock cities), we strictly use isolated local browser storage (localStorage).",
+    localStorageP2: "This data remains stored 100% inside your own device and is never transmitted to cloud servers. You retain complete control to clear it anytime via your browser settings.",
+    legalTitle: "4. Intellectual Property & Legal Notice",
+    legalP1: "All Rights Reserved: All design, brand names, codebase, and visual assets are protected under copyright © 2026 9:41 AM — All rights reserved.",
+    legalP2: "Legal & Privacy document updated for 2026. Version 1.8.0."
+  },
+  zh: {
+    backToClock: "← 返回主时钟",
+    title: "隐私与安全政策",
+    subtitle: "© 2026 9:41 AM — 绝对隐私保证、零追踪 Cookie 和 100% 本地处理",
+    principlesTitle: "1. 不可侵犯的隐私原则声明",
+    principlesP1: "在 9:41 AM 平台，保护用户的数字隐私是不可动摇的技术基石。我们坚信查询全球标准时间应当是一项透明、迅速且完全免受数字追踪与监控的服务。",
+    principlesP2: "系统的所有组件均在“设计即隐私”(Privacy by Design) 的原则下从零构建，确保您的浏览体验始终保持匿名与受保护状态。",
+    noCookiesTitle: "2. 零侵入性 Cookie 与零广告追踪",
+    noCookiesIntro: "我们正式承诺恪守以下严格的保密条款：",
+    noCookiesItem1Title: "禁止数据商业化：",
+    noCookiesItem1Desc: "我们绝不向任何第三方、广告商或商业分析机构收集、共享、出租或出售个人数据、IP 地址、浏览历史或使用习惯。",
+    noCookiesItem2Title: "无第三方追踪 Cookie：",
+    noCookiesItem2Desc: "我们不使用任何广告追踪 Cookie、社交媒体重定向像素或跨站分析脚本。",
+    noCookiesItem3Title: "免注册自由访问：",
+    noCookiesItem3Desc: "无需注册账户、输入密码或提供电子邮件即可免费使用本平台的 100% 全部功能。",
+    localStorageTitle: "3. 100% 本地化处理与存储 (localStorage)",
+    localStorageP1: "为了在访问之间记住您的个人偏好（例如在 10 种支持的语言中选择的语言、12/24小时格式以及世界时钟保存的城市），我们仅使用浏览器隔离的本地存储 (localStorage)。",
+    localStorageP2: "这些数据 100% 仅保存在您自己的设备内部，绝不会上传至云端服务器。您可以随时通过清理浏览器历史记录将其彻底清除。",
+    legalTitle: "4. 知识产权与法律版权",
+    legalP1: "版权所有：本平台的所有设计、品牌名称、源代码和视觉元素均受版权保护 © 2026 9:41 AM — 保留所有权利。",
+    legalP2: "法律与隐私文档已更新至 2026 年。版本号 1.8.0。"
+  },
+  hi: {
+    backToClock: "← मुख्य घड़ी पर वापस जाएं",
+    title: "गोपनीयता और सुरक्षा नीति",
+    subtitle: "© 2026 9:41 AM — पूर्ण गोपनीयता की गारंटी, शून्य ट्रैकिंग कुकीज़",
+    principlesTitle: "1. उल्लंघन न करने योग्य गोपनीयता सिद्धांतों की घोषणा",
+    principlesP1: "9:41 AM प्लेटफॉर्म पर, गोपनीयता हमारे इंजीनियरिंग का एक मौलिक और गैर-समझौतावादी स्तंभ है। हमारा मानना है कि समय परामर्श पूरी तरह से पारदर्शी और डिजिटल ट्रैकिंग से मुक्त होना चाहिए।",
+    principlesP2: "सभी घटकों को 'डिजाइन द्वारा गोपनीयता' के तहत बनाया गया है, जिससे आपकी ब्राउज़िंग हमेशा अज्ञात रहती है।",
+    noCookiesTitle: "2. शून्य आक्रामक कुकीज़ और शून्य ट्रैकिंग",
+    noCookiesIntro: "हम सख्त गोपनीयता की गारंटी देते हैं:",
+    noCookiesItem1Title: "कोई डेटा व्यापारीकरण नहीं:",
+    noCookiesItem1Desc: "हम किसी भी तीसरे पक्ष, विज्ञापनदाताओं या एजेंसियों को व्यक्तिगत डेटा, आईपी पते या ब्राउज़िंग इतिहास एकत्र या बेचते नहीं हैं।",
+    noCookiesItem2Title: "कोई तृतीय-पक्ष ट्रैकिंग कुकीज़ नहीं:",
+    noCookiesItem2Desc: "हम विज्ञापन ट्रैकिंग कुकीज़ या क्रॉस-साइट प्रोफाइलिंग स्क्रिप्ट का उपयोग नहीं करते हैं।",
+    noCookiesItem3Title: "बिना पंजीकरण के मुफ्त पहुंच:",
+    noCookiesItem3Desc: "हमारे 100% टूल का उपयोग करने के लिए खातों या ईमेल की आवश्यकता नहीं है।",
+    localStorageTitle: "3. 100% स्थानीय प्रसंस्करण (localStorage)",
+    localStorageP1: "आपकी प्राथमिकताओं को याद रखने के लिए, हम विशेष रूप से आपके ब्राउज़र के स्थानीय भंडारण (localStorage) का उपयोग करते हैं।",
+    localStorageP2: "यह डेटा 100% आपके डिवाइस के भीतर रहता है और कभी भी सर्वर पर स्थानांतरित नहीं होता है।",
+    legalTitle: "4. बौद्धिक संपदा और कानूनी नोटिस",
+    legalP1: "सर्वाधिकार सुरक्षित: सभी डिजाइन और कोड © 2026 9:41 AM के तहत सुरक्षित हैं।",
+    legalP2: "2026 के लिए अद्यतन कानूनी दस्तावेज। संस्करण 1.8.0।"
+  },
+  ar: {
+    backToClock: "العودة إلى الساعة الرئيسية ←",
+    title: "سياسة الخصوصية والأمان",
+    subtitle: "© 2026 9:41 AM — ضمان مطلق للخصوصية وصفر ملفات تعريف ارتباط وتنفيذ محلي 100%",
+    principlesTitle: "1. إعلان مبادئ الخصوصية غير القابلة الانتهاك",
+    principlesP1: "في منصة 9:41 AM، تشكل الخصوصية وحماية الحقوق الرقمية ركيزة أساسية. نحن نؤمن بأن الاطلاع على الوقت يجب أن يكون خدمة شفافة وخالية تماماً من أدوات التتبع.",
+    principlesP2: "تم بناء جميع مكونات النظام وفقاً لمبدأ الخصوصية بالتصميم، مما يضمن بقاء تصفحك مجهول الهوية في جميع الأوقات.",
+    noCookiesTitle: "2. صفر ملفات تعريف ارتباط مزعجة وصفر تتبع إعلاني",
+    noCookiesIntro: "نحن نلتزم رسمياً بالضمانات التالية:",
+    noCookiesItem1Title: "عدم تسويق البيانات:",
+    noCookiesItem1Desc: "لا نجمع أو نشارك أو نبيع أي بيانات شخصية أو عناوين IP أو سجل تصفح لأي طرف ثالث.",
+    noCookiesItem2Title: "بدون ملفات تتبع خارجية:",
+    noCookiesItem2Desc: "لا نستخدم ملفات تعريف الارتباط الإعلانية أو بكسلات إعادة الاستهداف.",
+    noCookiesItem3Title: "وصول مجاني بدون تسجيل:",
+    noCookiesItem3Desc: "لا نطلب إنشاء حسابات أو بريد إلكتروني لاستخدام أدواتنا.",
+    localStorageTitle: "3. معالجة وتخزين محلي 100% (localStorage)",
+    localStorageP1: "لتذكر تفضيلاتك الإقليمية (مثل اللغة وتنسيق 12/24 ساعة)، نستخدم حصرية التخزين المحلي لمتصفحك.",
+    localStorageP2: "تبقى هذه البيانات مخزنة 100% داخل جهازك ولا تنقل إلى الخوادم السحابية أبداً.",
+    legalTitle: "4. حقوق الملكية والإشعار القانوني",
+    legalP1: "جميع الحقوق محفوظة: جميع التصاميم والشفرات البرمجية محمية بموجب © 2026 9:41 AM.",
+    legalP2: "وثيقة قانونية محدثة لعام 2026. الإصدار 1.8.0."
+  },
+  fr: {
+    backToClock: "← Retour à l'horloge principale",
+    title: "Politique de confidentialité et de sécurité",
+    subtitle: "© 2026 9:41 AM — Garantie absolue de confidentialité, zéro cookie de suivi et traitement 100 % local",
+    principlesTitle: "1. Déclaration de principes inviolables de confidentialité",
+    principlesP1: "Sur la plateforme 9:41 AM, la confidentialité de nos utilisateurs est un piller фундаментальный. Consulter l'heure exacte doit être un service transparent et totalement exempt de suivi numérique.",
+    principlesP2: "Tous les composants ont été conçus selon le principe de Privacy by Design, garantissant votre anonymat à tout moment.",
+    noCookiesTitle: "2. Zéro cookie invasif et zéro suivi publicitaire",
+    noCookiesIntro: "Nous nous engageons formellement sur les garanties suivantes :",
+    noCookiesItem1Title: "Pas de commercialisation des données :",
+    noCookiesItem1Desc: "Nous ne collectons, partageons ni ne vendons aucune donnée personnelle ou adresse IP à des tiers.",
+    noCookiesItem2Title: "Pas de cookies tiers :",
+    noCookiesItem2Desc: "Aucun cookie publicitaire ou pixel de ciblage n'est utilisé.",
+    noCookiesItem3Title: "Accès libre sans inscription :",
+    noCookiesItem3Desc: "Aucune création de compte ou e-mail n'est requis.",
+    localStorageTitle: "3. Traitement et stockage 100 % local (localStorage)",
+    localStorageP1: "Pour mémoriser vos préférences (langue, format 12H/24H, villes), nous utilisons exclusivement le stockage local de votre navigateur.",
+    localStorageP2: "Ces données restent 100 % sur votre appareil et ne sont jamais transmises à des serveurs distants.",
+    legalTitle: "4. Propriété intellectuelle et mentons légales",
+    legalP1: "Tous droits réservés : Le design et le code sont protégés par le droit d'auteur © 2026 9:41 AM.",
+    legalP2: "Document juridique mis à jour pour 2026. Version 1.8.0."
+  },
+  bn: {
+    backToClock: "← প্রধান ঘড়িতে ফিরে যান",
+    title: "গোপনীয়তা এবং নিরাপত্তা নীতিমালা",
+    subtitle: "© 2026 9:41 AM — গোপনীয়তার পূর্ণ নিশ্চয়তা এবং ১০০% স্থানীয় প্রক্রিয়াকরণ",
+    principlesTitle: "১. গোপনীয়তা নীতির ঘোষণা",
+    principlesP1: "9:41 AM প্ল্যাটফর্মে ব্যবহারকারীর তথ্যের গোপনীয়তা আমাদের প্রথম অগ্রাধিকার। নিখুঁত সময় নিশ্চিত করা সম্পূর্ণ ট্র্যাকিং-মুক্ত হওয়া উচিত।",
+    principlesP2: "সিস্টেমের সমস্ত অংশ প্রাইভেসি বাই ডিজাইন ধারণায় নির্মিত।",
+    noCookiesTitle: "২. ট্র্যাকিং কুকিজ মুক্ত ব্যবহার",
+    noCookiesIntro: "আমরা কঠোর গোপনীয়তার নিশ্চয়তা দিচ্ছি:",
+    noCookiesItem1Title: "তথ্য বিক্রি না করা:",
+    noCookiesItem1Desc: "আমরা কোন ব্যক্তিগত তথ্য বা আইপি এড্রেস থার্ড পার্টিকে বিক্রি করি না।",
+    noCookiesItem2Title: "বিজ্ঞাপন কুকিজ মুক্ত:",
+    noCookiesItem2Desc: "আমরা সোশ্যাল মিডিয়া পিক্সেল ব্যবহার করি না।",
+    noCookiesItem3Title: "নিবন্ধন ছাড়াই ব্যবহার:",
+    noCookiesItem3Desc: "আমাদের টুল ব্যবহারের জন্য একাউন্ট খুলতে হয় না।",
+    localStorageTitle: "৩. ১০০% স্থানীয় স্টোরেজ (localStorage)",
+    localStorageP1: "আপনার ব্রাউজারের মধ্যে ডাটা সংরক্ষিত থাকে।",
+    localStorageP2: "তথ্যগুলো ক্লাউড সার্ভারে পাঠানো হয় না।",
+    legalTitle: "৪. কপিরাইট স্বত্ব",
+    legalP1: "কপিরাইট © 2026 9:41 AM — সর্বস্বত্ব সংরক্ষিত।",
+    legalP2: "আইনি সংস্করণ ১.৮.০।"
+  },
+  pt: {
+    backToClock: "← Voltar ao Relógio Principal",
+    title: "Política de Privacidade e Segurança",
+    subtitle: "© 2026 9:41 AM — Garantia absoluta de privacidade, zero cookies de rastreamento e processamento 100% local",
+    principlesTitle: "1. Declaração de Princípios Invioláveis de Privacidade",
+    principlesP1: "Na plataforma 9:41 AM, a privacidade e a proteção dos direitos digitais dos nossos usuários constituem um pilar fundamental. Consultar a hora exata deve ser um serviço transparente e totalmente livre de rastreamento.",
+    principlesP2: "Todos os componentes foram construídos sob o princípio de Privacy by Design, garantindo o anonimato constante.",
+    noCookiesTitle: "2. Zero Cookies Invasivos e Zero Rastreamento",
+    noCookiesIntro: "Comprometemo-nos formalmente com as seguintes garantias:",
+    noCookiesItem1Title: "Sem Comercialização de Dados:",
+    noCookiesItem1Desc: "Não coletamos, compartilhamos ou vendemos dados pessoais, IPs ou histórico de navegação a terceiros.",
+    noCookiesItem2Title: "Sem Cookies de Rastreamento de Terceiros:",
+    noCookiesItem2Desc: "Não empregamos cookies publicitários ou pixels de rastreamento.",
+    noCookiesItem3Title: "Acesso Livre sem Registro:",
+    noCookiesItem3Desc: "Não exigimos criação de conta ou e-mail para utilizar as ferramentas.",
+    localStorageTitle: "3. Processamento e Armazenamento 100% Local (localStorage)",
+    localStorageP1: "Para lembrar suas preferências de uso (como idioma e formato 12H/24H), utilizamos exclusivamente o armazenamento local do seu navegador.",
+    localStorageP2: "Estes dados permanecem 100% guardados dentro do seu dispositivo e nunca são enviados a servidores externos.",
+    legalTitle: "4. Direitos de Propriedade e Versão Legal",
+    legalP1: "Direitos Reservados: Todo o código e design estão protegidos sob © 2026 9:41 AM.",
+    legalP2: "Documento atualizado para o ano de 2026. Versão 1.8.0."
+  },
+  ru: {
+    backToClock: "← Вернуться к главным часам",
+    title: "Политика конфиденциальности и безопасности",
+    subtitle: "© 2026 9:41 AM — Абсолютная гарантия конфиденциальности, ноль файлов cookie и 100% локальная обработка",
+    principlesTitle: "1. Декларация неприкосновенности приватности",
+    principlesP1: "В 9:41 AM приватность пользователей является нашим приоритетом. Доступ к точному времени должен быть прозрачным и свободным от слежки.",
+    principlesP2: "Все компоненты построены по принципу Privacy by Design, гарантируя полную анонимность.",
+    noCookiesTitle: "2. Ноль рекламных файлов cookie и слежки",
+    noCookiesIntro: "Мы гарантируем выполнение следующих условий:",
+    noCookiesItem1Title: "Никакой коммерциализации данных:",
+    noCookiesItem1Desc: "Мы не собираем, не передаем и не продаем личные данные или IP-адреса третьим лицам.",
+    noCookiesItem2Title: "Без сторонних трекеров:",
+    noCookiesItem2Desc: "Мы не используем рекламные пиксели или скрипты профилирования.",
+    noCookiesItem3Title: "Свободный доступ без регистрации:",
+    noCookiesItem3Desc: "Для использования сервиса не требуется регистрация аккаунта.",
+    localStorageTitle: "3. 100% локальная обработка (localStorage)",
+    localStorageP1: "Для сохранения ваших настроек мы используем исключительно изолированное хранилище браузера (localStorage).",
+    localStorageP2: "Данные остаются только на вашем устройстве и не передаются в облако.",
+    legalTitle: "4. Авторские права и правовая информация",
+    legalP1: "Все права защищены: Дизайн и код защищены © 2026 9:41 AM.",
+    legalP2: "Документ обновлен для 2026 года. Версия 1.8.0."
+  },
+  ja: {
+    backToClock: "← メイン時計に戻る",
+    title: "プライバシーおよびセキュリティポリシー",
+    subtitle: "© 2026 9:41 AM — 完全なプライバシーの保証、追跡クッキーゼロ、100%ローカル処理",
+    principlesTitle: "1. 不可侵のプライバシー原則の宣言",
+    principlesP1: "9:41 AM プラットフォームにおいて、ユーザーのデジタル権利の保護は絶対的な原則です。正確な時間を検索するサービスは、デジタル追跡から完全に解放されているべきです。",
+    principlesP2: "すべてのコンポーネントは Privacy by Design 原則に基づいて構築されており、常に匿名性が保たれます。",
+    noCookiesTitle: "2. 侵入型クッキーゼロおよび広告追跡ゼロ",
+    noCookiesIntro: "以下の厳格な機密保持保証を約束します：",
+    noCookiesItem1Title: "データの商用利用の禁止：",
+    noCookiesItem1Desc: "個人データ、IPアドレス、閲覧履歴を第三者に収集・販売することは一切ありません。",
+    noCookiesItem2Title: "サードパーティ追跡クッキーなし：",
+    noCookiesItem2Desc: "広告追跡クッキーやリターゲティングピクセルは使用していません。",
+    noCookiesItem3Title: "登録なしの自由なアクセス：",
+    noCookiesItem3Desc: "すべての機能を使用するためにアカウントを作成する必要はありません。",
+    localStorageTitle: "3. 100%ローカル処理およびストレージ (localStorage)",
+    localStorageP1: "言語選択や12/24時間表示などの設定を保存するため、ブラウザの分離されたローカルストレージ (localStorage) のみを使用します。",
+    localStorageP2: "これらのデータは100%ご自身のデバイスにのみ保存され、クラウドサーバーに送信されることはありません。",
+    legalTitle: "4. 知的所有権および法的通知",
+    legalP1: "無断転載を禁じます：すべてのデザインおよびコードは © 2026 9:41 AM の著作権により保護されています。",
+    legalP2: "2026年更新の法的文書。バージョン 1.8.0。"
+  }
+};
