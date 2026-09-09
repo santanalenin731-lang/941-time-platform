@@ -151,7 +151,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <img
-            src={post.author.avatar}
+            src={post.author.avatar.startsWith('/') ? `${import.meta.env.BASE_URL.replace(/\/$/, '')}${post.author.avatar}` : post.author.avatar}
             alt={post.author.name[language] || post.author.name.es}
             style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
           />
