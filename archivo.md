@@ -110,3 +110,15 @@ Para maximizar el posicionamiento SEO y dominar las búsquedas en Google DO y a 
 - [x] **Caja Featured Snippet:** Párrafo sintético (40-60 palabras) al inicio para captura de Posición 0 en Google.
 - [x] **Widget Interactivo:** Incrustación funcional sin recargar la página.
 - [x] **Diseño Minimalista & 3D:** Tarjetas flotantes con profundidad (`boxShadow`) y tipografía accesible.
+
+---
+
+## 🚫 6. Reglas Obligatorias del Proyecto & Repositorio GitHub
+
+> [!IMPORTANT]
+> **REGLA INVIOLABLE PARA TODOS LOS AGENTES Y DESARROLLADORES:**
+> El archivo `sistema.md` (que contiene la bitácora técnica de desarrollo, arquitectura y funcionamiento interno del proyecto) **NO SE SUBA A GITHUB BAJO NINGUNA CIRCUNSTANCIA**.
+> 
+> - Este archivo debe mantenerse **exclusivamente local** en el sistema del desarrollador.
+> - Todos los agentes de IA y colaboradores deben verificar siempre que `sistema.md` permanezca listado en `.gitignore` antes de realizar commits o envíos (`push`) al repositorio público o privado de GitHub.
+

@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # Temporary files
 scratch/
+
+# Private system documentation (DO NOT upload to GitHub)
+sistema.md
