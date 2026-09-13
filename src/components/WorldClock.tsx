@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
 import { getTimeInTimezone, getTimeDifference } from '../lib/timeEngine';
 import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
-import { Trash2, Plus, Sun, Moon, Search, X } from 'lucide-react';
+import { Search, Plus, X } from 'lucide-react';
 
 interface WorldClockProps {
   primaryCity: City;
@@ -157,7 +157,6 @@ export const WorldClock: React.FC<WorldClockProps> = ({
           worldClockCities.map((city) => {
             const time = getTimeInTimezone(city.timezone, is24Hour, showSeconds, 0, languageInfo.locale);
             const diff = getTimeDifference(primaryCity, city, languageInfo.locale);
-            const isDay = time.hours >= 6 && time.hours < 18;
 
             return (
               <div

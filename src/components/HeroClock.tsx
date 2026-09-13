@@ -8,19 +8,15 @@ interface HeroClockProps {
   is24Hour: boolean;
   showSeconds: boolean;
   onSelectCity: (city: City) => void;
-  onAddToWorldClock: (city: City) => void;
-  isCityInWorldClock: boolean;
 }
 
 export const HeroClock: React.FC<HeroClockProps> = ({
   city,
   is24Hour,
   showSeconds,
-  onSelectCity,
-  onAddToWorldClock,
-  isCityInWorldClock
+  onSelectCity
 }) => {
-  const { languageInfo, t } = useLanguage();
+  const { languageInfo } = useLanguage();
 
   const [timeData, setTimeData] = useState(() =>
     getTimeInTimezone(city.timezone, is24Hour, showSeconds, 0, languageInfo.locale)

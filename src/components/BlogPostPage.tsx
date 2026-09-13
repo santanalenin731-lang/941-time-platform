@@ -220,8 +220,6 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
               is24Hour={is24Hour}
               showSeconds={true}
               onSelectCity={() => {}}
-              onAddToWorldClock={() => {}}
-              isCityInWorldClock={false}
             />
           )}
 

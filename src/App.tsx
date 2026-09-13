@@ -139,14 +139,12 @@ const AppContent: React.FC = () => {
       <main style={{ flex: 1, padding: '0 1rem' }}>
         {activeTab === 'home' && (
           <>
-            {/* Single Focal Hero Clock */}
+            {/* Master Clock - High contrast, maximum readability */}
             <HeroClock
               city={primaryCity}
               is24Hour={is24Hour}
               showSeconds={showSeconds}
               onSelectCity={setPrimaryCity}
-              onAddToWorldClock={handleAddWorldClockCity}
-              isCityInWorldClock={worldClockCities.some(c => c.id === primaryCity.id)}
             />
 
             {/* Realistic 3D Earth Globe Section (Google Maps Style) */}
@@ -209,11 +207,7 @@ const AppContent: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <Footer
-        onSelectCity={handleSelectCityFromSearch}
-        popularCities={CITIES_DATABASE}
-        onNavigate={setActiveTab}
-      />
+      <Footer onNavigate={setActiveTab} />
 
       {/* Instant Search Overlay */}
       <SearchModal

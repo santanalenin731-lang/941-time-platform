@@ -1,15 +1,12 @@
 import React from 'react';
-import { City } from '../data/cities';
 import { useLanguage } from '../lib/i18n.tsx';
 import { TabType } from '../App';
 
 interface FooterProps {
-  onSelectCity: (city: City) => void;
-  popularCities: City[];
   onNavigate: (tab: TabType) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onSelectCity, popularCities, onNavigate }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
 
   return (
