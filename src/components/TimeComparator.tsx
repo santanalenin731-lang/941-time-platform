@@ -21,7 +21,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
 
   const timeA = getTimeInTimezone(cityA.timezone, is24Hour, true, 0, languageInfo.locale);
   const timeB = getTimeInTimezone(cityB.timezone, is24Hour, true, 0, languageInfo.locale);
-  const diff = getTimeDifference(cityA, cityB);
+  const diff = getTimeDifference(cityA, cityB, languageInfo.locale);
 
   // Generate 24-hour timeline slots
   const hoursArray = Array.from({ length: 24 }, (_, i) => i);

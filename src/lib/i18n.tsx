@@ -832,6 +832,15 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   );
 };
 
+export function getTranslatedCountry(countryCode: string, locale: string, fallback: string): string {
+  try {
+    const displayNames = new Intl.DisplayNames([locale], { type: 'region' });
+    return displayNames.of(countryCode) || fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
 export const useLanguage = (): LanguageContextType => {
   const context = useContext(LanguageContext);
   if (!context) {

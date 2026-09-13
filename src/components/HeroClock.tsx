@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
-import { getTimeInTimezone, calculateSunTimes } from '../lib/timeEngine';
-import { useLanguage } from '../lib/i18n.tsx';
+import { getTimeInTimezone, calculateSunTimes, getWeekNumber } from '../lib/timeEngine';
+import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
 
 interface HeroClockProps {
   city: City;
@@ -34,16 +34,39 @@ export const HeroClock: React.FC<HeroClockProps> = ({
     return () => clearInterval(timer);
   }, [city.timezone, is24Hour, showSeconds, languageInfo.locale]);
 
-  const sunData = calculateSunTimes(city.lat, city.lng);
+  const sunData = calculateSunTimes(city.lat, city.lng, city.timezone);
 
-  const popularStripCities = [
-    CITIES_DATABASE.find(c => c.id === 'los-angeles') || CITIES_DATABASE[6],
-    CITIES_DATABASE.find(c => c.id === 'new-york') || CITIES_DATABASE[1],
-    CITIES_DATABASE.find(c => c.id === 'london') || CITIES_DATABASE[2],
-    CITIES_DATABASE.find(c => c.id === 'paris') || CITIES_DATABASE[5],
-    CITIES_DATABASE.find(c => c.id === 'hong-kong') || CITIES_DATABASE[19],
-    CITIES_DATABASE.find(c => c.id === 'tokyo') || CITIES_DATABASE[3],
-  ];
+  const [stripCities, setStripCities] = useState<City[]>(() => {
+    try {
+      const saved = localStorage.getItem('941_strip_cities');
+      if (saved) {
+        const parsedIds: string[] = JSON.parse(saved);
+        return parsedIds.map(id => CITIES_DATABASE.find(c => c.id === id)).filter(Boolean).slice(0, 5) as City[];
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return [
+      CITIES_DATABASE.find(c => c.id === 'los-angeles') || CITIES_DATABASE[6],
+      CITIES_DATABASE.find(c => c.id === 'new-york') || CITIES_DATABASE[1],
+      CITIES_DATABASE.find(c => c.id === 'london') || CITIES_DATABASE[2],
+      CITIES_DATABASE.find(c => c.id === 'paris') || CITIES_DATABASE[5],
+      CITIES_DATABASE.find(c => c.id === 'hong-kong') || CITIES_DATABASE[19],
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('941_strip_cities', JSON.stringify(stripCities.map(c => c.id)));
+  }, [stripCities]);
+
+  const weekTranslations: Record<string, string> = {
+    es: 'Semana', en: 'Week', zh: '周', hi: 'सप्ताह',
+    ar: 'أسبوع', fr: 'Semaine', bn: 'সপ্তাহ', pt: 'Semana',
+    ru: 'Неделя', ja: '週'
+  };
+  const weekLabel = weekTranslations[languageInfo.code] || 'Week';
+  const tzDate = new Date(new Date().toLocaleString('en-US', { timeZone: city.timezone }));
+  const weekNum = getWeekNumber(tzDate);
 
   return (
     <section style={{
@@ -73,8 +96,7 @@ export const HeroClock: React.FC<HeroClockProps> = ({
           marginTop: '0.35rem',
           lineHeight: 1.4
         }}>
-          {t.hero.exactTime} {t.hero.syncedWith}.<br />
-          <strong style={{ color: 'var(--color-navy)' }}>{city.name}, {city.country}</strong>
+          <strong style={{ color: 'var(--color-navy)' }}>{getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)}</strong>
         </p>
       </div>
 
@@ -152,22 +174,11 @@ export const HeroClock: React.FC<HeroClockProps> = ({
           flexWrap: 'wrap',
           justifyContent: 'flex-end'
         }}>
-          <span>☀️ ↑ {sunData.sunrise} · ↓ {sunData.sunset} ({sunData.dayLength})</span>
+          <span>↑ {sunData.sunrise} · ↓ {sunData.sunset} ({sunData.dayLength})</span>
           <span>-</span>
-          <button
-            onClick={() => onAddToWorldClock(city)}
-            style={{
-              color: 'var(--color-navy)',
-              textDecoration: 'underline',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer'
-            }}
-          >
-            {isCityInWorldClock ? '★' : '☆'} {city.name}
-          </button>
+          <span style={{ color: 'var(--color-navy)', fontWeight: 600 }}>
+            {weekLabel} {weekNum}
+          </span>
         </div>
       </div>
 
@@ -177,16 +188,17 @@ export const HeroClock: React.FC<HeroClockProps> = ({
         justifyContent: 'flex-end',
         gap: '0.6rem',
         flexWrap: 'wrap',
-        marginTop: '1rem'
+        marginTop: '1rem',
+        alignItems: 'center'
       }}>
-        {popularStripCities.map((stripCity) => {
+        {stripCities.map((stripCity) => {
           const stripTime = getTimeInTimezone(stripCity.timezone, is24Hour, false, 0, languageInfo.locale);
           return (
             <div
               key={stripCity.id}
-              onClick={() => onSelectCity(stripCity)}
               style={{
-                background: 'var(--color-bg-secondary)',
+                position: 'relative',
+                background: '#FFFFFF',
                 border: '1px solid var(--color-border)',
                 borderRadius: 'var(--radius-sm)',
                 padding: '0.55rem 0.9rem',
@@ -198,28 +210,106 @@ export const HeroClock: React.FC<HeroClockProps> = ({
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = 'var(--color-sky-light)';
                 e.currentTarget.style.borderColor = 'var(--color-sky)';
+                const btn = e.currentTarget.querySelector('.remove-btn') as HTMLElement;
+                if (btn) btn.style.opacity = '1';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'var(--color-bg-secondary)';
+                e.currentTarget.style.background = '#FFFFFF';
                 e.currentTarget.style.borderColor = 'var(--color-border)';
+                const btn = e.currentTarget.querySelector('.remove-btn') as HTMLElement;
+                if (btn) btn.style.opacity = '0';
               }}
             >
-              <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>
-                {stripCity.name}
-              </div>
-              <div style={{
-                fontFamily: 'var(--font-clock)',
-                fontSize: '1rem',
-                fontWeight: 700,
-                color: '#0284C7',
-                fontVariantNumeric: 'tabular-nums',
-                textShadow: '0 2px 8px rgba(2, 132, 199, 0.25)'
-              }}>
-                {stripTime.timeString}
+              <button
+                className="remove-btn"
+                title="Eliminar"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setStripCities(prev => prev.filter(c => c.id !== stripCity.id));
+                }}
+                style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  right: '-8px',
+                  background: '#e11d48',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '20px',
+                  height: '20px',
+                  fontSize: '11px',
+                  cursor: 'pointer',
+                  opacity: 0,
+                  transition: 'opacity 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 'bold',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                  zIndex: 10
+                }}
+              >
+                ✕
+              </button>
+              <div onClick={() => onSelectCity(stripCity)}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>
+                  {stripCity.name}
+                </div>
+                <div style={{
+                  fontFamily: 'var(--font-clock)',
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  color: '#0284C7',
+                  fontVariantNumeric: 'tabular-nums',
+                  textShadow: '0 2px 8px rgba(2, 132, 199, 0.25)'
+                }}>
+                  {stripTime.timeString}
+                </div>
               </div>
             </div>
           );
         })}
+        {stripCities.length < 5 && (
+          <div style={{ position: 'relative' }}>
+            <select
+              value=""
+              onChange={(e) => {
+                const city = CITIES_DATABASE.find(c => c.id === e.target.value);
+                if (city && !stripCities.find(c => c.id === city.id)) {
+                  setStripCities(prev => [...prev, city]);
+                }
+              }}
+              style={{
+                background: '#FFFFFF',
+                border: '1px dashed var(--color-border)',
+                borderRadius: 'var(--radius-sm)',
+                padding: '0.55rem 0.9rem',
+                color: 'var(--color-navy)',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                outline: 'none',
+                appearance: 'none',
+                minWidth: '80px',
+                textAlign: 'center',
+                height: '100%'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--color-sky-light)';
+                e.currentTarget.style.borderColor = 'var(--color-sky)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#FFFFFF';
+                e.currentTarget.style.borderColor = 'var(--color-border)';
+              }}
+            >
+              <option value="" disabled>+ {languageInfo.code === 'es' ? 'Añadir' : 'Add'}</option>
+              {CITIES_DATABASE.filter(c => !stripCities.some(sc => sc.id === c.id)).map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
     </section>
   );

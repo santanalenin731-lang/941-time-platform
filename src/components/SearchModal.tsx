@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CITIES_DATABASE, City } from '../data/cities';
 import { getTimeInTimezone } from '../lib/timeEngine';
 import { Search, X } from 'lucide-react';
-import { useLanguage } from '../lib/i18n.tsx';
+import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -13,7 +13,7 @@ interface SearchModalProps {
 export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSelectCity }) => {
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const { t } = useLanguage();
+  const { t, languageInfo } = useLanguage();
 
   useEffect(() => {
     if (isOpen) {
@@ -153,7 +153,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
                       {city.name}
                     </div>
                     <div style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)' }}>
-                      {city.country} · {city.region}
+                      {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)} · {city.region}
                     </div>
                     {/* SEO Friendly Link Banner Badge */}
                     <div style={{

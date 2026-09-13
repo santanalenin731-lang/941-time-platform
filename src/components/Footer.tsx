@@ -12,33 +12,6 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onSelectCity, popularCities, onNavigate }) => {
   const { t } = useLanguage();
 
-  const globalTimezones = [
-    "UTC", "GMT", "CET", "Pacific Time", "Mountain Time", "Central Time", "Eastern Time", "China Standard Time", "India Standard Time"
-  ];
-
-  const timezoneCityMap: Record<string, string> = {
-    "UTC": "london",
-    "GMT": "london",
-    "CET": "paris",
-    "Pacific Time": "los-angeles",
-    "Mountain Time": "denver",
-    "Central Time": "chicago",
-    "Eastern Time": "new-york",
-    "China Standard Time": "beijing",
-    "India Standard Time": "new-delhi"
-  };
-
-  const handleTimezoneClick = (tz: string) => {
-    const targetCityId = timezoneCityMap[tz];
-    if (targetCityId) {
-      const matchedCity = popularCities.find(c => c.id === targetCityId);
-      if (matchedCity) {
-        onSelectCity(matchedCity);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-  };
-
   return (
     <footer style={{
       width: '100%',
@@ -47,33 +20,6 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCity, popularCities, onN
       color: 'var(--color-white)',
       position: 'relative'
     }}>
-      {/* Timezones Bar */}
-      <div style={{
-        padding: '1.25rem 1.5rem',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1.5rem',
-        flexWrap: 'wrap',
-        fontSize: '0.9rem',
-        fontWeight: 600,
-        color: 'rgba(255, 255, 255, 0.85)'
-      }}>
-        {globalTimezones.map((tz) => (
-          <span
-            key={tz}
-            onClick={() => handleTimezoneClick(tz)}
-            title={`Ver hora exacta en ${tz}`}
-            style={{ cursor: 'pointer', transition: 'var(--transition-fast)' }}
-            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)'}
-          >
-            {tz}
-          </span>
-        ))}
-      </div>
-
       {/* Main Footer Links */}
       <div style={{
         maxWidth: 'var(--max-width)',
@@ -114,25 +60,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCity, popularCities, onN
           </div>
         </div>
 
-        {/* Col 2: Suggested Cities */}
-        <div>
-          <div style={{ fontWeight: 700, color: 'var(--color-sky)', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            {t.search.suggested}
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', opacity: 0.85 }}>
-            {popularCities.slice(0, 5).map(city => (
-              <span
-                key={city.id}
-                onClick={() => onSelectCity(city)}
-                style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
-                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white)'}
-              >
-                {city.name} ({city.country})
-              </span>
-            ))}
-          </div>
-        </div>
+
 
         {/* Col 3: Tools */}
         <div>

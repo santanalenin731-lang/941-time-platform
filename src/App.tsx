@@ -33,7 +33,7 @@ const AppContent: React.FC = () => {
       const saved = localStorage.getItem('941_world_clock');
       if (saved) {
         const parsedIds: string[] = JSON.parse(saved);
-        return CITIES_DATABASE.filter(c => parsedIds.includes(c.id));
+        return CITIES_DATABASE.filter(c => parsedIds.includes(c.id)).slice(0, 10);
       }
     } catch (e) {
       console.error(e);
@@ -46,7 +46,7 @@ const AppContent: React.FC = () => {
     ];
   });
 
-  // Save to localStorage
+  // Track user preferences in LocalStorage
   useEffect(() => {
     try {
       const ids = worldClockCities.map(c => c.id);
@@ -70,7 +70,7 @@ const AppContent: React.FC = () => {
     } else if (primaryCity) {
       const slug = primaryCity.seoSlug || `hora-en-${primaryCity.id}`;
       window.location.hash = slug;
-      pageTitle = `${primaryCity.seoTitle || `Hora exacta en ${primaryCity.name}`} — 9:41 AM`;
+      pageTitle = primaryCity.seoTitle || `Hora exacta en ${primaryCity.name}`;
     }
     document.title = pageTitle;
     trackPageView(pageTitle);
@@ -97,6 +97,7 @@ const AppContent: React.FC = () => {
   }, []);
 
   const handleAddWorldClockCity = (city: City) => {
+    if (worldClockCities.length >= 10) return;
     if (!worldClockCities.some(c => c.id === city.id) && city.id !== primaryCity.id) {
       setWorldClockCities(prev => [...prev, city]);
     }

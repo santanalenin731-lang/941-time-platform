@@ -12,7 +12,7 @@ export interface TimeState {
 }
 
 // Sunrise & Sunset solar calculation
-export function calculateSunTimes(lat: number, lng: number, date: Date = new Date()) {
+export function calculateSunTimes(lat: number, lng: number, timezone: string, date: Date = new Date()) {
   const dayOfYear = Math.floor(
     (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
   );
@@ -33,12 +33,21 @@ export function calculateSunTimes(lat: number, lng: number, date: Date = new Dat
   }
 
   const hourAngle = Math.acos(cosH) * (180 / Math.PI);
-  const solarNoonMinutes = 720 - 4 * lng;
-  const sunriseMinutes = solarNoonMinutes - hourAngle * 4;
-  const sunsetMinutes = solarNoonMinutes + hourAngle * 4;
+  const solarNoonMinutesUTC = 720 - 4 * lng;
+  const sunriseMinutesUTC = solarNoonMinutesUTC - hourAngle * 4;
+  const sunsetMinutesUTC = solarNoonMinutesUTC + hourAngle * 4;
+
+  const tzDateStr = date.toLocaleString('en-US', { timeZone: timezone });
+  const tzDate = new Date(tzDateStr);
+  const utcDateStr = date.toLocaleString('en-US', { timeZone: 'UTC' });
+  const utcDate = new Date(utcDateStr);
+  const offsetMinutes = Math.round((tzDate.getTime() - utcDate.getTime()) / 60000);
+
+  const sunriseMinutesLocal = sunriseMinutesUTC + offsetMinutes;
+  const sunsetMinutesLocal = sunsetMinutesUTC + offsetMinutes;
 
   const formatMinutesToTime = (totalMinutes: number) => {
-    let mins = (totalMinutes + 1440) % 1440;
+    let mins = (Math.round(totalMinutes) + 1440) % 1440;
     const hours = Math.floor(mins / 60);
     const m = Math.floor(mins % 60);
     const period = hours >= 12 ? 'PM' : 'AM';
@@ -46,16 +55,16 @@ export function calculateSunTimes(lat: number, lng: number, date: Date = new Dat
     return `${displayHours}:${m.toString().padStart(2, '0')} ${period}`;
   };
 
-  const dayLengthMins = Math.round(sunsetMinutes - sunriseMinutes);
+  const dayLengthMins = Math.round(sunsetMinutesUTC - sunriseMinutesUTC);
   const dlHours = Math.floor(dayLengthMins / 60);
   const dlMins = dayLengthMins % 60;
 
   const nowUTC = date.getUTCHours() * 60 + date.getUTCMinutes();
-  const isDaylight = nowUTC >= sunriseMinutes && nowUTC <= sunsetMinutes;
+  const isDaylight = nowUTC >= sunriseMinutesUTC && nowUTC <= sunsetMinutesUTC;
 
   return {
-    sunrise: formatMinutesToTime(sunriseMinutes),
-    sunset: formatMinutesToTime(sunsetMinutes),
+    sunrise: formatMinutesToTime(sunriseMinutesLocal),
+    sunset: formatMinutesToTime(sunsetMinutesLocal),
     dayLength: `${dlHours}h ${dlMins}m`,
     isDaylight
   };
@@ -133,7 +142,7 @@ export function getTimeInTimezone(
 }
 
 // Calculate time difference between two cities in hours
-export function getTimeDifference(cityA: City, cityB: City): {
+export function getTimeDifference(cityA: City, cityB: City, locale: string = 'es'): {
   diffHours: number;
   formattedDiff: string;
 } {
@@ -144,16 +153,41 @@ export function getTimeDifference(cityA: City, cityB: City): {
   const diffMs = dateB.getTime() - dateA.getTime();
   const diffHours = Math.round((diffMs / (1000 * 60 * 60)) * 10) / 10;
 
+  const sameTimeDict: Record<string, string> = {
+    es: "Misma hora", en: "Same time", fr: "Même heure", zh: "同一时间",
+    hi: "उसी समय", ar: "في نفس الوقت", bn: "একই সময়", pt: "Mesma hora",
+    ru: "То же время", ja: "同じ時間"
+  };
+
+  const hoursDict: Record<string, string> = {
+    es: "hora", en: "hour", fr: "heure", zh: "小时",
+    hi: "घंटा", ar: "ساعة", bn: "ঘন্টা", pt: "hora",
+    ru: "час", ja: "時間"
+  };
+
+  const hoursPluralDict: Record<string, string> = {
+    es: "horas", en: "hours", fr: "heures", zh: "小时",
+    hi: "घंटे", ar: "ساعات", bn: "ঘন্টা", pt: "horas",
+    ru: "часов", ja: "時間"
+  };
+
+  const langCode = locale.split('-')[0];
+  const sameTime = sameTimeDict[langCode] || sameTimeDict['en'];
+  const hourLabel = Math.abs(diffHours) > 1 ? (hoursPluralDict[langCode] || hoursPluralDict['en']) : (hoursDict[langCode] || hoursDict['en']);
+
   let formattedDiff = "";
   if (diffHours === 0) {
-    formattedDiff = "Misma hora";
+    formattedDiff = sameTime;
   } else if (diffHours > 0) {
-    formattedDiff = `+${diffHours} hora${Math.abs(diffHours) > 1 ? 's' : ''}`;
+    formattedDiff = `+${diffHours} ${hourLabel}`;
   } else {
-    formattedDiff = `${diffHours} hora${Math.abs(diffHours) > 1 ? 's' : ''}`;
+    formattedDiff = `${diffHours} ${hourLabel}`;
   }
 
-  return { diffHours, formattedDiff };
+  return {
+    diffHours,
+    formattedDiff
+  };
 }
 
 // Find optimal meeting overlap between multiple cities
@@ -223,4 +257,12 @@ export function findBestMeetingTime(cities: City[]): {
     bestLocalTimes,
     found: maxScore > 0
   };
+}
+
+export function getWeekNumber(date: Date): number {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
 }

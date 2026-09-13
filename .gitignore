@@ -29,3 +29,11 @@ scratch/
 
 # Private system documentation (DO NOT upload to GitHub)
 sistema.md
+
+# Allow images
+!*.png
+!*.PNG
+!*.jpg
+!*.JPG
+!*.jpeg
+!*.JPEG

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
+import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
 
 interface InteractiveGlobeProps {
   city: City;
@@ -47,6 +48,7 @@ function generateContinentPoints(): { lat: number; lng: number }[] {
 const CONTINENT_POINTS = generateContinentPoints();
 
 export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({ city, onSelectCity }) => {
+  const { languageInfo } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   
   // Target angles based on active city coordinates
@@ -475,7 +477,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({ city, onSele
             fontWeight: 600,
             marginBottom: '1rem'
           }}>
-            {city.country} ({city.countryCode}) · {city.region}
+            {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)} ({city.countryCode}) · {city.region}
           </p>
 
           <div style={{

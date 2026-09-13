@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
 import { getTimeInTimezone, getTimeDifference } from '../lib/timeEngine';
-import { useLanguage } from '../lib/i18n.tsx';
+import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
 import { Trash2, Plus, Sun, Moon, Search, X } from 'lucide-react';
 
 interface WorldClockProps {
@@ -21,7 +21,7 @@ export const WorldClock: React.FC<WorldClockProps> = ({
   is24Hour,
   showSeconds
 }) => {
-  const { t } = useLanguage();
+  const { t, languageInfo } = useLanguage();
   const [, setTick] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -111,10 +111,10 @@ export const WorldClock: React.FC<WorldClockProps> = ({
             {t.worldClock.primaryLocation}
           </div>
           <div style={{ fontSize: '1.4rem', fontWeight: 800 }}>
-            {primaryCity.name}, {primaryCity.country}
+            {primaryCity.name}, {getTranslatedCountry(primaryCity.countryCode, languageInfo.locale, primaryCity.country)}
           </div>
           <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>
-            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds).dateString}
+            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds, 0, languageInfo.locale).dateString}
           </div>
         </div>
 
@@ -127,10 +127,10 @@ export const WorldClock: React.FC<WorldClockProps> = ({
             textShadow: '0 4px 18px rgba(56, 189, 248, 0.45)',
             lineHeight: 1
           }}>
-            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds).timeString}
+            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds, 0, languageInfo.locale).timeString}
           </div>
           <div style={{ fontSize: '0.8rem', color: 'var(--color-white)', opacity: 0.8, marginTop: '0.2rem' }}>
-            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds).utcOffset}
+            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds, 0, languageInfo.locale).utcOffset}
           </div>
         </div>
       </div>
@@ -155,8 +155,8 @@ export const WorldClock: React.FC<WorldClockProps> = ({
           </div>
         ) : (
           worldClockCities.map((city) => {
-            const time = getTimeInTimezone(city.timezone, is24Hour, showSeconds);
-            const diff = getTimeDifference(primaryCity, city);
+            const time = getTimeInTimezone(city.timezone, is24Hour, showSeconds, 0, languageInfo.locale);
+            const diff = getTimeDifference(primaryCity, city, languageInfo.locale);
             const isDay = time.hours >= 6 && time.hours < 18;
 
             return (
@@ -165,7 +165,7 @@ export const WorldClock: React.FC<WorldClockProps> = ({
                 style={{
                   padding: '1.25rem',
                   borderRadius: 'var(--radius-md)',
-                  background: 'var(--color-bg-secondary)',
+                  background: '#FFFFFF',
                   border: '1px solid var(--color-border)',
                   display: 'flex',
                   flexDirection: 'column',
@@ -174,7 +174,45 @@ export const WorldClock: React.FC<WorldClockProps> = ({
                   position: 'relative',
                   transition: 'var(--transition-fast)'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--color-sky)';
+                  const btn = e.currentTarget.querySelector('.wc-remove-btn') as HTMLElement;
+                  if (btn) btn.style.opacity = '1';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  const btn = e.currentTarget.querySelector('.wc-remove-btn') as HTMLElement;
+                  if (btn) btn.style.opacity = '0';
+                }}
               >
+                <button
+                  className="wc-remove-btn"
+                  title={t.worldClock.removeCity}
+                  onClick={() => onRemoveCity(city.id)}
+                  style={{
+                    position: 'absolute',
+                    top: '-8px',
+                    right: '-8px',
+                    background: '#e11d48',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '24px',
+                    height: '24px',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                    opacity: 0,
+                    transition: 'opacity 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 'bold',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                    zIndex: 10
+                  }}
+                >
+                  ✕
+                </button>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                   <div>
                     <div style={{
@@ -186,30 +224,11 @@ export const WorldClock: React.FC<WorldClockProps> = ({
                       gap: '0.4rem'
                     }}>
                       {city.name}
-                      {isDay ? <Sun size={15} color="#F59E0B" /> : <Moon size={15} color="#4F46E5" />}
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                      {city.country}
+                      {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)}
                     </div>
                   </div>
-
-                  <button
-                    onClick={() => onRemoveCity(city.id)}
-                    title={t.worldClock.removeCity}
-                    style={{
-                      padding: '0.35rem',
-                      borderRadius: 'var(--radius-sm)',
-                      color: 'var(--color-text-light)',
-                      border: 'none',
-                      background: 'transparent',
-                      cursor: 'pointer',
-                      transition: 'var(--transition-fast)'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#EF4444'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-light)'}
-                  >
-                    <Trash2 size={16} />
-                  </button>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
@@ -250,202 +269,221 @@ export const WorldClock: React.FC<WorldClockProps> = ({
         )}
       </div>
 
-      {/* Interactive City Search and Full Dropdown Selector Box */}
-      <div
-        ref={searchContainerRef}
-        style={{
-          background: 'var(--color-bg-secondary)',
-          padding: '1.25rem 1.5rem',
-          borderRadius: 'var(--radius-md)',
-          border: '1px solid var(--color-border)',
-          marginBottom: '1.5rem',
-          position: 'relative'
-        }}
-      >
-        <div style={{
-          fontSize: '0.92rem',
-          fontWeight: 700,
-          color: 'var(--color-navy)',
-          marginBottom: '0.75rem',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem'
-        }}>
-          <Search size={18} color="#0284C7" />
-          <span>{t.worldClock.searchTitle}</span>
-        </div>
-
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.75rem',
-          background: 'var(--color-white)',
-          border: '1.5px solid var(--color-sky)',
-          borderRadius: 'var(--radius-sm)',
-          padding: '0.65rem 1rem',
-          boxShadow: '0 2px 8px rgba(7, 26, 51, 0.06)'
-        }}>
-          <Search size={18} color="var(--color-text-muted)" />
-          <input
-            type="text"
-            placeholder={t.worldClock.searchPlaceholder}
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setIsSearchFocused(true);
-            }}
-            onFocus={() => setIsSearchFocused(true)}
+      {worldClockCities.length < 10 ? (
+        <>
+          {/* Interactive City Search and Full Dropdown Selector Box */}
+          <div
+            ref={searchContainerRef}
             style={{
-              width: '100%',
-              border: 'none',
-              outline: 'none',
-              fontSize: '0.95rem',
-              fontWeight: 500,
-              color: 'var(--color-navy)',
-              background: 'transparent'
+              background: 'var(--color-bg-secondary)',
+              padding: '1.25rem 1.5rem',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--color-border)',
+              marginBottom: '1.5rem',
+              position: 'relative'
             }}
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer' }}
-            >
-              <X size={18} />
-            </button>
-          )}
-        </div>
+          >
+            <div style={{
+              fontSize: '0.92rem',
+              fontWeight: 700,
+              color: 'var(--color-navy)',
+              marginBottom: '0.75rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <Search size={18} color="#0284C7" />
+              <span>{t.worldClock.searchTitle}</span>
+            </div>
 
-        {/* Floating Live Autocomplete Dropdown */}
-        {isSearchFocused && (
-          <div style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: 0,
-            zIndex: 80,
-            background: 'var(--color-white)',
-            borderRadius: 'var(--radius-md)',
-            boxShadow: '0 12px 36px rgba(7, 26, 51, 0.2)',
-            border: '1px solid var(--color-border)',
-            maxHeight: '320px',
-            overflowY: 'auto',
-            marginTop: '0.5rem',
-            padding: '0.4rem 0'
-          }}>
-            {filteredSearchCities.length === 0 ? (
-              <div style={{ padding: '1.25rem', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.88rem' }}>
-                {t.worldClock.noResults} "{searchQuery}"
-              </div>
-            ) : (
-              filteredSearchCities.map((city) => {
-                const time = getTimeInTimezone(city.timezone, is24Hour, showSeconds);
-                return (
-                  <div
-                    key={city.id}
-                    onClick={() => {
-                      onAddCity(city);
-                      setSearchQuery('');
-                      setIsSearchFocused(false);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '0.75rem 1.25rem',
-                      cursor: 'pointer',
-                      borderBottom: '1px solid var(--color-bg-secondary)',
-                      transition: 'background 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-sky-light)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                  >
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-navy)' }}>
-                        {city.name}
-                      </div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-                        {city.country} · {city.region}
-                      </div>
-                    </div>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              background: 'var(--color-white)',
+              border: '1.5px solid var(--color-sky)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '0.65rem 1rem',
+              boxShadow: '0 2px 8px rgba(7, 26, 51, 0.06)'
+            }}>
+              <Search size={18} color="var(--color-text-muted)" />
+              <input
+                type="text"
+                placeholder={t.worldClock.searchPlaceholder}
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setIsSearchFocused(true);
+                }}
+                onFocus={() => setIsSearchFocused(true)}
+                style={{
+                  width: '100%',
+                  border: 'none',
+                  outline: 'none',
+                  fontSize: '0.95rem',
+                  fontWeight: 500,
+                  color: 'var(--color-navy)',
+                  background: 'transparent'
+                }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer' }}
+                >
+                  <X size={18} />
+                </button>
+              )}
+            </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontFamily: 'var(--font-clock)', fontWeight: 700, fontSize: '1rem', color: '#0284C7' }}>
-                          {time.timeString}
-                        </div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-text-light)' }}>
-                          {time.utcOffset}
-                        </div>
-                      </div>
-                      <button
+            {/* Floating Live Autocomplete Dropdown */}
+            {isSearchFocused && (
+              <div style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                zIndex: 80,
+                background: 'var(--color-white)',
+                borderRadius: 'var(--radius-md)',
+                boxShadow: '0 12px 36px rgba(7, 26, 51, 0.2)',
+                border: '1px solid var(--color-border)',
+                maxHeight: '320px',
+                overflowY: 'auto',
+                marginTop: '0.5rem',
+                padding: '0.4rem 0'
+              }}>
+                {filteredSearchCities.length === 0 ? (
+                  <div style={{ padding: '1.25rem', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.88rem' }}>
+                    {t.worldClock.noResults} "{searchQuery}"
+                  </div>
+                ) : (
+                  filteredSearchCities.map((city) => {
+                    const time = getTimeInTimezone(city.timezone, is24Hour, showSeconds, 0, languageInfo.locale);
+                    return (
+                      <div
+                        key={city.id}
+                        onClick={() => {
+                          onAddCity(city);
+                          setSearchQuery('');
+                          setIsSearchFocused(false);
+                        }}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '0.25rem',
-                          padding: '0.35rem 0.65rem',
-                          borderRadius: 'var(--radius-sm)',
-                          background: 'var(--color-sky-light)',
-                          border: '1px solid var(--color-sky)',
-                          color: '#0284C7',
-                          fontSize: '0.8rem',
-                          fontWeight: 700,
-                          cursor: 'pointer'
+                          justifyContent: 'space-between',
+                          padding: '0.75rem 1.25rem',
+                          cursor: 'pointer',
+                          borderBottom: '1px solid var(--color-bg-secondary)',
+                          transition: 'background 0.15s ease'
                         }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-sky-light)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                       >
-                        <Plus size={14} />
-                        <span>{t.worldClock.add}</span>
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-navy)' }}>
+                            {city.name}
+                          </div>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                            {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)} · {city.region}
+                          </div>
+                        </div>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          color: 'var(--color-sky-hover)',
+                          fontSize: '0.85rem',
+                          fontWeight: 600
+                        }}>
+                          <span>{time.timeString}</span>
+                          <button
+                            style={{
+                              background: 'var(--color-sky-light)',
+                              border: 'none',
+                              color: 'var(--color-sky)',
+                              padding: '0.3rem 0.6rem',
+                              borderRadius: 'var(--radius-sm)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.3rem',
+                              fontSize: '0.75rem',
+                              fontWeight: 700,
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <Plus size={14} />
+                            <span>{t.worldClock.add}</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
             )}
           </div>
-        )}
-      </div>
 
-      {/* Quick Add Cities Bar */}
-      {unaddedCities.length > 0 && (
+          {/* Quick Add Cities Bar */}
+          {unaddedCities.length > 0 && (
+            <div style={{
+              paddingTop: '1rem',
+              borderTop: '1px solid var(--color-border)'
+            }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
+                {t.worldClock.quickSuggestions}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {unaddedCities.slice(0, 10).map((city) => (
+                  <button
+                    key={city.id}
+                    onClick={() => onAddCity(city)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.35rem',
+                      padding: '0.4rem 0.8rem',
+                      borderRadius: 'var(--radius-full)',
+                      background: 'var(--color-bg-secondary)',
+                      border: '1px solid var(--color-border)',
+                      fontSize: '0.82rem',
+                      fontWeight: 500,
+                      color: 'var(--color-navy)',
+                      cursor: 'pointer',
+                      transition: 'var(--transition-fast)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--color-sky-hover)';
+                      e.currentTarget.style.background = 'var(--color-sky-light)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--color-border)';
+                      e.currentTarget.style.background = 'var(--color-bg-secondary)';
+                    }}
+                  >
+                    <Plus size={14} color="var(--color-sky-hover)" />
+                    <span>{city.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
         <div style={{
-          paddingTop: '1rem',
-          borderTop: '1px solid var(--color-border)'
+          background: 'var(--color-bg-secondary)',
+          padding: '1.25rem',
+          borderRadius: 'var(--radius-md)',
+          border: '1px dashed var(--color-border)',
+          textAlign: 'center',
+          color: 'var(--color-text-muted)',
+          fontSize: '0.9rem',
+          fontWeight: 600,
+          marginTop: '2rem'
         }}>
-          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
-            {t.worldClock.quickSuggestions}
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-            {unaddedCities.slice(0, 10).map((city) => (
-              <button
-                key={city.id}
-                onClick={() => onAddCity(city)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  padding: '0.4rem 0.8rem',
-                  borderRadius: 'var(--radius-full)',
-                  background: 'var(--color-bg-secondary)',
-                  border: '1px solid var(--color-border)',
-                  fontSize: '0.82rem',
-                  fontWeight: 500,
-                  color: 'var(--color-navy)',
-                  cursor: 'pointer',
-                  transition: 'var(--transition-fast)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-sky-hover)';
-                  e.currentTarget.style.background = 'var(--color-sky-light)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
-                  e.currentTarget.style.background = 'var(--color-bg-secondary)';
-                }}
-              >
-                <Plus size={14} color="var(--color-sky-hover)" />
-                <span>{city.name}</span>
-              </button>
-            ))}
-          </div>
+          {languageInfo.code === 'es'
+            ? 'Límite máximo de 10 tarjetas alcanzado. Elimina una para añadir nuevas ciudades.'
+            : 'Maximum limit of 10 cards reached. Remove one to add new cities.'}
         </div>
       )}
     </div>
