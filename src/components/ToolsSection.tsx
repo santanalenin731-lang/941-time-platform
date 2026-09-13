@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CITIES_DATABASE, City } from '../data/cities';
 import { findBestMeetingTime } from '../lib/timeEngine';
-import { Wrench, Timer as TimerIcon, Hash, Users, Play, Pause, RotateCcw } from 'lucide-react';
+import { Timer as TimerIcon, Hash, Users, Play, Pause, RotateCcw } from 'lucide-react';
 import { useLanguage } from '../lib/i18n.tsx';
 
 export const ToolsSection: React.FC = () => {
@@ -9,6 +9,7 @@ export const ToolsSection: React.FC = () => {
   const { t } = useLanguage();
 
   // Meeting Planner State
+  const [hoveredCityId, setHoveredCityId] = useState<string | null>(null);
   const [selectedMeetingCities, setSelectedMeetingCities] = useState<City[]>([
     CITIES_DATABASE[0], // Santo Domingo
     CITIES_DATABASE[1], // New York
@@ -74,7 +75,6 @@ export const ToolsSection: React.FC = () => {
           fontWeight: 800,
           color: 'var(--color-navy)'
         }}>
-          <Wrench size={24} color="var(--color-sky-hover)" />
           <span>{t.tools.title}</span>
         </div>
       </div>
@@ -138,6 +138,8 @@ export const ToolsSection: React.FC = () => {
               {selectedMeetingCities.map(city => (
                 <div
                   key={city.id}
+                  onMouseEnter={() => setHoveredCityId(city.id)}
+                  onMouseLeave={() => setHoveredCityId(null)}
                   style={{
                     padding: '0.4rem 0.8rem',
                     borderRadius: 'var(--radius-full)',
@@ -155,7 +157,17 @@ export const ToolsSection: React.FC = () => {
                   {selectedMeetingCities.length > 2 && (
                     <button
                       onClick={() => setSelectedMeetingCities(prev => prev.filter(c => c.id !== city.id))}
-                      style={{ color: '#EF4444', fontWeight: 700, background: 'none', border: 'none', cursor: 'pointer' }}
+                      style={{ 
+                        color: '#EF4444', 
+                        fontWeight: 700, 
+                        background: 'none', 
+                        border: 'none', 
+                        cursor: 'pointer',
+                        opacity: hoveredCityId === city.id ? 1 : 0,
+                        pointerEvents: hoveredCityId === city.id ? 'auto' : 'none',
+                        transition: 'opacity 0.2s ease',
+                        width: '12px'
+                      }}
                     >
                       ×
                     </button>

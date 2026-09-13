@@ -128,7 +128,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Arrastra para rotar la Tierra en 3D'
     },
     search: { title: 'Buscar Ciudad o País', placeholder: 'Escribe el nombre de una ciudad...', suggested: 'Ciudades Sugeridas', noResults: 'No se encontraron ciudades' },
-    comparator: { title: 'Planificador de Reuniones & Comparador Horario', addCity: 'Agregar Ciudad', overlap: 'Horario de Trabajo Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferencia:' },
+    comparator: { title: 'Planificador de Reuniones', addCity: 'Agregar Ciudad', overlap: 'Horario de Trabajo Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferencia:' },
     tools: { title: 'Herramientas del Tiempo', stopwatch: 'Cronómetro', timer: 'Temporizador', converter: 'Convertidor UTC' },
     worldClock: {
       title: 'Reloj Mundial',
@@ -188,7 +188,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Drag to rotate 3D Earth'
     },
     search: { title: 'Search City or Country', placeholder: 'Type a city name...', suggested: 'Suggested Cities', noResults: 'No cities found' },
-    comparator: { title: 'Meeting Planner & Time Comparator', addCity: 'Add City', overlap: 'Recommended Working Overlap (9:00 AM - 5:00 PM)', difference: 'Difference:' },
+    comparator: { title: 'Meeting Planner', addCity: 'Add City', overlap: 'Recommended Working Overlap (9:00 AM - 5:00 PM)', difference: 'Difference:' },
     tools: { title: 'Time Tools', stopwatch: 'Stopwatch', timer: 'Timer', converter: 'UTC Converter' },
     worldClock: {
       title: 'World Clock',
@@ -248,7 +248,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: '拖动以3D旋转地球'
     },
     search: { title: '搜索城市或国家', placeholder: '输入城市名称...', suggested: '推荐城市', noResults: '未找到匹配城市' },
-    comparator: { title: '会议计划与时区对比', addCity: '添加城市', overlap: '推荐工作重叠时间 (9:00 AM - 5:00 PM)', difference: '时差:' },
+    comparator: { title: '会议计划', addCity: '添加城市', overlap: '推荐工作重叠时间 (9:00 AM - 5:00 PM)', difference: '时差:' },
     tools: { title: '时间工具箱', stopwatch: '秒表', timer: '倒计时', converter: 'UTC转换器' },
     worldClock: {
       title: '世界时钟',
@@ -308,7 +308,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: '3D पृथ्वी घुमाने के लिए खींचें'
     },
     search: { title: 'शहर या देश खोजें', placeholder: 'शहर का नाम लिखें...', suggested: 'सुझाए गए शहर', noResults: 'कोई शहर नहीं मिला' },
-    comparator: { title: 'बैठक योजनाकार और समय तुलना', addCity: 'शहर जोड़ें', overlap: 'अनुशंसित कार्य समय (9:00 AM - 5:00 PM)', difference: 'अंतर:' },
+    comparator: { title: 'बैठक योजनाकार', addCity: 'शहर जोड़ें', overlap: 'अनुशंसित कार्य समय (9:00 AM - 5:00 PM)', difference: 'अंतर:' },
     tools: { title: 'समय उपकरण', stopwatch: 'स्टॉपवॉच', timer: 'टाइमर', converter: 'UTC कनवर्टर' },
     worldClock: {
       title: 'विश्व घड़ी',
@@ -368,7 +368,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'اسحب لتدوير الأرض 3D'
     },
     search: { title: 'البحث عن مدينة أو دولة', placeholder: 'اكتب اسم المدينة...', suggested: 'المدن المقترحة', noResults: 'لم يتم العثور على مدن' },
-    comparator: { title: 'مخطط الاجتماعات ومقارنة الأوقات', addCity: 'إضافة مدينة', overlap: 'تداخل العمل الموصى به (9:00 AM - 5:00 PM)', difference: 'الفرق:' },
+    comparator: { title: 'مخطط الاجتماعات', addCity: 'إضافة مدينة', overlap: 'تداخل العمل الموصى به (9:00 AM - 5:00 PM)', difference: 'الفرق:' },
     tools: { title: 'أدوات الوقت', stopwatch: 'ساعة إيقاف', timer: 'مؤقت', converter: 'محول UTC' },
     worldClock: {
       title: 'الساعة العالمية',
@@ -428,7 +428,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Faites glisser pour tourner la Terre en 3D'
     },
     search: { title: 'Rechercher une Ville ou un Pays', placeholder: 'Entrez le nom d\'une ville...', suggested: 'Villes Suggérées', noResults: 'Aucune ville trouvée' },
-    comparator: { title: 'Planificateur de Réunions & Comparateur', addCity: 'Ajouter une Ville', overlap: 'Horaires de travail recommandés (9h00 - 17h00)', difference: 'Différence :' },
+    comparator: { title: 'Planificateur de Réunions', addCity: 'Ajouter une Ville', overlap: 'Horaires de travail recommandés (9h00 - 17h00)', difference: 'Différence :' },
     tools: { title: 'Outils Temporels', stopwatch: 'Chronomètre', timer: 'Minuteur', converter: 'Convertisseur UTC' },
     worldClock: {
       title: 'Horloge Mondiale',
@@ -488,7 +488,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: '3D পৃথিবী ঘোরাতে ড্র্যাগ করুন'
     },
     search: { title: 'শহর বা দেশ অনুসন্ধান করুন', placeholder: 'একটি শহরের নাম লিখুন...', suggested: 'সুপারিশকৃত শহর', noResults: 'কোন শহর পাওয়া যায়নি' },
-    comparator: { title: 'মিটিং প্ল্যানার এবং সময় তুলনা', addCity: 'শহর যোগ করুন', overlap: 'সুপারিশকৃত কর্মঘণ্টা (9:00 AM - 5:00 PM)', difference: 'পার্থক্য:' },
+    comparator: { title: 'মিটিং প্ল্যানার', addCity: 'শহর যোগ করুন', overlap: 'সুপারিশকৃত কর্মঘণ্টা (9:00 AM - 5:00 PM)', difference: 'পার্থক্য:' },
     tools: { title: 'সময় টুলস', stopwatch: 'স্টপওয়াচ', timer: 'টাইমার', converter: 'UTC কনভার্টার' },
     worldClock: {
       title: 'বিশ্ব ঘড়ি',
@@ -548,7 +548,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Arraste para girar a Terra em 3D'
     },
     search: { title: 'Buscar Cidade ou País', placeholder: 'Digite o nome de uma cidade...', suggested: 'Cidades Sugeridas', noResults: 'Nenhuma cidade encontrada' },
-    comparator: { title: 'Planejador de Reuniões & Comparador Horário', addCity: 'Adicionar Cidade', overlap: 'Horário de Trabalho Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferença:' },
+    comparator: { title: 'Planejador de Reuniões', addCity: 'Adicionar Cidade', overlap: 'Horário de Trabalho Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferença:' },
     tools: { title: 'Ferramentas do Tempo', stopwatch: 'Cronômetro', timer: 'Temporizador', converter: 'Conversor UTC' },
     worldClock: {
       title: 'Relógio Mundial',
@@ -608,7 +608,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Вращайте Землю 3D'
     },
     search: { title: 'Поиск города или страны', placeholder: 'Введите название города...', suggested: 'Рекомендуемые города', noResults: 'Города не найдены' },
-    comparator: { title: 'Планировщик встреч и сравнение времени', addCity: 'Добавить город', overlap: 'Рекомендуемое рабочее время (9:00 - 17:00)', difference: 'Разница:' },
+    comparator: { title: 'Планировщик встреч', addCity: 'Добавить город', overlap: 'Рекомендуемое рабочее время (9:00 - 17:00)', difference: 'Разница:' },
     tools: { title: 'Инструменты времени', stopwatch: 'Секундомер', timer: 'Таймер', converter: 'Конвертер UTC' },
     worldClock: {
       title: 'Мировое время',
@@ -668,7 +668,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'ドラッグして3D地球を回転'
     },
     search: { title: '都市または国を検索', placeholder: '都市名を入力...', suggested: 'おすすめの都市', noResults: '都市が見つかりません' },
-    comparator: { title: 'ミーティングプランナー＆時間比較', addCity: '都市を追加', overlap: '推奨勤務時間 (9:00 AM - 5:00 PM)', difference: '時差:' },
+    comparator: { title: 'ミーティングプランナー', addCity: '都市を追加', overlap: '推奨勤務時間 (9:00 AM - 5:00 PM)', difference: '時差:' },
     tools: { title: '時間ツール', stopwatch: 'ストップウォッチ', timer: 'タイマー', converter: 'UTCコンバーター' },
     worldClock: {
       title: '世界時計',

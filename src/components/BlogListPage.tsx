@@ -57,14 +57,17 @@ export const BlogListPage: React.FC<BlogListPageProps> = ({ onSelectPost, onGoHo
         <h1 style={{
           fontSize: '2.8rem',
           fontWeight: 900,
-          color: '#0284C7',
           letterSpacing: '-0.02em',
           marginBottom: '0.85rem',
           lineHeight: 1.2,
-          textShadow: '0 10px 30px rgba(2, 132, 199, 0.45), 0 4px 18px rgba(7, 26, 51, 0.25)',
-          filter: 'drop-shadow(0 8px 20px rgba(2, 132, 199, 0.3))'
+          textShadow: '0 4px 12px rgba(2, 132, 199, 0.15)'
         }}>
-          {t.blog.title}
+          {t.blog.title.split('9:41 AM').map((part, i, arr) => (
+            <span key={i}>
+              <span style={{ color: '#0369A1' }}>{part}</span>
+              {i < arr.length - 1 && <span style={{ color: '#0284C7' }}>9:41 AM</span>}
+            </span>
+          ))}
         </h1>
 
         <p style={{

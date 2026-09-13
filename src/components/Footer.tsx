@@ -74,14 +74,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               {t.nav.worldClock}
             </span>
 
-            <span
-              style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
-              onClick={() => onNavigate('compare')}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white)'}
-            >
-              {t.nav.compare}
-            </span>
+
 
             <span
               style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
