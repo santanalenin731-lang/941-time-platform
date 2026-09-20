@@ -87,11 +87,38 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
             <span
               style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
+              onClick={() => onNavigate('stopwatch' as TabType)}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white)'}
+            >
+              {t.tools?.stopwatch || "Cronómetro"}
+            </span>
+
+            <span
+              style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
               onClick={() => onNavigate('tools')}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white)'}
             >
               UTC / GMT
+            </span>
+
+            <span
+              style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
+              onClick={() => onNavigate('timer' as TabType)}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white)'}
+            >
+              {t.tools?.timer || "Temporizador"}
+            </span>
+
+            <span
+              style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
+              onClick={() => onNavigate('alarm' as TabType)}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white)'}
+            >
+              {t.tools?.alarm || "Alarma"}
             </span>
           </div>
         </div>

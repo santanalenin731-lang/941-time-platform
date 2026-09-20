@@ -4,6 +4,9 @@ import { HeroClock } from './components/HeroClock';
 import { WorldClock } from './components/WorldClock';
 import { TimeComparator } from './components/TimeComparator';
 import { ToolsSection } from './components/ToolsSection';
+import { Stopwatch } from './components/Stopwatch';
+import { Timer } from './components/Timer';
+import { Alarm } from './components/Alarm';
 import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
 import { CountryMarquee } from './components/CountryMarquee';
@@ -17,7 +20,7 @@ import { getBlogPostBySlug } from './data/blogPosts';
 import { LanguageProvider } from './lib/i18n.tsx';
 import { trackPageView, trackCitySelect } from './lib/firebase';
 
-export type TabType = 'home' | 'world-clock' | 'compare' | 'tools' | 'about' | 'privacy' | 'blog';
+export type TabType = 'home' | 'world-clock' | 'compare' | 'tools' | 'stopwatch' | 'timer' | 'alarm' | 'about' | 'privacy' | 'blog';
 
 const AppContent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('home');
@@ -125,6 +128,7 @@ const AppContent: React.FC = () => {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg-main)' }}>
       {/* Navbar Header */}
       <Header
+        city={primaryCity}
         activeTab={activeTab}
         setActiveTab={(tab) => {
           setActiveTab(tab);
@@ -179,6 +183,18 @@ const AppContent: React.FC = () => {
 
         {activeTab === 'tools' && (
           <ToolsSection />
+        )}
+
+        {activeTab === 'stopwatch' && (
+          <Stopwatch />
+        )}
+
+        {activeTab === 'timer' && (
+          <Timer />
+        )}
+
+        {activeTab === 'alarm' && (
+          <Alarm />
         )}
 
         {activeTab === 'blog' && (

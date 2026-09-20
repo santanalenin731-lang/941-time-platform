@@ -33,10 +33,13 @@ export default defineConfig({
             purpose: 'any maskable'
           }
         ]
+      },
+      devOptions: {
+        enabled: true
       }
     })
   ],
-  base: '/941-time-platform/',
+  // base: '/941-time-platform/',
   server: {
     port: 3000,
     host: true

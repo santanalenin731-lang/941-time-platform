@@ -62,7 +62,7 @@ export interface Translations {
   tools: {
     title: string;
     stopwatch: string;
-    timer: string;
+    timer: string; alarm: string;
     converter: string;
   };
   worldClock: {
@@ -129,7 +129,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Buscar Ciudad o País', placeholder: 'Escribe el nombre de una ciudad...', suggested: 'Ciudades Sugeridas', noResults: 'No se encontraron ciudades' },
     comparator: { title: 'Planificador de Reuniones', addCity: 'Agregar Ciudad', overlap: 'Horario de Trabajo Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferencia:' },
-    tools: { title: 'Herramientas del Tiempo', stopwatch: 'Cronómetro', timer: 'Temporizador', converter: 'Convertidor UTC' },
+    tools: { title: 'Herramientas del Tiempo', stopwatch: 'Cronómetro', timer: 'Temporizador', alarm: 'Alarma', converter: 'Convertidor UTC' },
     worldClock: {
       title: 'Reloj Mundial',
       subtitle: 'Monitorea la hora exacta en múltiples ciudades simultáneamente.',
@@ -189,7 +189,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Search City or Country', placeholder: 'Type a city name...', suggested: 'Suggested Cities', noResults: 'No cities found' },
     comparator: { title: 'Meeting Planner', addCity: 'Add City', overlap: 'Recommended Working Overlap (9:00 AM - 5:00 PM)', difference: 'Difference:' },
-    tools: { title: 'Time Tools', stopwatch: 'Stopwatch', timer: 'Timer', converter: 'UTC Converter' },
+    tools: { title: 'Time Tools', stopwatch: 'Stopwatch', timer: 'Timer', alarm: 'Alarm', converter: 'UTC Converter' },
     worldClock: {
       title: 'World Clock',
       subtitle: 'Monitor exact time in multiple cities simultaneously.',
@@ -249,7 +249,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: '搜索城市或国家', placeholder: '输入城市名称...', suggested: '推荐城市', noResults: '未找到匹配城市' },
     comparator: { title: '会议计划', addCity: '添加城市', overlap: '推荐工作重叠时间 (9:00 AM - 5:00 PM)', difference: '时差:' },
-    tools: { title: '时间工具箱', stopwatch: '秒表', timer: '倒计时', converter: 'UTC转换器' },
+    tools: { title: '时间工具箱', stopwatch: '秒表', timer: '倒计时', alarm: '闹钟', converter: 'UTC转换器' },
     worldClock: {
       title: '世界时钟',
       subtitle: '同时监控多个城市的准确时间。',
@@ -309,7 +309,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'शहर या देश खोजें', placeholder: 'शहर का नाम लिखें...', suggested: 'सुझाए गए शहर', noResults: 'कोई शहर नहीं मिला' },
     comparator: { title: 'बैठक योजनाकार', addCity: 'शहर जोड़ें', overlap: 'अनुशंसित कार्य समय (9:00 AM - 5:00 PM)', difference: 'अंतर:' },
-    tools: { title: 'समय उपकरण', stopwatch: 'स्टॉपवॉच', timer: 'टाइमर', converter: 'UTC कनवर्टर' },
+    tools: { title: 'समय उपकरण', stopwatch: 'स्टॉपवॉच', timer: 'टाइमर', alarm: 'अलार्म', converter: 'UTC कनवर्टर' },
     worldClock: {
       title: 'विश्व घड़ी',
       subtitle: 'एक साथ कई शहरों में सटीक समय की निगरानी करें।',
@@ -369,7 +369,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'البحث عن مدينة أو دولة', placeholder: 'اكتب اسم المدينة...', suggested: 'المدن المقترحة', noResults: 'لم يتم العثور على مدن' },
     comparator: { title: 'مخطط الاجتماعات', addCity: 'إضافة مدينة', overlap: 'تداخل العمل الموصى به (9:00 AM - 5:00 PM)', difference: 'الفرق:' },
-    tools: { title: 'أدوات الوقت', stopwatch: 'ساعة إيقاف', timer: 'مؤقت', converter: 'محول UTC' },
+    tools: { title: 'أدوات الوقت', stopwatch: 'ساعة إيقاف', timer: 'مؤقت', alarm: 'إنذار', converter: 'محول UTC' },
     worldClock: {
       title: 'الساعة العالمية',
       subtitle: 'مراقبة الوقت الدقيق في مدن متعددة في وقت واحد.',
@@ -429,7 +429,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Rechercher une Ville ou un Pays', placeholder: 'Entrez le nom d\'une ville...', suggested: 'Villes Suggérées', noResults: 'Aucune ville trouvée' },
     comparator: { title: 'Planificateur de Réunions', addCity: 'Ajouter une Ville', overlap: 'Horaires de travail recommandés (9h00 - 17h00)', difference: 'Différence :' },
-    tools: { title: 'Outils Temporels', stopwatch: 'Chronomètre', timer: 'Minuteur', converter: 'Convertisseur UTC' },
+    tools: { title: 'Outils Temporels', stopwatch: 'Chronomètre', timer: 'Minuteur', alarm: 'Alarme', converter: 'Convertisseur UTC' },
     worldClock: {
       title: 'Horloge Mondiale',
       subtitle: 'Surveillez l\'heure exacte dans plusieurs villes simultanément.',
@@ -489,7 +489,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'শহর বা দেশ অনুসন্ধান করুন', placeholder: 'একটি শহরের নাম লিখুন...', suggested: 'সুপারিশকৃত শহর', noResults: 'কোন শহর পাওয়া যায়নি' },
     comparator: { title: 'মিটিং প্ল্যানার', addCity: 'শহর যোগ করুন', overlap: 'সুপারিশকৃত কর্মঘণ্টা (9:00 AM - 5:00 PM)', difference: 'পার্থক্য:' },
-    tools: { title: 'সময় টুলস', stopwatch: 'স্টপওয়াচ', timer: 'টাইমার', converter: 'UTC কনভার্টার' },
+    tools: { title: 'সময় টুলস', stopwatch: 'স্টপওয়াচ', timer: 'টাইমার', alarm: 'অ্যালার্ম', converter: 'UTC কনভার্টার' },
     worldClock: {
       title: 'বিশ্ব ঘড়ি',
       subtitle: 'একসাথে একাধিক শহরের সঠিক সময় পর্যবেক্ষণ করুন।',
@@ -549,7 +549,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Buscar Cidade ou País', placeholder: 'Digite o nome de uma cidade...', suggested: 'Cidades Sugeridas', noResults: 'Nenhuma cidade encontrada' },
     comparator: { title: 'Planejador de Reuniões', addCity: 'Adicionar Cidade', overlap: 'Horário de Trabalho Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferença:' },
-    tools: { title: 'Ferramentas do Tempo', stopwatch: 'Cronômetro', timer: 'Temporizador', converter: 'Conversor UTC' },
+    tools: { title: 'Ferramentas do Tempo', stopwatch: 'Cronômetro', timer: 'Temporizador', alarm: 'Alarme', converter: 'Conversor UTC' },
     worldClock: {
       title: 'Relógio Mundial',
       subtitle: 'Monitore a hora exata em várias cidades simultaneamente.',
@@ -609,7 +609,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Поиск города или страны', placeholder: 'Введите название города...', suggested: 'Рекомендуемые города', noResults: 'Города не найдены' },
     comparator: { title: 'Планировщик встреч', addCity: 'Добавить город', overlap: 'Рекомендуемое рабочее время (9:00 - 17:00)', difference: 'Разница:' },
-    tools: { title: 'Инструменты времени', stopwatch: 'Секундомер', timer: 'Таймер', converter: 'Конвертер UTC' },
+    tools: { title: 'Инструменты времени', stopwatch: 'Секундомер', timer: 'Таймер', alarm: 'Будильник', converter: 'Конвертер UTC' },
     worldClock: {
       title: 'Мировое время',
       subtitle: 'Отслеживайте точное время в нескольких городах одновременно.',
@@ -669,7 +669,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: '都市または国を検索', placeholder: '都市名を入力...', suggested: 'おすすめの都市', noResults: '都市が見つかりません' },
     comparator: { title: 'ミーティングプランナー', addCity: '都市を追加', overlap: '推奨勤務時間 (9:00 AM - 5:00 PM)', difference: '時差:' },
-    tools: { title: '時間ツール', stopwatch: 'ストップウォッチ', timer: 'タイマー', converter: 'UTCコンバーター' },
+    tools: { title: '時間ツール', stopwatch: 'ストップウォッチ', timer: 'タイマー', alarm: 'アラーム', converter: 'UTCコンバーター' },
     worldClock: {
       title: '世界時計',
       subtitle: '複数の都市の正確な時間を同時にモニタリング。',

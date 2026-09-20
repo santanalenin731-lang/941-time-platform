@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Search, Menu, X, Clock, Globe, ArrowLeftRight, Wrench, Languages, Check, Info, ShieldCheck, BookOpen } from 'lucide-react';
 import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../lib/i18n.tsx';
+import { getTimeInTimezone } from '../lib/timeEngine';
 
 import { TabType } from '../App';
 
 interface HeaderProps {
+  city: import("../data/cities").City;
   activeTab: TabType;
   setActiveTab: (tab: TabType) => void;
   onOpenSearch: () => void;
@@ -13,6 +15,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
+  city,
   activeTab,
   setActiveTab,
   onOpenSearch,
@@ -22,23 +25,52 @@ export const Header: React.FC<HeaderProps> = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const { language, languageInfo, setLanguage, t } = useLanguage();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const [timeData, setTimeData] = useState(() =>
+    getTimeInTimezone(city?.timezone || 'UTC', is24Hour, true, 0, languageInfo.locale)
+  );
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 150);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  React.useEffect(() => {
+    const showTime = activeTab !== 'home' || isScrolled;
+    if (!showTime || !city) return;
+    const timer = setInterval(() => {
+      setTimeData(getTimeInTimezone(city.timezone, is24Hour, true, 0, languageInfo.locale));
+    }, 100);
+    return () => clearInterval(timer);
+  }, [city, is24Hour, languageInfo.locale, activeTab, isScrolled]);
+
+  const showTime = activeTab !== 'home' || isScrolled;
 
   return (
     <header style={{
       width: '100%',
-      background: 'transparent',
-      position: 'relative',
-      zIndex: 90
+      background: showTime ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
+      backdropFilter: showTime ? 'blur(10px)' : 'none',
+      borderBottom: showTime ? '1px solid rgba(7, 26, 51, 0.05)' : '1px solid transparent',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      transition: 'background 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease'
     }}>
       <div style={{
         maxWidth: 'var(--max-width)',
         margin: '0 auto',
-        padding: '1.25rem 1.5rem',
+        padding: showTime ? '0.75rem 1.5rem' : '1.25rem 1.5rem',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        transition: 'padding 0.3s ease'
       }}>
-        {/* Top Left: Logo Image on Clean White Background */}
+        {/* Top Left: Logo Image and Dynamic Time */}
         <div
           onClick={() => setActiveTab('home')}
           style={{
@@ -54,13 +86,13 @@ export const Header: React.FC<HeaderProps> = ({
             src={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/'}941am.PNG`}
             alt="Logo 9:41 AM"
             style={{
-              height: '60px',
-              width: '60px',
-              borderRadius: '14px',
+              height: showTime ? '45px' : '60px',
+              width: showTime ? '45px' : '60px',
+              borderRadius: showTime ? '10px' : '14px',
               objectFit: 'cover',
               display: 'block',
               boxShadow: '0 4px 16px rgba(7, 26, 51, 0.14)',
-              transition: 'transform 0.15s ease'
+              transition: 'transform 0.15s ease, height 0.3s ease, width 0.3s ease, border-radius 0.3s ease'
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -71,26 +103,53 @@ export const Header: React.FC<HeaderProps> = ({
             justifyContent: 'center',
             lineHeight: 1.15
           }}>
-            <span style={{
-              fontSize: '1.15rem',
-              fontWeight: 900,
-              color: '#0D47A1',
-              letterSpacing: '-0.02em',
-              fontFamily: 'var(--font-display)',
-              textTransform: 'uppercase'
-            }}>
-              Time
-            </span>
-            <span style={{
-              fontSize: '0.85rem',
-              fontWeight: 700,
-              color: '#0284C7',
-              letterSpacing: '0.02em',
-              fontFamily: 'var(--font-display)',
-              fontStyle: 'italic'
-            }}>
-              beautifully simple.
-            </span>
+            {showTime && city ? (
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.2rem' }}>
+                <span style={{
+                  fontSize: '1.4rem',
+                  fontWeight: 900,
+                  color: '#0284C7',
+                  fontVariantNumeric: 'tabular-nums',
+                  fontFeatureSettings: '"tnum"',
+                  fontFamily: 'var(--font-clock)'
+                }}>
+                  {timeData.timeDigits}
+                </span>
+                {!is24Hour && timeData.period && (
+                  <span style={{
+                    fontSize: '0.85rem',
+                    fontWeight: 800,
+                    color: '#0284C7',
+                    fontFamily: 'var(--font-clock)'
+                  }}>
+                    {timeData.period}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <>
+                <span style={{
+                  fontSize: '1.15rem',
+                  fontWeight: 900,
+                  color: '#0D47A1',
+                  letterSpacing: '-0.02em',
+                  fontFamily: 'var(--font-display)',
+                  textTransform: 'uppercase'
+                }}>
+                  Time
+                </span>
+                <span style={{
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  color: '#0284C7',
+                  letterSpacing: '0.02em',
+                  fontFamily: 'var(--font-display)',
+                  fontStyle: 'italic'
+                }}>
+                  beautifully simple.
+                </span>
+              </>
+            )}
           </div>
         </div>
 

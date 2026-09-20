@@ -114,8 +114,8 @@ export const HeroClock: React.FC<HeroClockProps> = ({
           letterSpacing: '-0.03em',
           fontVariantNumeric: 'tabular-nums',
           fontFeatureSettings: '"tnum"',
-          textShadow: '0 14px 40px rgba(2, 132, 199, 0.45), 0 4px 18px rgba(7, 26, 51, 0.25)',
-          filter: 'drop-shadow(0 12px 24px rgba(2, 132, 199, 0.3))'
+          textShadow: '14px 14px 40px rgba(2, 132, 199, 0.45), 4px 4px 18px rgba(7, 26, 51, 0.25)',
+          filter: 'drop-shadow(12px 12px 24px rgba(2, 132, 199, 0.3))'
         }}>
           {timeData.timeDigits}
         </span>
@@ -132,8 +132,8 @@ export const HeroClock: React.FC<HeroClockProps> = ({
             width: '1.8em',
             textAlign: 'left',
             fontVariantNumeric: 'tabular-nums',
-            textShadow: '0 10px 30px rgba(2, 132, 199, 0.4)',
-            filter: 'drop-shadow(0 8px 16px rgba(2, 132, 199, 0.25))'
+            textShadow: '10px 10px 30px rgba(2, 132, 199, 0.4)',
+            filter: 'drop-shadow(8px 8px 16px rgba(2, 132, 199, 0.25))'
           }}>
             {timeData.period}
           </span>
@@ -257,7 +257,7 @@ export const HeroClock: React.FC<HeroClockProps> = ({
                   fontWeight: 700,
                   color: '#0284C7',
                   fontVariantNumeric: 'tabular-nums',
-                  textShadow: '0 2px 8px rgba(2, 132, 199, 0.25)'
+                  textShadow: '2px 2px 8px rgba(2, 132, 199, 0.25)'
                 }}>
                   {stripTime.timeString}
                 </div>
