@@ -311,9 +311,15 @@ export const HeroClock: React.FC<HeroClockProps> = ({
               }}
             >
               <option value="" disabled>+ {languageInfo.code === 'es' ? 'Añadir' : 'Add'}</option>
-              {CITIES_DATABASE.filter(c => !stripCities.some(sc => sc.id === c.id)).map(c => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
+              {CITIES_DATABASE
+                .filter(c => !stripCities.some(sc => sc.id === c.id))
+                .slice()
+                .sort((a, b) => a.name.localeCompare(b.name, languageInfo.locale))
+                .map(c => (
+                  <option key={c.id} value={c.id}>
+                    {c.name} ({getTranslatedCountry(c.countryCode, languageInfo.locale, c.country)})
+                  </option>
+                ))}
             </select>
           </div>
         )}

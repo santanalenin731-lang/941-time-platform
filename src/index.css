@@ -106,6 +106,15 @@ a {
   padding-left: 0 !important;
 }
 
+/* On touch/mobile devices, ensure delete/remove buttons are clearly visible and tappable */
+@media (hover: none) and (pointer: coarse) {
+  .remove-btn,
+  .wc-remove-btn {
+    opacity: 0.85 !important;
+  }
+}
+
+
 
 
 
