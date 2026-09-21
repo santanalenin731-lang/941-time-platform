@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
     react(),
     VitePWA({
@@ -39,9 +39,9 @@ export default defineConfig({
       }
     })
   ],
-  // base: '/941-time-platform/',
+  base: command === 'build' ? '/941-time-platform/' : '/',
   server: {
     port: 3000,
     host: true
   }
-})
+}))
