@@ -125,7 +125,15 @@ const AppContent: React.FC = () => {
   const currentBlogPost = activeBlogSlug ? getBlogPostBySlug(activeBlogSlug) : null;
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg-main)' }}>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      background: 'var(--color-bg-main)',
+      width: '100%',
+      maxWidth: '100vw',
+      overflowX: 'hidden'
+    }}>
       {/* Navbar Header */}
       <Header
         city={primaryCity}
@@ -140,7 +148,14 @@ const AppContent: React.FC = () => {
       />
 
       {/* Main Content Body */}
-      <main style={{ flex: 1, padding: '0 1rem' }}>
+      <main style={{
+        flex: 1,
+        padding: '0 1rem',
+        width: '100%',
+        maxWidth: '100vw',
+        boxSizing: 'border-box',
+        overflowX: 'hidden'
+      }}>
         {activeTab === 'home' && (
           <>
             {/* Master Clock - High contrast, maximum readability */}

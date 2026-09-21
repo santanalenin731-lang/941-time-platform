@@ -257,32 +257,58 @@ export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }
     isDraggingRef.current = false;
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      isDraggingRef.current = true;
+      previousMousePositionRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDraggingRef.current || e.touches.length !== 1) return;
+    const deltaX = e.touches[0].clientX - previousMousePositionRef.current.x;
+    const deltaY = e.touches[0].clientY - previousMousePositionRef.current.y;
+
+    rotYRef.current += deltaX * 0.005;
+    rotXRef.current += deltaY * 0.005;
+
+    rotXRef.current = Math.max(-Math.PI / 2.2, Math.min(Math.PI / 2.2, rotXRef.current));
+    previousMousePositionRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+
+  const handleTouchEnd = () => {
+    isDraggingRef.current = false;
+  };
+
   return (
     <section style={{
       width: '100%',
       maxWidth: 'var(--max-width)',
       margin: '0.5rem auto 1.5rem auto',
-      padding: '0 1.5rem'
+      padding: '0 1rem',
+      boxSizing: 'border-box',
+      overflow: 'hidden'
     }}>
       <div style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative'
+        position: 'relative',
+        width: '100%',
+        maxWidth: '100%',
+        overflow: 'hidden'
       }}>
         <div style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
-          width: '450px',
-          height: '450px',
-          marginTop: '-225px',
-          marginLeft: '-225px',
+          width: 'min(420px, 85vw)',
+          height: 'min(420px, 85vw)',
+          transform: 'translate(-50%, -50%) translateY(12px)',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(2, 132, 199, 0.65) 0%, rgba(2, 132, 199, 0.35) 50%, rgba(7, 26, 51, 0.15) 75%, transparent 100%)',
           boxShadow: '0 25px 80px rgba(2, 132, 199, 0.7), 0 12px 35px rgba(7, 26, 51, 0.4)',
           filter: 'blur(26px)',
-          transform: 'translateY(12px)',
           pointerEvents: 'none',
           zIndex: 0
         }} />
@@ -292,12 +318,17 @@ export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           style={{
             width: '100%',
-            height: '540px',
+            maxWidth: '100%',
+            height: 'clamp(320px, 50vh, 540px)',
             cursor: isDraggingRef.current ? 'grabbing' : 'grab',
             position: 'relative',
-            zIndex: 1
+            zIndex: 1,
+            touchAction: 'pan-y'
           }}
           title="Arrastra para rotar la Tierra en 3D"
         />

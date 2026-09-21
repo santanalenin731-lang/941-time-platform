@@ -64,11 +64,13 @@ export const Header: React.FC<HeaderProps> = ({
       <div style={{
         maxWidth: 'var(--max-width)',
         margin: '0 auto',
-        padding: showTime ? '0.75rem 1.5rem' : '1.25rem 1.5rem',
+        padding: showTime ? '0.75rem 1rem' : '1rem 1rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        transition: 'padding 0.3s ease'
+        transition: 'padding 0.3s ease',
+        boxSizing: 'border-box',
+        width: '100%'
       }}>
         {/* Top Left: Logo Image and Dynamic Time */}
         <div
@@ -154,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Top Right Controls on White Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.3rem, 1.2vw, 0.65rem)' }}>
           {/* Language Selector Button */}
           <div style={{ position: 'relative' }}>
             <button

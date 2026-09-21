@@ -69,18 +69,21 @@ export const HeroClock: React.FC<HeroClockProps> = ({
       width: '100%',
       maxWidth: 'var(--max-width)',
       margin: '0.5rem auto 3rem auto',
-      padding: '0 1.5rem'
+      padding: '0 1rem',
+      boxSizing: 'border-box',
+      overflowX: 'hidden'
     }}>
       {/* Status & Subhead */}
-      <div style={{ marginBottom: '1.25rem' }}>
+      <div style={{ marginBottom: '1.25rem', maxWidth: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
           <h1 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '2.5rem',
+            fontSize: 'clamp(1.8rem, 6.5vw, 2.5rem)',
             fontWeight: 800,
             color: 'var(--color-navy)',
             letterSpacing: '-0.02em',
-            lineHeight: 1.2
+            lineHeight: 1.2,
+            wordBreak: 'break-word'
           }}>
             {city.name}
           </h1>
@@ -103,19 +106,21 @@ export const HeroClock: React.FC<HeroClockProps> = ({
         lineHeight: 0.95,
         display: 'inline-flex',
         alignItems: 'baseline',
-        userSelect: 'all'
+        userSelect: 'all',
+        maxWidth: '100%',
+        boxSizing: 'border-box'
       }}>
         {/* Digits with Tabular Numbers (tabular-nums prevents jitter when digits change) */}
         <span style={{
           fontFamily: 'var(--font-clock)',
-          fontSize: 'clamp(4.8rem, 15vw, 11.5rem)',
+          fontSize: 'clamp(2.35rem, 11vw, 11.5rem)',
           fontWeight: 900,
           color: '#0284C7',
           letterSpacing: '-0.03em',
           fontVariantNumeric: 'tabular-nums',
           fontFeatureSettings: '"tnum"',
-          textShadow: '14px 14px 40px rgba(2, 132, 199, 0.45), 4px 4px 18px rgba(7, 26, 51, 0.25)',
-          filter: 'drop-shadow(12px 12px 24px rgba(2, 132, 199, 0.3))'
+          textShadow: 'clamp(6px, 1.2vw, 14px) clamp(6px, 1.2vw, 14px) clamp(16px, 3.5vw, 40px) rgba(2, 132, 199, 0.45), 3px 3px 12px rgba(7, 26, 51, 0.25)',
+          filter: 'drop-shadow(8px 8px 18px rgba(2, 132, 199, 0.25))'
         }}>
           {timeData.timeDigits}
         </span>
@@ -124,16 +129,16 @@ export const HeroClock: React.FC<HeroClockProps> = ({
         {!is24Hour && timeData.period && (
           <span style={{
             fontFamily: 'var(--font-clock)',
-            fontSize: 'clamp(2rem, 6vw, 4.5rem)',
+            fontSize: 'clamp(1.05rem, 4.5vw, 4.5rem)',
             fontWeight: 900,
             color: '#0284C7',
-            marginLeft: '0.4em',
+            marginLeft: '0.25em',
             display: 'inline-block',
-            width: '1.8em',
+            width: '1.6em',
             textAlign: 'left',
             fontVariantNumeric: 'tabular-nums',
-            textShadow: '10px 10px 30px rgba(2, 132, 199, 0.4)',
-            filter: 'drop-shadow(8px 8px 16px rgba(2, 132, 199, 0.25))'
+            textShadow: 'clamp(4px, 1vw, 10px) clamp(4px, 1vw, 10px) clamp(10px, 2.5vw, 30px) rgba(2, 132, 199, 0.4)',
+            filter: 'drop-shadow(6px 6px 12px rgba(2, 132, 199, 0.2))'
           }}>
             {timeData.period}
           </span>
@@ -147,15 +152,19 @@ export const HeroClock: React.FC<HeroClockProps> = ({
         alignItems: 'flex-end',
         textAlign: 'right',
         gap: '0.35rem',
-        marginBottom: '2.5rem'
+        marginBottom: '2.5rem',
+        maxWidth: '100%',
+        boxSizing: 'border-box'
       }}>
         {/* Date */}
         <div style={{
           fontFamily: 'var(--font-display)',
-          fontSize: '1.5rem',
+          fontSize: 'clamp(1.1rem, 4.2vw, 1.5rem)',
           fontWeight: 700,
           color: 'var(--color-navy)',
-          textTransform: 'capitalize'
+          textTransform: 'capitalize',
+          wordBreak: 'break-word',
+          maxWidth: '100%'
         }}>
           {timeData.dateString}
         </div>
@@ -185,7 +194,9 @@ export const HeroClock: React.FC<HeroClockProps> = ({
         gap: '0.6rem',
         flexWrap: 'wrap',
         marginTop: '1rem',
-        alignItems: 'center'
+        alignItems: 'center',
+        maxWidth: '100%',
+        boxSizing: 'border-box'
       }}>
         {stripCities.map((stripCity) => {
           const stripTime = getTimeInTimezone(stripCity.timezone, is24Hour, false, 0, languageInfo.locale);

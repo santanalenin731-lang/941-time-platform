@@ -178,14 +178,18 @@ export const CountryMarquee: React.FC<CountryMarqueeProps> = ({ onSelectCity }) 
   return (
     <section style={{
       width: '100%',
-      maxWidth: 'var(--max-width)',
+      maxWidth: '100vw',
       margin: '1.5rem auto 2.5rem auto',
-      padding: '0 1rem',
-      overflow: 'hidden'
+      padding: '0 0.5rem',
+      overflow: 'hidden',
+      boxSizing: 'border-box'
     }}>
       {/* Container with Mask Fading Borders and Dynamic Horizontal Scroll Rows */}
       <div style={{
         position: 'relative',
+        width: '100%',
+        maxWidth: '100%',
+        overflow: 'hidden',
         maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
         WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
         display: 'flex',
