@@ -63,13 +63,17 @@ export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }
     const mount = mountRef.current;
     if (!mount) return;
 
-    const width = mount.clientWidth || 800;
-    const height = mount.clientHeight || 540;
+    const width = mount.clientWidth || (typeof window !== 'undefined' ? window.innerWidth : 390);
+    const height = mount.clientHeight || 500;
+    const initialAspect = width / height;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
-    const cameraDistance = 280;
-    camera.position.set(0, 0, cameraDistance);
+    const camera = new THREE.PerspectiveCamera(40, initialAspect, 0.1, 1000);
+    
+    // Dynamically adjust camera distance so the full 360 sphere is never clipped on mobile portrait screens
+    const baseDistance = 295;
+    const initialDistance = initialAspect < 1 ? baseDistance / initialAspect : baseDistance;
+    camera.position.set(0, 0, initialDistance);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
@@ -203,18 +207,30 @@ export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }
 
     animate();
 
-    const handleResize = () => {
+    const updateDimensions = () => {
       if (!mount) return;
       const w = mount.clientWidth;
       const h = mount.clientHeight;
-      camera.aspect = w / h;
+      if (w === 0 || h === 0) return;
+
+      const currentAspect = w / h;
+      camera.aspect = currentAspect;
+
+      // Keep full sphere in frame on any screen width or orientation
+      const newDistance = currentAspect < 1 ? baseDistance / currentAspect : baseDistance;
+      camera.position.set(0, 0, newDistance);
       camera.updateProjectionMatrix();
+
       renderer.setSize(w, h);
     };
-    window.addEventListener('resize', handleResize);
+
+    window.addEventListener('resize', updateDimensions);
+    const resizeObserver = new ResizeObserver(updateDimensions);
+    resizeObserver.observe(mount);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', updateDimensions);
+      resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
       if (mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
