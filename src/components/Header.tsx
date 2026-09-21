@@ -33,9 +33,11 @@ export const Header: React.FC<HeaderProps> = ({
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 150);
+      const scrollPos = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      setIsScrolled(scrollPos > 40);
     };
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -53,22 +55,24 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header style={{
       width: '100%',
-      background: showTime ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
-      backdropFilter: showTime ? 'blur(10px)' : 'none',
-      borderBottom: showTime ? '1px solid rgba(7, 26, 51, 0.05)' : '1px solid transparent',
+      background: 'rgba(255, 255, 255, 0.98)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      borderBottom: showTime ? '1px solid rgba(7, 26, 51, 0.08)' : '1px solid transparent',
+      boxShadow: showTime ? '0 4px 20px rgba(7, 26, 51, 0.06)' : 'none',
       position: 'sticky',
       top: 0,
-      zIndex: 100,
-      transition: 'background 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease'
+      zIndex: 1000,
+      transition: 'box-shadow 0.25s ease, border-bottom 0.25s ease'
     }}>
       <div style={{
         maxWidth: 'var(--max-width)',
         margin: '0 auto',
-        padding: showTime ? '0.75rem 1rem' : '1rem 1rem',
+        padding: showTime ? '0.65rem 1rem' : '0.9rem 1rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        transition: 'padding 0.3s ease',
+        transition: 'padding 0.25s ease',
         boxSizing: 'border-box',
         width: '100%'
       }}>
@@ -88,13 +92,13 @@ export const Header: React.FC<HeaderProps> = ({
             src={`${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/'}941am.PNG`}
             alt="Logo 9:41 AM"
             style={{
-              height: showTime ? '45px' : '60px',
-              width: showTime ? '45px' : '60px',
-              borderRadius: showTime ? '10px' : '14px',
+              height: showTime ? '40px' : '50px',
+              width: showTime ? '40px' : '50px',
+              borderRadius: showTime ? '9px' : '12px',
               objectFit: 'cover',
               display: 'block',
-              boxShadow: '0 4px 16px rgba(7, 26, 51, 0.14)',
-              transition: 'transform 0.15s ease, height 0.3s ease, width 0.3s ease, border-radius 0.3s ease'
+              boxShadow: '0 4px 14px rgba(7, 26, 51, 0.12)',
+              transition: 'transform 0.15s ease, height 0.25s ease, width 0.25s ease, border-radius 0.25s ease'
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}

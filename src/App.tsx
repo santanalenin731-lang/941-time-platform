@@ -131,8 +131,7 @@ const AppContent: React.FC = () => {
       flexDirection: 'column',
       background: 'var(--color-bg-main)',
       width: '100%',
-      maxWidth: '100vw',
-      overflowX: 'hidden'
+      maxWidth: '100vw'
     }}>
       {/* Navbar Header */}
       <Header
@@ -153,8 +152,7 @@ const AppContent: React.FC = () => {
         padding: '0 1rem',
         width: '100%',
         maxWidth: '100vw',
-        boxSizing: 'border-box',
-        overflowX: 'hidden'
+        boxSizing: 'border-box'
       }}>
         {activeTab === 'home' && (
           <>

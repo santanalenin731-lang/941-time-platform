@@ -314,20 +314,6 @@ export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }
         maxWidth: '100%',
         overflow: 'hidden'
       }}>
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          width: 'min(420px, 85vw)',
-          height: 'min(420px, 85vw)',
-          transform: 'translate(-50%, -50%) translateY(12px)',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(2, 132, 199, 0.65) 0%, rgba(2, 132, 199, 0.35) 50%, rgba(7, 26, 51, 0.15) 75%, transparent 100%)',
-          boxShadow: '0 25px 80px rgba(2, 132, 199, 0.7), 0 12px 35px rgba(7, 26, 51, 0.4)',
-          filter: 'blur(26px)',
-          pointerEvents: 'none',
-          zIndex: 0
-        }} />
         <div
           ref={mountRef}
           onMouseDown={handleMouseDown}
