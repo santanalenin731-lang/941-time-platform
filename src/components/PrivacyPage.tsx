@@ -6,7 +6,7 @@ interface PrivacyPageProps {
   onGoHome: () => void;
 }
 
-export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onGoHome }) => {
+export const PrivacyPage: React.FC<PrivacyPageProps> = () => {
   const { language } = useLanguage();
   const content = PRIVACY_CONTENT[language] || PRIVACY_CONTENT.es;
 
@@ -19,24 +19,6 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onGoHome }) => {
       fontFamily: 'var(--font-sans)',
       direction: language === 'ar' ? 'rtl' : 'ltr'
     }}>
-      {/* Return Link */}
-      <button
-        onClick={onGoHome}
-        style={{
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          fontSize: '0.95rem',
-          fontWeight: 600,
-          color: '#0284C7',
-          cursor: 'pointer',
-          marginBottom: '2.5rem',
-          display: 'inline-block'
-        }}
-      >
-        {content.backToClock}
-      </button>
-
       {/* Main Header */}
       <header style={{ marginBottom: '2.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '2rem' }}>
         <h1 style={{
@@ -51,7 +33,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onGoHome }) => {
         </h1>
         <p style={{
           fontSize: '1.1rem',
-          color: '#047857',
+          color: '#0284C7',
           fontWeight: 500,
           margin: 0,
           lineHeight: 1.6

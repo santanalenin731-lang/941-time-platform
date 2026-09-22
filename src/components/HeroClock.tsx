@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
 import { getTimeInTimezone, calculateSunTimes, getWeekNumber } from '../lib/timeEngine';
-import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
+import { useLanguage, getTranslatedCountry, getTranslatedCity } from '../lib/i18n.tsx';
 
 interface HeroClockProps {
   city: City;
@@ -85,17 +85,19 @@ export const HeroClock: React.FC<HeroClockProps> = ({
             lineHeight: 1.2,
             wordBreak: 'break-word'
           }}>
-            {city.name}
+            {getTranslatedCity(city, languageInfo.code)}
           </h1>
         </div>
 
         <p style={{
-          fontSize: '0.88rem',
-          color: 'var(--color-text-muted)',
-          marginTop: '0.35rem',
-          lineHeight: 1.4
+          fontSize: 'clamp(1.15rem, 3.2vw, 1.35rem)',
+          fontWeight: 700,
+          color: '#0284C7',
+          marginTop: '0.25rem',
+          lineHeight: 1.3,
+          letterSpacing: '-0.01em'
         }}>
-          <strong style={{ color: 'var(--color-navy)' }}>{getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)}</strong>
+          {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)}
         </p>
       </div>
 
@@ -229,7 +231,7 @@ export const HeroClock: React.FC<HeroClockProps> = ({
             >
               <button
                 className="remove-btn"
-                title="Eliminar"
+                title={languageInfo.code === 'es' ? 'Eliminar' : 'Remove'}
                 onClick={(e) => {
                   e.stopPropagation();
                   setStripCities(prev => prev.filter(c => c.id !== stripCity.id));
@@ -260,7 +262,7 @@ export const HeroClock: React.FC<HeroClockProps> = ({
               </button>
               <div onClick={() => onSelectCity(stripCity)}>
                 <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>
-                  {stripCity.name}
+                  {getTranslatedCity(stripCity, languageInfo.code)}
                 </div>
                 <div style={{
                   fontFamily: 'var(--font-clock)',
@@ -314,10 +316,10 @@ export const HeroClock: React.FC<HeroClockProps> = ({
               {CITIES_DATABASE
                 .filter(c => !stripCities.some(sc => sc.id === c.id))
                 .slice()
-                .sort((a, b) => a.name.localeCompare(b.name, languageInfo.locale))
+                .sort((a, b) => getTranslatedCity(a, languageInfo.code).localeCompare(getTranslatedCity(b, languageInfo.code), languageInfo.locale))
                 .map(c => (
                   <option key={c.id} value={c.id}>
-                    {c.name} ({getTranslatedCountry(c.countryCode, languageInfo.locale, c.country)})
+                    {getTranslatedCity(c, languageInfo.code)} ({getTranslatedCountry(c.countryCode, languageInfo.locale, c.country)})
                   </option>
                 ))}
             </select>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ArrowLeft, Share2, ChevronRight, Check } from 'lucide-react';
+import { Share2, ChevronRight, Check } from 'lucide-react';
 import { BlogPost, getRelatedBlogPosts } from '../data/blogPosts';
 import { useLanguage } from '../lib/i18n.tsx';
 import { City, CITIES_DATABASE } from '../data/cities';
@@ -47,44 +47,15 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
       padding: '2rem 1.5rem 5rem 1.5rem',
       color: '#071A33'
     }}>
-      {/* Top Controls: Back Button & Breadcrumbs */}
+      {/* Top Controls: Share Button */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         marginBottom: '2rem',
         flexWrap: 'wrap',
         gap: '1rem'
       }}>
-        <button
-          onClick={onBackToBlog}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.5rem 1rem',
-            borderRadius: 'var(--radius-sm)',
-            background: 'var(--color-bg-secondary)',
-            border: '1px solid var(--color-border)',
-            fontSize: '0.88rem',
-            fontWeight: 700,
-            color: '#071A33',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'var(--color-sky-light)';
-            e.currentTarget.style.borderColor = '#0284C7';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'var(--color-bg-secondary)';
-            e.currentTarget.style.borderColor = 'var(--color-border)';
-          }}
-        >
-          <ArrowLeft size={16} />
-          <span>{t.blog.backToBlog}</span>
-        </button>
-
         {/* Share Button */}
         <button
           onClick={handleShare}

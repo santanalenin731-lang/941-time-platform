@@ -62,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Col 3: Tools */}
         <div>
           <div style={{ fontWeight: 700, color: 'var(--color-sky)', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            {t.nav.tools}
+            {t.tools.title}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', opacity: 0.85 }}>
             <span
@@ -73,8 +73,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             >
               {t.nav.worldClock}
             </span>
-
-
 
             <span
               style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
@@ -92,15 +90,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white)'}
             >
               {t.tools?.stopwatch || "Cronómetro"}
-            </span>
-
-            <span
-              style={{ cursor: 'pointer', transition: 'color 0.15s ease' }}
-              onClick={() => onNavigate('tools')}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-sky)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-white)'}
-            >
-              UTC / GMT
             </span>
 
             <span

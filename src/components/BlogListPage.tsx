@@ -5,10 +5,10 @@ import { useLanguage } from '../lib/i18n.tsx';
 
 interface BlogListPageProps {
   onSelectPost: (slug: string) => void;
-  onGoHome: () => void;
+  onGoHome?: () => void;
 }
 
-export const BlogListPage: React.FC<BlogListPageProps> = ({ onSelectPost, onGoHome }) => {
+export const BlogListPage: React.FC<BlogListPageProps> = ({ onSelectPost }) => {
   const { language, t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<BlogCategory | 'all'>('all');
 
@@ -25,25 +25,6 @@ export const BlogListPage: React.FC<BlogListPageProps> = ({ onSelectPost, onGoHo
       padding: '2rem 1.5rem 4rem 1.5rem',
       color: 'var(--color-navy)'
     }}>
-      {/* Breadcrumb Navigation */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.5rem',
-        fontSize: '0.85rem',
-        fontWeight: 600,
-        color: '#0284C7',
-        marginBottom: '1.5rem'
-      }}>
-        <span onClick={onGoHome} style={{ cursor: 'pointer', opacity: 0.8, transition: 'opacity 0.15s' }}>
-          {t.nav.home}
-        </span>
-        <ChevronRight size={14} style={{ opacity: 0.5 }} />
-        <span style={{ color: 'var(--color-navy)', fontWeight: 700 }}>
-          {t.nav.blog}
-        </span>
-      </div>
-
       {/* Hero Header Section */}
       <div style={{
         textAlign: 'center',
@@ -55,19 +36,45 @@ export const BlogListPage: React.FC<BlogListPageProps> = ({ onSelectPost, onGoHo
         boxShadow: '0 10px 30px rgba(7, 26, 51, 0.04)'
       }}>
         <h1 style={{
-          fontSize: '2.8rem',
-          fontWeight: 900,
-          letterSpacing: '-0.02em',
+          display: 'inline-flex',
+          alignItems: 'baseline',
+          justifyContent: 'center',
+          gap: '0.3rem',
+          flexWrap: 'wrap',
           marginBottom: '0.85rem',
           lineHeight: 1.2,
           textShadow: '0 4px 12px rgba(2, 132, 199, 0.15)'
         }}>
-          {t.blog.title.split('9:41 AM').map((part, i, arr) => (
-            <span key={i}>
-              <span style={{ color: '#0369A1' }}>{part}</span>
-              {i < arr.length - 1 && <span style={{ color: '#0284C7' }}>9:41 AM</span>}
-            </span>
-          ))}
+          {/* 9:41 (Grande) */}
+          <span style={{
+            color: '#0284C7',
+            fontSize: 'clamp(2.2rem, 5.5vw, 2.9rem)',
+            fontWeight: 900,
+            letterSpacing: '-0.03em'
+          }}>
+            9:41
+          </span>
+
+          {/* AM (Pequeño, a la línea base) */}
+          <span style={{
+            color: '#0284C7',
+            fontSize: 'clamp(1.1rem, 2.7vw, 1.45rem)',
+            fontWeight: 800,
+            letterSpacing: '-0.01em',
+            marginRight: '0.35rem'
+          }}>
+            AM
+          </span>
+
+          {/* Blog (Mismo tamaño grande que 9:41) */}
+          <span style={{
+            color: '#0369A1',
+            fontSize: 'clamp(2.2rem, 5.5vw, 2.9rem)',
+            fontWeight: 900,
+            letterSpacing: '-0.02em'
+          }}>
+            {t.nav.blog}
+          </span>
         </h1>
 
         <p style={{
@@ -102,9 +109,16 @@ export const BlogListPage: React.FC<BlogListPageProps> = ({ onSelectPost, onGoHo
             border: '1px solid',
             transition: 'all 0.2s ease',
             whiteSpace: 'nowrap',
-            background: selectedCategory === 'all' ? '#071A33' : 'var(--color-bg-secondary)',
-            color: selectedCategory === 'all' ? '#FFFFFF' : '#071A33',
-            borderColor: selectedCategory === 'all' ? '#071A33' : 'var(--color-border)'
+            background: selectedCategory === 'all' ? '#0284C7' : 'var(--color-white)',
+            color: selectedCategory === 'all' ? '#FFFFFF' : 'var(--color-navy)',
+            borderColor: selectedCategory === 'all' ? '#0284C7' : 'var(--color-border)',
+            boxShadow: selectedCategory === 'all' ? '0 4px 12px rgba(2, 132, 199, 0.25)' : 'none'
+          }}
+          onMouseEnter={(e) => {
+            if (selectedCategory !== 'all') e.currentTarget.style.borderColor = '#0284C7';
+          }}
+          onMouseLeave={(e) => {
+            if (selectedCategory !== 'all') e.currentTarget.style.borderColor = 'var(--color-border)';
           }}
         >
           {t.blog.allCategories}
@@ -127,8 +141,9 @@ export const BlogListPage: React.FC<BlogListPageProps> = ({ onSelectPost, onGoHo
                 transition: 'all 0.2s ease',
                 whiteSpace: 'nowrap',
                 background: isSelected ? '#0284C7' : 'var(--color-white)',
-                color: isSelected ? '#FFFFFF' : '#071A33',
-                borderColor: isSelected ? '#0284C7' : 'var(--color-border)'
+                color: isSelected ? '#FFFFFF' : 'var(--color-navy)',
+                borderColor: isSelected ? '#0284C7' : 'var(--color-border)',
+                boxShadow: isSelected ? '0 4px 12px rgba(2, 132, 199, 0.25)' : 'none'
               }}
               onMouseEnter={(e) => {
                 if (!isSelected) e.currentTarget.style.borderColor = '#0284C7';

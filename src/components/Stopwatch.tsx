@@ -3,7 +3,7 @@ import { Play, Pause, RotateCcw } from 'lucide-react';
 import { useLanguage } from '../lib/i18n.tsx';
 
 export const Stopwatch: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, languageInfo } = useLanguage();
   const [swRunning, setSwRunning] = useState(false);
   const [swTimeMs, setSwTimeMs] = useState(0);
 
@@ -68,7 +68,7 @@ export const Stopwatch: React.FC = () => {
             }}
           >
             {swRunning ? <Pause size={18} /> : <Play size={18} />}
-            <span>{swRunning ? 'Pause' : 'Start'}</span>
+            <span>{swRunning ? (languageInfo.code === 'es' ? 'Pausar' : 'Pause') : (languageInfo.code === 'es' ? 'Iniciar' : 'Start')}</span>
           </button>
 
           <button
@@ -91,7 +91,7 @@ export const Stopwatch: React.FC = () => {
             }}
           >
             <RotateCcw size={18} />
-            <span>Reset</span>
+            <span>{languageInfo.code === 'es' ? 'Reiniciar' : 'Reset'}</span>
           </button>
         </div>
       </div>

@@ -6,7 +6,7 @@ interface AboutPageProps {
   onGoHome: () => void;
 }
 
-export const AboutPage: React.FC<AboutPageProps> = ({ onGoHome }) => {
+export const AboutPage: React.FC<AboutPageProps> = () => {
   const { language } = useLanguage();
   const content = ABOUT_CONTENT[language] || ABOUT_CONTENT.es;
 
@@ -19,23 +19,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onGoHome }) => {
       fontFamily: 'var(--font-sans)',
       direction: language === 'ar' ? 'rtl' : 'ltr'
     }}>
-      {/* Return Link */}
-      <button
-        onClick={onGoHome}
-        style={{
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          fontSize: '0.95rem',
-          fontWeight: 600,
-          color: '#0284C7',
-          cursor: 'pointer',
-          marginBottom: '2.5rem',
-          display: 'inline-block'
-        }}
-      >
-        {content.backToClock}
-      </button>
 
       {/* Main Header */}
       <header style={{ marginBottom: '2.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '2rem' }}>

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
+import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
 
 interface CountryMarqueeProps {
   onSelectCity?: (city: City) => void;
@@ -126,6 +127,7 @@ interface MarqueeRowProps {
 }
 
 const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, speed, reverse = false, onSelectCity }) => {
+  const { languageInfo } = useLanguage();
   const duplicatedItems = [...items, ...items];
 
   const handleCountryClick = (cityId: string) => {
@@ -149,38 +151,49 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, speed, reverse = false, 
           animation: `${reverse ? 'scrollRight' : 'scrollLeft'} ${speed}s linear infinite`
         }}
       >
-        {duplicatedItems.map((item, idx) => (
-          <span
-            key={idx}
-            onClick={() => handleCountryClick(item.cityId)}
-            style={{
-              fontSize: item.size,
-              fontWeight: item.weight,
-              color: item.color,
-              fontFamily: 'var(--font-display)',
-              letterSpacing: '-0.03em',
-              lineHeight: 0.92,
-              whiteSpace: 'nowrap',
-              userSelect: 'none',
-              cursor: 'pointer',
-              transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease, text-shadow 0.2s ease',
-              padding: '0 0.15rem'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.15)';
-              e.currentTarget.style.color = '#38BDF8';
-              e.currentTarget.style.textShadow = '0 4px 15px rgba(56, 189, 248, 0.5)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.color = item.color;
-              e.currentTarget.style.textShadow = 'none';
-            }}
-            title={`Haz clic para ver la hora y rotar el globo a ${item.name}`}
-          >
-            {item.name}
-          </span>
-        ))}
+        {duplicatedItems.map((item, idx) => {
+          const matchedCity = CITIES_DATABASE.find(c => c.id === item.cityId);
+          const displayName = matchedCity
+            ? getTranslatedCountry(matchedCity.countryCode, languageInfo.locale, item.name)
+            : item.name;
+
+          const tooltip = languageInfo.code === 'es'
+            ? `Haz clic para ver la hora y rotar el globo a ${displayName}`
+            : `Click to view time and rotate globe to ${displayName}`;
+
+          return (
+            <span
+              key={idx}
+              onClick={() => handleCountryClick(item.cityId)}
+              style={{
+                fontSize: item.size,
+                fontWeight: item.weight,
+                color: item.color,
+                fontFamily: 'var(--font-display)',
+                letterSpacing: '-0.03em',
+                lineHeight: 0.92,
+                whiteSpace: 'nowrap',
+                userSelect: 'none',
+                cursor: 'pointer',
+                transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease, text-shadow 0.2s ease',
+                padding: '0 0.15rem'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.15)';
+                e.currentTarget.style.color = '#38BDF8';
+                e.currentTarget.style.textShadow = '0 4px 15px rgba(56, 189, 248, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.color = item.color;
+                e.currentTarget.style.textShadow = 'none';
+              }}
+              title={tooltip}
+            >
+              {displayName}
+            </span>
+          );
+        })}
       </div>
     </div>
   );

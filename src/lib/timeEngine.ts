@@ -55,12 +55,16 @@ export function calculateSunTimes(lat: number, lng: number, timezone: string, da
     return `${displayHours}:${m.toString().padStart(2, '0')} ${period}`;
   };
 
-  const dayLengthMins = Math.round(sunsetMinutesUTC - sunriseMinutesUTC);
+  const dayLengthMins = Math.round((sunsetMinutesUTC - sunriseMinutesUTC + 1440) % 1440);
   const dlHours = Math.floor(dayLengthMins / 60);
   const dlMins = dayLengthMins % 60;
 
-  const nowUTC = date.getUTCHours() * 60 + date.getUTCMinutes();
-  const isDaylight = nowUTC >= sunriseMinutesUTC && nowUTC <= sunsetMinutesUTC;
+  const nowMinutesLocal = tzDate.getHours() * 60 + tzDate.getMinutes();
+  const normSunrise = (Math.round(sunriseMinutesLocal) + 1440) % 1440;
+  const normSunset = (Math.round(sunsetMinutesLocal) + 1440) % 1440;
+  const isDaylight = normSunrise <= normSunset
+    ? (nowMinutesLocal >= normSunrise && nowMinutesLocal < normSunset)
+    : (nowMinutesLocal >= normSunrise || nowMinutesLocal < normSunset);
 
   return {
     sunrise: formatMinutesToTime(sunriseMinutesLocal),
@@ -194,7 +198,7 @@ export function getTimeDifference(cityA: City, cityB: City, locale: string = 'es
 export function findBestMeetingTime(cities: City[]): {
   startHourUTC: number;
   endHourUTC: number;
-  bestLocalTimes: { cityName: string; localTime: string; isWithinWorkHours: boolean }[];
+  bestLocalTimes: { city: City; cityName: string; localTime: string; isWithinWorkHours: boolean }[];
   found: boolean;
 } {
   if (cities.length === 0) return { startHourUTC: 14, endHourUTC: 15, bestLocalTimes: [], found: false };
@@ -245,6 +249,7 @@ export function findBestMeetingTime(cities: City[]): {
     }).format(bestDateUTC), 10);
 
     return {
+      city,
       cityName: city.name,
       localTime: localTimeFormatted,
       isWithinWorkHours: localH >= 9 && localH <= 17

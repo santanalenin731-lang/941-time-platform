@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
-import { getTimeInTimezone, getTimeDifference } from '../lib/timeEngine';
-import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
+import { getTimeInTimezone, getTimeDifference, calculateSunTimes } from '../lib/timeEngine';
+import { useLanguage, getTranslatedCountry, getTranslatedCity, getTranslatedRegion } from '../lib/i18n.tsx';
 import { Search, Plus, X } from 'lucide-react';
+import dayImage from '../assets/world-clock/day.jpg';
+import nightImage from '../assets/world-clock/night.jpg';
 
 interface WorldClockProps {
   primaryCity: City;
@@ -50,13 +52,23 @@ export const WorldClock: React.FC<WorldClockProps> = ({
   const filteredSearchCities = unaddedCities.filter(c => {
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase().trim();
+    const transName = getTranslatedCity(c, languageInfo.code).toLowerCase();
+    const transCountry = getTranslatedCountry(c.countryCode, languageInfo.locale, c.country).toLowerCase();
+    const transRegion = getTranslatedRegion(c.region, languageInfo.code).toLowerCase();
     return (
       c.name.toLowerCase().includes(q) ||
+      transName.includes(q) ||
       c.country.toLowerCase().includes(q) ||
+      transCountry.includes(q) ||
       c.region.toLowerCase().includes(q) ||
+      transRegion.includes(q) ||
       (c.seoSlug && c.seoSlug.toLowerCase().includes(q))
     );
   });
+
+  const primaryTime = getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds, 0, languageInfo.locale);
+  const sunData = calculateSunTimes(primaryCity.lat, primaryCity.lng, primaryCity.timezone);
+  const isDay = sunData.isDaylight;
 
   return (
     <div style={{
@@ -94,9 +106,10 @@ export const WorldClock: React.FC<WorldClockProps> = ({
 
       {/* Primary User City Card */}
       <div style={{
-        padding: '1.25rem 1.5rem',
+        padding: '1.4rem 1.65rem',
         borderRadius: 'var(--radius-md)',
-        background: 'linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-deep) 100%)',
+        position: 'relative',
+        overflow: 'hidden',
         color: 'var(--color-white)',
         marginBottom: '1.5rem',
         display: 'flex',
@@ -104,33 +117,88 @@ export const WorldClock: React.FC<WorldClockProps> = ({
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: '1rem',
-        boxShadow: '0 8px 25px rgba(7, 26, 51, 0.25)'
+        boxShadow: isDay
+          ? '0 8px 25px rgba(2, 132, 199, 0.25)'
+          : '0 8px 25px rgba(7, 26, 51, 0.45)',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        minHeight: '90px'
       }}>
-        <div>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-sky)', letterSpacing: '0.05em' }}>
+        {/* Background Day Layer */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `linear-gradient(rgba(7, 26, 51, 0.12), rgba(7, 26, 51, 0.28)), url(${dayImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: isDay ? 1 : 0,
+          transition: 'opacity 0.8s ease-in-out',
+          zIndex: 0
+        }} />
+
+        {/* Background Night Layer */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `linear-gradient(rgba(7, 26, 51, 0.45), rgba(7, 26, 51, 0.62)), url(${nightImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: isDay ? 0 : 1,
+          transition: 'opacity 0.8s ease-in-out',
+          zIndex: 0
+        }} />
+
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            color: isDay ? '#E0F2FE' : 'var(--color-sky)',
+            letterSpacing: '0.06em',
+            textShadow: '0 2px 6px rgba(0, 0, 0, 0.7)'
+          }}>
             {t.worldClock.primaryLocation}
           </div>
-          <div style={{ fontSize: '1.4rem', fontWeight: 800 }}>
-            {primaryCity.name}, {getTranslatedCountry(primaryCity.countryCode, languageInfo.locale, primaryCity.country)}
+          <div style={{
+            fontSize: '1.45rem',
+            fontWeight: 800,
+            color: '#FFFFFF',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.7)'
+          }}>
+            {getTranslatedCity(primaryCity, languageInfo.code)}, {getTranslatedCountry(primaryCity.countryCode, languageInfo.locale, primaryCity.country)}
           </div>
-          <div style={{ fontSize: '0.85rem', opacity: 0.8 }}>
-            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds, 0, languageInfo.locale).dateString}
+          <div style={{
+            fontSize: '0.85rem',
+            color: '#FFFFFF',
+            opacity: 0.92,
+            textShadow: '0 1px 4px rgba(0, 0, 0, 0.65)'
+          }}>
+            {primaryTime.dateString}
           </div>
         </div>
 
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ textAlign: 'right', position: 'relative', zIndex: 1 }}>
           <div style={{
             fontFamily: 'var(--font-clock)',
             fontSize: '2.4rem',
             fontWeight: 800,
-            color: 'var(--color-sky)',
-            textShadow: '0 4px 18px rgba(56, 189, 248, 0.45)',
-            lineHeight: 1
+            color: isDay ? '#FFFFFF' : 'var(--color-sky)',
+            textShadow: isDay
+              ? '0 4px 16px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(7, 26, 51, 0.8)'
+              : '0 4px 18px rgba(56, 189, 248, 0.65), 0 2px 8px rgba(0, 0, 0, 0.7)',
+            lineHeight: 1,
+            fontVariantNumeric: 'tabular-nums'
           }}>
-            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds, 0, languageInfo.locale).timeString}
+            {primaryTime.timeString}
           </div>
-          <div style={{ fontSize: '0.8rem', color: 'var(--color-white)', opacity: 0.8, marginTop: '0.2rem' }}>
-            {getTimeInTimezone(primaryCity.timezone, is24Hour, showSeconds, 0, languageInfo.locale).utcOffset}
+          <div style={{
+            fontSize: '0.8rem',
+            color: '#FFFFFF',
+            opacity: 0.9,
+            marginTop: '0.2rem',
+            textShadow: '0 1px 4px rgba(0, 0, 0, 0.65)'
+          }}>
+            {primaryTime.utcOffset}
           </div>
         </div>
       </div>
@@ -222,7 +290,7 @@ export const WorldClock: React.FC<WorldClockProps> = ({
                       alignItems: 'center',
                       gap: '0.4rem'
                     }}>
-                      {city.name}
+                      {getTranslatedCity(city, languageInfo.code)}
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
                       {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)}
@@ -268,7 +336,7 @@ export const WorldClock: React.FC<WorldClockProps> = ({
         )}
       </div>
 
-      {worldClockCities.length < 10 ? (
+      {worldClockCities.length < 10 && (
         <>
           {/* Interactive City Search and Full Dropdown Selector Box */}
           <div
@@ -381,10 +449,10 @@ export const WorldClock: React.FC<WorldClockProps> = ({
                       >
                         <div>
                           <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-navy)' }}>
-                            {city.name}
+                            {getTranslatedCity(city, languageInfo.code)}
                           </div>
                           <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-                            {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)} · {city.region}
+                            {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)} · {getTranslatedRegion(city.region, languageInfo.code)}
                           </div>
                         </div>
                         <div style={{
@@ -461,29 +529,13 @@ export const WorldClock: React.FC<WorldClockProps> = ({
                     }}
                   >
                     <Plus size={14} color="var(--color-sky-hover)" />
-                    <span>{city.name}</span>
+                    <span>{getTranslatedCity(city, languageInfo.code)}</span>
                   </button>
                 ))}
               </div>
             </div>
           )}
         </>
-      ) : (
-        <div style={{
-          background: 'var(--color-bg-secondary)',
-          padding: '1.25rem',
-          borderRadius: 'var(--radius-md)',
-          border: '1px dashed var(--color-border)',
-          textAlign: 'center',
-          color: 'var(--color-text-muted)',
-          fontSize: '0.9rem',
-          fontWeight: 600,
-          marginTop: '2rem'
-        }}>
-          {languageInfo.code === 'es'
-            ? 'Límite máximo de 10 tarjetas alcanzado. Elimina una para añadir nuevas ciudades.'
-            : 'Maximum limit of 10 cards reached. Remove one to add new cities.'}
-        </div>
       )}
     </div>
   );

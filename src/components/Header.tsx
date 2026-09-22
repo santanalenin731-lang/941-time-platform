@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search, Menu, X, Clock, Globe, ArrowLeftRight, Wrench, Languages, Check, Info, ShieldCheck, BookOpen } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, Menu, X, Clock, Globe, Users, Languages, Check, Info, ShieldCheck, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../lib/i18n.tsx';
 import { getTimeInTimezone } from '../lib/timeEngine';
 
@@ -26,6 +26,22 @@ export const Header: React.FC<HeaderProps> = ({
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const { language, languageInfo, setLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
+  const menuContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuContainerRef.current && !menuContainerRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+        setLangMenuOpen(false);
+      }
+    };
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuOpen]);
 
   const [timeData, setTimeData] = useState(() =>
     getTimeInTimezone(city?.timezone || 'UTC', is24Hour, true, 0, languageInfo.locale)
@@ -55,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header style={{
       width: '100%',
-      background: 'rgba(255, 255, 255, 0.98)',
+      background: 'rgba(240, 246, 250, 0.92)',
       backdropFilter: 'blur(12px)',
       WebkitBackdropFilter: 'blur(12px)',
       borderBottom: showTime ? '1px solid rgba(7, 26, 51, 0.08)' : '1px solid transparent',
@@ -159,137 +175,14 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Top Right Controls on White Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.3rem, 1.2vw, 0.65rem)' }}>
-          {/* Language Selector Button */}
-          <div style={{ position: 'relative' }}>
-            <button
-              onClick={() => {
-                setLangMenuOpen(!langMenuOpen);
-                setMenuOpen(false);
-              }}
-              title={t.header.selectLanguage}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                padding: '0.4rem 0.75rem',
-                borderRadius: 'var(--radius-sm)',
-                background: langMenuOpen ? 'var(--color-sky-light)' : 'var(--color-bg-secondary)',
-                border: `1px solid ${langMenuOpen ? 'var(--color-sky)' : 'var(--color-border)'}`,
-                fontSize: '0.82rem',
-                fontWeight: 700,
-                color: 'var(--color-navy)',
-                cursor: 'pointer',
-                transition: 'var(--transition-fast)'
-              }}
-            >
-              <Languages size={16} style={{ color: '#0284C7' }} />
-              <span>{languageInfo.code.toUpperCase()}</span>
-            </button>
-
-            {/* Language Dropdown Menu (10 Languages) */}
-            {langMenuOpen && (
-              <div style={{
-                position: 'absolute',
-                top: '125%',
-                right: 0,
-                zIndex: 110,
-                background: 'var(--color-white)',
-                borderRadius: 'var(--radius-md)',
-                boxShadow: '0 12px 36px rgba(7, 26, 51, 0.22)',
-                border: '1px solid var(--color-border)',
-                width: '190px',
-                maxHeight: '380px',
-                overflowY: 'auto',
-                padding: '0.4rem 0',
-                display: 'flex',
-                flexDirection: 'column'
-              }}>
-                <div style={{
-                  padding: '0.4rem 0.8rem 0.3rem 0.8rem',
-                  fontSize: '0.75rem',
-                  fontWeight: 800,
-                  color: '#0284C7',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  borderBottom: '1px solid var(--color-border)',
-                  marginBottom: '0.2rem'
-                }}>
-                  {t.header.selectLanguage}
-                </div>
-                {SUPPORTED_LANGUAGES.map(lang => {
-                  const isSelected = language === lang.code;
-                  return (
-                    <button
-                      key={lang.code}
-                      onClick={() => {
-                        setLanguage(lang.code as LanguageCode);
-                        setLangMenuOpen(false);
-                      }}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '0.55rem 0.85rem',
-                        fontSize: '0.88rem',
-                        fontWeight: isSelected ? 700 : 500,
-                        color: isSelected ? '#0284C7' : 'var(--color-navy)',
-                        background: isSelected ? 'var(--color-sky-light)' : 'transparent',
-                        border: 'none',
-                        cursor: 'pointer',
-                        textAlign: 'left',
-                        transition: 'background 0.15s ease'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isSelected) e.currentTarget.style.background = 'var(--color-bg-secondary)';
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isSelected) e.currentTarget.style.background = 'transparent';
-                      }}
-                    >
-                      <span>{lang.nativeName}</span>
-                      {isSelected && <Check size={16} style={{ color: '#0284C7' }} />}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* 12H / 24H Format Toggle */}
-          <button
-            onClick={() => setIs24Hour(!is24Hour)}
-            title="Cambiar formato 12H / 24H"
-            style={{
-              padding: '0.4rem 0.8rem',
-              borderRadius: 'var(--radius-sm)',
-              background: 'var(--color-bg-secondary)',
-              border: '1px solid var(--color-border)',
-              fontSize: '0.8rem',
-              fontWeight: 800,
-              color: 'var(--color-navy)',
-              cursor: 'pointer',
-              transition: 'var(--transition-fast)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--color-sky-light)';
-              e.currentTarget.style.borderColor = 'var(--color-sky)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--color-bg-secondary)';
-              e.currentTarget.style.borderColor = 'var(--color-border)';
-            }}
-          >
-            {is24Hour ? t.header.format24h : t.header.format12h}
-          </button>
-
+        {/* Top Right Controls on White Header (Minimalist: Search + Menu) */}
+        <div ref={menuContainerRef} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', position: 'relative' }}>
           {/* Search Icon */}
           <button
             onClick={onOpenSearch}
             title={t.header.searchPlaceholder}
             style={{
-              padding: '0.5rem',
+              padding: '0.55rem',
               color: 'var(--color-navy)',
               background: 'transparent',
               border: 'none',
@@ -309,17 +202,16 @@ export const Header: React.FC<HeaderProps> = ({
             <Search size={22} />
           </button>
 
-          {/* Menu Icon */}
+          {/* Menu Icon (3 bars) */}
           <button
             onClick={() => {
               setMenuOpen(!menuOpen);
-              setLangMenuOpen(false);
             }}
             title="Menu"
             style={{
-              padding: '0.5rem',
+              padding: '0.55rem',
               color: 'var(--color-navy)',
-              background: 'transparent',
+              background: menuOpen ? 'var(--color-bg-secondary)' : 'transparent',
               border: 'none',
               cursor: 'pointer',
               transition: 'var(--transition-fast)',
@@ -331,69 +223,229 @@ export const Header: React.FC<HeaderProps> = ({
               e.currentTarget.style.background = 'var(--color-bg-secondary)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
+              if (!menuOpen) e.currentTarget.style.background = 'transparent';
             }}
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+
+          {/* Slide-out / Dropdown Menu */}
+          {menuOpen && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 0.65rem)',
+              right: 0,
+              zIndex: 110,
+              background: 'var(--color-white)',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: '0 12px 36px rgba(7, 26, 51, 0.22)',
+              border: '1px solid var(--color-border)',
+              width: '280px',
+              padding: '0.5rem 0',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              {/* Internal Setting 1: 12H / 24H Toggle */}
+              <div style={{
+                padding: '0.65rem 1rem',
+                borderBottom: '1px solid var(--color-border)'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  background: '#EAEFF5',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '4px',
+                  gap: '4px',
+                  border: '1px solid #D5E1ED'
+                }}>
+                  <button
+                    onClick={() => setIs24Hour(false)}
+                    style={{
+                      flex: 1,
+                      padding: '0.5rem 0.6rem',
+                      fontSize: '0.82rem',
+                      fontWeight: !is24Hour ? 800 : 500,
+                      color: !is24Hour ? '#0284C7' : '#64748B',
+                      background: !is24Hour ? '#FFFFFF' : 'transparent',
+                      borderRadius: 'var(--radius-sm)',
+                      border: !is24Hour ? '1px solid rgba(2, 132, 199, 0.3)' : '1px solid transparent',
+                      cursor: 'pointer',
+                      boxShadow: !is24Hour ? '0 4px 14px rgba(7, 26, 51, 0.22), 0 2px 4px rgba(2, 132, 199, 0.2)' : 'none',
+                      transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                      textAlign: 'center',
+                      transform: !is24Hour ? 'scale(1.02)' : 'scale(1)'
+                    }}
+                  >
+                    {t.header.format12h} (AM/PM)
+                  </button>
+                  <button
+                    onClick={() => setIs24Hour(true)}
+                    style={{
+                      flex: 1,
+                      padding: '0.5rem 0.6rem',
+                      fontSize: '0.82rem',
+                      fontWeight: is24Hour ? 800 : 500,
+                      color: is24Hour ? '#0284C7' : '#64748B',
+                      background: is24Hour ? '#FFFFFF' : 'transparent',
+                      borderRadius: 'var(--radius-sm)',
+                      border: is24Hour ? '1px solid rgba(2, 132, 199, 0.3)' : '1px solid transparent',
+                      cursor: 'pointer',
+                      boxShadow: is24Hour ? '0 4px 14px rgba(7, 26, 51, 0.22), 0 2px 4px rgba(2, 132, 199, 0.2)' : 'none',
+                      transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                      textAlign: 'center',
+                      transform: is24Hour ? 'scale(1.02)' : 'scale(1)'
+                    }}
+                  >
+                    {t.header.format24h}
+                  </button>
+                </div>
+              </div>
+
+              {/* Internal Setting 2: Language Selector */}
+              <div style={{
+                padding: '0.65rem 1rem',
+                borderBottom: '1px solid var(--color-border)'
+              }}>
+                <button
+                  onClick={() => setLangMenuOpen(!langMenuOpen)}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.5rem 0.75rem',
+                    borderRadius: 'var(--radius-sm)',
+                    background: langMenuOpen ? 'var(--color-sky-light)' : 'var(--color-bg-secondary)',
+                    border: `1px solid ${langMenuOpen ? 'var(--color-sky)' : 'var(--color-border)'}`,
+                    fontSize: '0.85rem',
+                    fontWeight: 700,
+                    color: 'var(--color-navy)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Languages size={17} style={{ color: '#0284C7' }} />
+                    <span>{languageInfo.name}</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <span style={{
+                      fontSize: '0.72rem',
+                      background: '#0284C7',
+                      color: '#FFFFFF',
+                      padding: '0.15rem 0.4rem',
+                      borderRadius: '4px',
+                      fontWeight: 800
+                    }}>
+                      {languageInfo.code.toUpperCase()}
+                    </span>
+                    {langMenuOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </div>
+                </button>
+
+                {/* Collapsible 10 Languages List */}
+                {langMenuOpen && (
+                  <div style={{
+                    marginTop: '0.5rem',
+                    background: 'var(--color-white)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: 'var(--radius-sm)',
+                    maxHeight: '190px',
+                    overflowY: 'auto',
+                    padding: '0.2rem 0',
+                    boxShadow: '0 4px 12px rgba(7, 26, 51, 0.08)'
+                  }}>
+                    {SUPPORTED_LANGUAGES.map(lang => {
+                      const isSelected = language === lang.code;
+                      return (
+                        <button
+                          key={lang.code}
+                          onClick={() => {
+                            setLanguage(lang.code as LanguageCode);
+                            setLangMenuOpen(false);
+                          }}
+                          style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '0.45rem 0.85rem',
+                            fontSize: '0.84rem',
+                            fontWeight: isSelected ? 700 : 500,
+                            color: isSelected ? '#0284C7' : 'var(--color-navy)',
+                            background: isSelected ? 'var(--color-sky-light)' : 'transparent',
+                            border: 'none',
+                            cursor: 'pointer',
+                            textAlign: 'left',
+                            transition: 'background 0.15s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!isSelected) e.currentTarget.style.background = 'var(--color-bg-secondary)';
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!isSelected) e.currentTarget.style.background = 'transparent';
+                          }}
+                        >
+                          <span>{lang.nativeName}</span>
+                          {isSelected && <Check size={15} style={{ color: '#0284C7' }} />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Navigation Links */}
+              <div style={{ padding: '0.35rem 0' }}>
+                {[
+                  { id: 'home', label: t.nav.home, icon: Clock },
+                  { id: 'world-clock', label: t.nav.worldClock, icon: Globe },
+                  { id: 'compare', label: t.comparator.title, icon: Users },
+                  { id: 'blog', label: t.nav.blog, icon: BookOpen },
+                  { id: 'about', label: t.about.title, icon: Info },
+                  { id: 'privacy', label: t.privacy.title, icon: ShieldCheck },
+                ].map(item => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setActiveTab(item.id as any);
+                        setMenuOpen(false);
+                      }}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
+                        padding: '0.65rem 1.25rem',
+                        fontSize: '0.92rem',
+                        fontWeight: isActive ? 700 : 500,
+                        color: isActive ? 'var(--color-sky-hover)' : 'var(--color-navy)',
+                        background: isActive ? 'var(--color-sky-light)' : 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'background 0.15s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) e.currentTarget.style.background = 'var(--color-bg-secondary)';
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) e.currentTarget.style.background = 'transparent';
+                      }}
+                    >
+                      <Icon size={18} />
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Slide-out / Dropdown Menu */}
-      {menuOpen && (
-        <div style={{
-          position: 'absolute',
-          top: '100%',
-          right: '1.5rem',
-          zIndex: 100,
-          background: 'var(--color-white)',
-          borderRadius: 'var(--radius-md)',
-          boxShadow: '0 10px 30px rgba(7, 26, 51, 0.25)',
-          border: '1px solid var(--color-border)',
-          width: '260px',
-          padding: '0.75rem 0',
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
-          {[
-            { id: 'home', label: t.nav.home, icon: Clock },
-            { id: 'world-clock', label: t.nav.worldClock, icon: Globe },
-            { id: 'compare', label: t.nav.compare, icon: ArrowLeftRight },
-            { id: 'tools', label: t.nav.tools, icon: Wrench },
-            { id: 'blog', label: t.nav.blog, icon: BookOpen },
-            { id: 'about', label: t.about.title, icon: Info },
-            { id: 'privacy', label: t.privacy.title, icon: ShieldCheck },
-          ].map(item => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id as any);
-                  setMenuOpen(false);
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '0.75rem 1.25rem',
-                  fontSize: '0.95rem',
-                  fontWeight: isActive ? 700 : 500,
-                  color: isActive ? 'var(--color-sky-hover)' : 'var(--color-navy)',
-                  background: isActive ? 'var(--color-sky-light)' : 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textAlign: 'left'
-                }}
-              >
-                <Icon size={18} />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
     </header>
   );
 };

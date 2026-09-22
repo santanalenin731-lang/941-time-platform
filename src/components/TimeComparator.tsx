@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
 import { getTimeInTimezone, getTimeDifference } from '../lib/timeEngine';
-import { ArrowLeftRight } from 'lucide-react';
-import { useLanguage } from '../lib/i18n.tsx';
+import { Users } from 'lucide-react';
+import { useLanguage, getTranslatedCountry, getTranslatedCity } from '../lib/i18n.tsx';
 
 interface TimeComparatorProps {
   initialCityA?: City;
@@ -47,7 +47,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
           fontWeight: 800,
           color: 'var(--color-navy)'
         }}>
-          <ArrowLeftRight size={24} color="var(--color-sky-hover)" />
+          <Users size={24} color="var(--color-sky-hover)" />
           <span>{t.comparator.title}</span>
         </div>
       </div>
@@ -68,7 +68,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
           border: '1px solid var(--color-border)'
         }}>
           <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text-muted)', display: 'block', marginBottom: '0.4rem' }}>
-            {cityA.name}
+            {getTranslatedCity(cityA, languageInfo.code)}
           </label>
           <select
             value={cityA.id}
@@ -89,7 +89,9 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
             }}
           >
             {CITIES_DATABASE.map(c => (
-              <option key={c.id} value={c.id}>{c.name} ({c.country})</option>
+              <option key={c.id} value={c.id}>
+                {getTranslatedCity(c, languageInfo.code)} ({getTranslatedCountry(c.countryCode, languageInfo.locale, c.country)})
+              </option>
             ))}
           </select>
 
@@ -109,11 +111,11 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
           </div>
         </div>
 
-        {/* Difference Indicator Pill */}
+        {/* Difference Indicator Box */}
         <div style={{
           textAlign: 'center',
-          padding: '0.75rem 1rem',
-          borderRadius: 'var(--radius-full)',
+          padding: '0.9rem 1.25rem',
+          borderRadius: 'var(--radius-md)',
           background: 'var(--color-sky-light)',
           border: '1px solid var(--color-sky)',
           color: 'var(--color-navy-deep)',
@@ -122,7 +124,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
           boxShadow: 'var(--shadow-soft)'
         }}>
           <div>{t.comparator.difference}</div>
-          <div style={{ fontSize: '1.1rem', color: 'var(--color-navy)' }}>{diff.formattedDiff}</div>
+          <div style={{ fontSize: '1.15rem', color: 'var(--color-navy)', marginTop: '0.2rem' }}>{diff.formattedDiff}</div>
         </div>
 
         {/* City B Selector */}
@@ -133,7 +135,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
           border: '1px solid var(--color-border)'
         }}>
           <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text-muted)', display: 'block', marginBottom: '0.4rem' }}>
-            {cityB.name}
+            {getTranslatedCity(cityB, languageInfo.code)}
           </label>
           <select
             value={cityB.id}
@@ -154,7 +156,9 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
             }}
           >
             {CITIES_DATABASE.map(c => (
-              <option key={c.id} value={c.id}>{c.name} ({c.country})</option>
+              <option key={c.id} value={c.id}>
+                {getTranslatedCity(c, languageInfo.code)} ({getTranslatedCountry(c.countryCode, languageInfo.locale, c.country)})
+              </option>
             ))}
           </select>
 
@@ -197,7 +201,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
         {/* Timeline Row for City A */}
         <div style={{ marginBottom: '1.25rem' }}>
           <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-navy)', marginBottom: '0.3rem' }}>
-            {cityA.name}
+            {getTranslatedCity(cityA, languageInfo.code)}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(24, 1fr)', gap: '2px', height: '36px' }}>
             {hoursArray.map(hour => {
@@ -206,7 +210,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
               return (
                 <div
                   key={hour}
-                  title={`${hour}:00 en ${cityA.name}`}
+                  title={`${hour}:00 · ${getTranslatedCity(cityA, languageInfo.code)}`}
                   style={{
                     background: isCurrent
                       ? 'var(--color-navy)'
@@ -233,7 +237,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
         {/* Timeline Row for City B */}
         <div>
           <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-navy)', marginBottom: '0.3rem' }}>
-            {cityB.name}
+            {getTranslatedCity(cityB, languageInfo.code)}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(24, 1fr)', gap: '2px', height: '36px' }}>
             {hoursArray.map(hour => {
@@ -242,7 +246,7 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
               return (
                 <div
                   key={hour}
-                  title={`${hour}:00 en ${cityB.name}`}
+                  title={`${hour}:00 · ${getTranslatedCity(cityB, languageInfo.code)}`}
                   style={{
                     background: isCurrent
                       ? 'var(--color-navy)'

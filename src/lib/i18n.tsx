@@ -61,8 +61,10 @@ export interface Translations {
   };
   tools: {
     title: string;
+    meetingPlanner: string;
     stopwatch: string;
-    timer: string; alarm: string;
+    timer: string;
+    alarm: string;
     converter: string;
   };
   worldClock: {
@@ -115,7 +117,7 @@ export interface Translations {
 
 const TRANSLATIONS: Record<LanguageCode, Translations> = {
   es: {
-    nav: { home: 'Hora Actual', worldClock: 'Reloj Mundial', compare: 'Comparar Horarios', tools: 'Herramientas del Tiempo', blog: 'Blog' },
+    nav: { home: 'Hora Actual', worldClock: 'Reloj Mundial', compare: 'Planificador de Reuniones', tools: 'Herramientas', blog: 'Blog' },
     header: { format12h: '12H', format24h: '24H', searchPlaceholder: 'Buscar ciudad...', selectLanguage: 'Seleccionar idioma' },
     hero: {
       exactTime: '¡Tu hora es exacta!',
@@ -129,7 +131,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Buscar Ciudad o País', placeholder: 'Escribe el nombre de una ciudad...', suggested: 'Ciudades Sugeridas', noResults: 'No se encontraron ciudades' },
     comparator: { title: 'Planificador de Reuniones', addCity: 'Agregar Ciudad', overlap: 'Horario de Trabajo Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferencia:' },
-    tools: { title: 'Herramientas del Tiempo', stopwatch: 'Cronómetro', timer: 'Temporizador', alarm: 'Alarma', converter: 'Convertidor UTC' },
+    tools: { title: 'Herramientas', meetingPlanner: 'Planificador de Reuniones', stopwatch: 'Cronómetro', timer: 'Temporizador', alarm: 'Alarma', converter: 'Convertidor UTC' },
     worldClock: {
       title: 'Reloj Mundial',
       subtitle: 'Monitorea la hora exacta en múltiples ciudades simultáneamente.',
@@ -175,7 +177,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     footer: { tagline: '9:41 AM es una plataforma global de información temporal de alta precisión. Time, beautifully simple.', legalTitle: 'Información y Legal' }
   },
   en: {
-    nav: { home: 'Current Time', worldClock: 'World Clock', compare: 'Compare Times', tools: 'Time Tools', blog: 'Blog' },
+    nav: { home: 'Current Time', worldClock: 'World Clock', compare: 'Meeting Planner', tools: 'Time Tools', blog: 'Blog' },
     header: { format12h: '12H', format24h: '24H', searchPlaceholder: 'Search city...', selectLanguage: 'Select Language' },
     hero: {
       exactTime: 'Your time is exact!',
@@ -189,7 +191,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Search City or Country', placeholder: 'Type a city name...', suggested: 'Suggested Cities', noResults: 'No cities found' },
     comparator: { title: 'Meeting Planner', addCity: 'Add City', overlap: 'Recommended Working Overlap (9:00 AM - 5:00 PM)', difference: 'Difference:' },
-    tools: { title: 'Time Tools', stopwatch: 'Stopwatch', timer: 'Timer', alarm: 'Alarm', converter: 'UTC Converter' },
+    tools: { title: 'Time Tools', meetingPlanner: 'Meeting Planner', stopwatch: 'Stopwatch', timer: 'Timer', alarm: 'Alarm', converter: 'UTC Converter' },
     worldClock: {
       title: 'World Clock',
       subtitle: 'Monitor exact time in multiple cities simultaneously.',
@@ -235,7 +237,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     }
   },
   zh: {
-    nav: { home: '当前时间', worldClock: '世界时钟', compare: '时区对比', tools: '时间工具箱', blog: '博客' },
+    nav: { home: '当前时间', worldClock: '世界时钟', compare: '会议计划', tools: '时间工具', blog: '博客' },
     header: { format12h: '12小时制', format24h: '24小时制', searchPlaceholder: '搜索城市...', selectLanguage: '选择语言' },
     hero: {
       exactTime: '您的时间准确无误！',
@@ -249,7 +251,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: '搜索城市或国家', placeholder: '输入城市名称...', suggested: '推荐城市', noResults: '未找到匹配城市' },
     comparator: { title: '会议计划', addCity: '添加城市', overlap: '推荐工作重叠时间 (9:00 AM - 5:00 PM)', difference: '时差:' },
-    tools: { title: '时间工具箱', stopwatch: '秒表', timer: '倒计时', alarm: '闹钟', converter: 'UTC转换器' },
+    tools: { title: '时间工具', meetingPlanner: '会议计划', stopwatch: '秒表', timer: '倒计时', alarm: '闹钟', converter: 'UTC转换器' },
     worldClock: {
       title: '世界时钟',
       subtitle: '同时监控多个城市的准确时间。',
@@ -295,7 +297,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     }
   },
   hi: {
-    nav: { home: 'वर्तमान समय', worldClock: 'विश्व घड़ी', compare: 'समय तुलना', tools: 'समय उपकरण', blog: 'ब्लॉग' },
+    nav: { home: 'वर्तमान समय', worldClock: 'विश्व घड़ी', compare: 'बैठक योजनाकार', tools: 'समय उपकरण', blog: 'ब्लॉग' },
     header: { format12h: '12 घंटे', format24h: '24 घंटे', searchPlaceholder: 'शहर खोजें...', selectLanguage: 'भाषा चुनें' },
     hero: {
       exactTime: 'आपका समय बिल्कुल सटीक है!',
@@ -309,7 +311,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'शहर या देश खोजें', placeholder: 'शहर का नाम लिखें...', suggested: 'सुझाए गए शहर', noResults: 'कोई शहर नहीं मिला' },
     comparator: { title: 'बैठक योजनाकार', addCity: 'शहर जोड़ें', overlap: 'अनुशंसित कार्य समय (9:00 AM - 5:00 PM)', difference: 'अंतर:' },
-    tools: { title: 'समय उपकरण', stopwatch: 'स्टॉपवॉच', timer: 'टाइमर', alarm: 'अलार्म', converter: 'UTC कनवर्टर' },
+    tools: { title: 'समय उपकरण', meetingPlanner: 'बैठक योजनाकार', stopwatch: 'स्टॉपवॉच', timer: 'टाइमर', alarm: 'अलार्म', converter: 'UTC कनवर्टर' },
     worldClock: {
       title: 'विश्व घड़ी',
       subtitle: 'एक साथ कई शहरों में सटीक समय की निगरानी करें।',
@@ -355,7 +357,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     }
   },
   ar: {
-    nav: { home: 'الوقت الحالي', worldClock: 'الساعة العالمية', compare: 'مقارنة الأوقات', tools: 'أدوات الوقت', blog: 'المدونة' },
+    nav: { home: 'الوقت الحالي', worldClock: 'الساعة العالمية', compare: 'مقارنة الأوقات', tools: 'مخطط الاجتماعات', blog: 'المدونة' },
     header: { format12h: '12 ساعة', format24h: '24 ساعة', searchPlaceholder: 'البحث عن مدينة...', selectLanguage: 'اختر اللغة' },
     hero: {
       exactTime: 'وقتك دقيق تماماً!',
@@ -368,8 +370,8 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'اسحب لتدوير الأرض 3D'
     },
     search: { title: 'البحث عن مدينة أو دولة', placeholder: 'اكتب اسم المدينة...', suggested: 'المدن المقترحة', noResults: 'لم يتم العثور على مدن' },
-    comparator: { title: 'مخطط الاجتماعات', addCity: 'إضافة مدينة', overlap: 'تداخل العمل الموصى به (9:00 AM - 5:00 PM)', difference: 'الفرق:' },
-    tools: { title: 'أدوات الوقت', stopwatch: 'ساعة إيقاف', timer: 'مؤقت', alarm: 'إنذار', converter: 'محول UTC' },
+    comparator: { title: 'مقارنة الأوقات', addCity: 'إضافة مدينة', overlap: 'تداخل العمل الموصى به (9:00 AM - 5:00 PM)', difference: 'الفرق:' },
+    tools: { title: 'مخطط الاجتماعات', meetingPlanner: 'مخطط الاجتماعات', stopwatch: 'ساعة إيقاف', timer: 'مؤقت', alarm: 'إنذار', converter: 'محول UTC' },
     worldClock: {
       title: 'الساعة العالمية',
       subtitle: 'مراقبة الوقت الدقيق في مدن متعددة في وقت واحد.',
@@ -415,7 +417,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     }
   },
   fr: {
-    nav: { home: 'Heure Actuelle', worldClock: 'Horloge Mondiale', compare: 'Comparer les Heures', tools: 'Outils Temporels', blog: 'Blog' },
+    nav: { home: 'Heure Actuelle', worldClock: 'Horloge Mondiale', compare: 'Comparateur d\'Horaires', tools: 'Planificateur de Réunions', blog: 'Blog' },
     header: { format12h: '12H', format24h: '24H', searchPlaceholder: 'Rechercher une ville...', selectLanguage: 'Choisir la langue' },
     hero: {
       exactTime: 'Votre heure est exacte !',
@@ -429,7 +431,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Rechercher une Ville ou un Pays', placeholder: 'Entrez le nom d\'une ville...', suggested: 'Villes Suggérées', noResults: 'Aucune ville trouvée' },
     comparator: { title: 'Planificateur de Réunions', addCity: 'Ajouter une Ville', overlap: 'Horaires de travail recommandés (9h00 - 17h00)', difference: 'Différence :' },
-    tools: { title: 'Outils Temporels', stopwatch: 'Chronomètre', timer: 'Minuteur', alarm: 'Alarme', converter: 'Convertisseur UTC' },
+    tools: { title: 'Outils Temporels', meetingPlanner: 'Planificateur de Réunions', stopwatch: 'Chronomètre', timer: 'Minuteur', alarm: 'Alarme', converter: 'Convertisseur UTC' },
     worldClock: {
       title: 'Horloge Mondiale',
       subtitle: 'Surveillez l\'heure exacte dans plusieurs villes simultanément.',
@@ -475,7 +477,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     }
   },
   bn: {
-    nav: { home: 'বর্তমান সময়', worldClock: 'বিশ্ব ঘড়ি', compare: 'সময় তুলনা', tools: 'সময় টুলস', blog: 'ব্লগ' },
+    nav: { home: 'বর্তমান সময়', worldClock: 'বিশ্ব ঘড়ি', compare: 'সময় তুলনাকারী', tools: 'মিটিং প্ল্যানার', blog: 'ব্লগ' },
     header: { format12h: '১২ ঘণ্টা', format24h: '২৪ ঘণ্টা', searchPlaceholder: 'شهر खोजें...', selectLanguage: 'ভাষা নির্বাচন করুন' },
     hero: {
       exactTime: 'আপনার সময় একদম সঠিক!',
@@ -489,7 +491,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'শহর বা দেশ অনুসন্ধান করুন', placeholder: 'একটি শহরের নাম লিখুন...', suggested: 'সুপারিশকৃত শহর', noResults: 'কোন শহর পাওয়া যায়নি' },
     comparator: { title: 'মিটিং প্ল্যানার', addCity: 'শহর যোগ করুন', overlap: 'সুপারিশকৃত কর্মঘণ্টা (9:00 AM - 5:00 PM)', difference: 'পার্থক্য:' },
-    tools: { title: 'সময় টুলস', stopwatch: 'স্টপওয়াচ', timer: 'টাইমার', alarm: 'অ্যালার্ম', converter: 'UTC কনভার্টার' },
+    tools: { title: 'মিটিং প্ল্যানার', meetingPlanner: 'মিটিং প্ল্যানার', stopwatch: 'স্টপওয়াচ', timer: 'টাইমার', alarm: 'অ্যালার্ম', converter: 'UTC কনভার্টার' },
     worldClock: {
       title: 'বিশ্ব ঘড়ি',
       subtitle: 'একসাথে একাধিক শহরের সঠিক সময় পর্যবেক্ষণ করুন।',
@@ -535,7 +537,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     }
   },
   pt: {
-    nav: { home: 'Hora Atual', worldClock: 'Relógio Mundial', compare: 'Comparar Horários', tools: 'Ferramentas do Tempo', blog: 'Blog' },
+    nav: { home: 'Hora Atual', worldClock: 'Relógio Mundial', compare: 'Comparador de Horários', tools: 'Planejador de Reuniões', blog: 'Blog' },
     header: { format12h: '12H', format24h: '24H', searchPlaceholder: 'Buscar cidade...', selectLanguage: 'Selecionar Idioma' },
     hero: {
       exactTime: 'Seu horário está exato!',
@@ -549,7 +551,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Buscar Cidade ou País', placeholder: 'Digite o nome de uma cidade...', suggested: 'Cidades Sugeridas', noResults: 'Nenhuma cidade encontrada' },
     comparator: { title: 'Planejador de Reuniões', addCity: 'Adicionar Cidade', overlap: 'Horário de Trabalho Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferença:' },
-    tools: { title: 'Ferramentas do Tempo', stopwatch: 'Cronômetro', timer: 'Temporizador', alarm: 'Alarme', converter: 'Conversor UTC' },
+    tools: { title: 'Planejador de Reuniões', meetingPlanner: 'Planejador de Reuniões', stopwatch: 'Cronômetro', timer: 'Temporizador', alarm: 'Alarme', converter: 'Conversor UTC' },
     worldClock: {
       title: 'Relógio Mundial',
       subtitle: 'Monitore a hora exata em várias cidades simultaneamente.',
@@ -595,7 +597,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     }
   },
   ru: {
-    nav: { home: 'Текущее время', worldClock: 'Мировое время', compare: 'Сравнить время', tools: 'Инструменты', blog: 'Блог' },
+    nav: { home: 'Текущее время', worldClock: 'Мировое время', compare: 'Сравнение времени', tools: 'Планировщик встреч', blog: 'Блог' },
     header: { format12h: '12Ч', format24h: '24Ч', searchPlaceholder: 'Поиск города...', selectLanguage: 'Выбрать язык' },
     hero: {
       exactTime: 'Ваше время точное!',
@@ -609,7 +611,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: 'Поиск города или страны', placeholder: 'Введите название города...', suggested: 'Рекомендуемые города', noResults: 'Города не найдены' },
     comparator: { title: 'Планировщик встреч', addCity: 'Добавить город', overlap: 'Рекомендуемое рабочее время (9:00 - 17:00)', difference: 'Разница:' },
-    tools: { title: 'Инструменты времени', stopwatch: 'Секундомер', timer: 'Таймер', alarm: 'Будильник', converter: 'Конвертер UTC' },
+    tools: { title: 'Планировщик встреч', meetingPlanner: 'Планировщик встреч', stopwatch: 'Секундомер', timer: 'Таймер', alarm: 'Будильник', converter: 'Конвертер UTC' },
     worldClock: {
       title: 'Мировое время',
       subtitle: 'Отслеживайте точное время в нескольких городах одновременно.',
@@ -655,7 +657,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     }
   },
   ja: {
-    nav: { home: '現在時刻', worldClock: '世界時計', compare: '時間比較', tools: '時間ツール', blog: 'ブログ' },
+    nav: { home: '現在時刻', worldClock: '世界時計', compare: '時間比較', tools: 'ミーティングプランナー', blog: 'ブログ' },
     header: { format12h: '12時間', format24h: '24時間', searchPlaceholder: '都市を検索...', selectLanguage: '言語を選択' },
     hero: {
       exactTime: '正確な時刻です！',
@@ -669,7 +671,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
     },
     search: { title: '都市または国を検索', placeholder: '都市名を入力...', suggested: 'おすすめの都市', noResults: '都市が見つかりません' },
     comparator: { title: 'ミーティングプランナー', addCity: '都市を追加', overlap: '推奨勤務時間 (9:00 AM - 5:00 PM)', difference: '時差:' },
-    tools: { title: '時間ツール', stopwatch: 'ストップウォッチ', timer: 'タイマー', alarm: 'アラーム', converter: 'UTCコンバーター' },
+    tools: { title: 'ミーティングプランナー', meetingPlanner: 'ミーティングプランナー', stopwatch: 'ストップウォッチ', timer: 'タイマー', alarm: 'アラーム', converter: 'UTCコンバーター' },
     worldClock: {
       title: '世界時計',
       subtitle: '複数の都市の正確な時間を同時にモニタリング。',
@@ -839,6 +841,158 @@ export function getTranslatedCountry(countryCode: string, locale: string, fallba
   } catch (e) {
     return fallback;
   }
+}
+
+export const REGION_TRANSLATIONS: Record<string, Record<string, string>> = {
+  'Norteamérica': {
+    en: 'North America', es: 'Norteamérica', fr: 'Amérique du Nord', pt: 'América do Norte',
+    zh: '北美洲', hi: 'उत्तरी अमेरिका', ar: 'أمريكا الشمالية', ru: 'Северная Америка',
+    ja: '北米', bn: 'উত্তর আমেরিকা'
+  },
+  'Sudamérica': {
+    en: 'South America', es: 'Sudamérica', fr: 'Amérique du Sud', pt: 'América do Sul',
+    zh: '南美洲', hi: 'दक्षिण अमेरिका', ar: 'أمريكا الجنوبية', ru: 'Южная Америка',
+    ja: '南米', bn: 'দক্ষিণ আমেরিকা'
+  },
+  'Centroamérica': {
+    en: 'Central America', es: 'Centroamérica', fr: 'Amérique centrale', pt: 'América Central',
+    zh: '中美洲', hi: 'मध्य अमेरिका', ar: 'أمريكا الوسطى', ru: 'Центральная Америка',
+    ja: '中央アメリカ', bn: 'মধ্য আমেরিকা'
+  },
+  'Caribe': {
+    en: 'Caribbean', es: 'Caribe', fr: 'Caraïbes', pt: 'Caribe',
+    zh: '加勒比', hi: 'कैरेबियन', ar: 'البحر الكاريبي', ru: 'Карибы',
+    ja: 'カリブ海', bn: 'ক্যারিবীয়'
+  },
+  'Europa': {
+    en: 'Europe', es: 'Europa', fr: 'Europe', pt: 'Europa',
+    zh: '欧洲', hi: 'यूरोप', ar: 'أوروبا', ru: 'Европа',
+    ja: 'ヨーロッパ', bn: 'ইউরোপ'
+  },
+  'Asia': {
+    en: 'Asia', es: 'Asia', fr: 'Asie', pt: 'Ásia',
+    zh: '亚洲', hi: 'एशिया', ar: 'آسيا', ru: 'Азия',
+    ja: 'アジア', bn: 'এশিয়া'
+  },
+  'Medio Oriente': {
+    en: 'Middle East', es: 'Medio Oriente', fr: 'Moyen-Orient', pt: 'Oriente Médio',
+    zh: '中东', hi: 'मध्य पूर्व', ar: 'الشرق الأوسط', ru: 'Ближний Восток',
+    ja: '中東', bn: 'মধ্যপ্রাচ্য'
+  },
+  'África': {
+    en: 'Africa', es: 'África', fr: 'Afrique', pt: 'África',
+    zh: '非洲', hi: 'अफ्रीका', ar: 'أفريقيا', ru: 'Африка',
+    ja: 'アフリカ', bn: 'আফ্রিকা'
+  },
+  'Oceanía': {
+    en: 'Oceania', es: 'Oceanía', fr: 'Océanie', pt: 'Oceania',
+    zh: '大洋洲', hi: 'ओशिनिया', ar: 'أوقيانوسيا', ru: 'Океания',
+    ja: 'オセアニア', bn: 'ওশেনিয়া'
+  }
+};
+
+export function getTranslatedRegion(region: string, langCode: string): string {
+  const normLang = langCode.split('-')[0];
+  const map = REGION_TRANSLATIONS[region];
+  if (!map) return region;
+  return map[normLang] || map['en'] || region;
+}
+
+export interface TranslatableCity {
+  id: string;
+  name: string;
+  country?: string;
+  countryCode?: string;
+  region?: string;
+  seoSlug?: string;
+}
+
+export const CITY_NAME_TRANSLATIONS: Record<string, Record<string, string>> = {
+  'new-york': { en: 'New York', es: 'Nueva York', fr: 'New York', pt: 'Nova York', zh: '纽约', hi: 'न्यूयॉर्क', ar: 'نيويورك', ru: 'Нью-Йорк', ja: 'ニューヨーク', bn: 'নিউ ইয়র্ক' },
+  'washington-dc': { en: 'Washington D.C.', es: 'Washington D.C.', fr: 'Washington D.C.', pt: 'Washington D.C.', zh: '华盛顿哥伦比亚特区', hi: 'वाशिंगटन डी.सी.', ar: 'واشنطن العاصمة', ru: 'Вашингтон', ja: 'ワシントンD.C.', bn: 'ওয়াশিংটন ডিসি' },
+  'philadelphia': { en: 'Philadelphia', es: 'Filadelfia', fr: 'Philadelphie', pt: 'Filadélfia', zh: '费城', hi: 'फिलाडेल्फिया', ar: 'فيلادلفيا', ru: 'Филадельфия', ja: 'フィラデルフィア', bn: 'ফিলাডেলফিয়া' },
+  'indianapolis': { en: 'Indianapolis', es: 'Indianápolis', fr: 'Indianapolis', pt: 'Indianápolis', zh: '印第安纳波利斯', hi: 'इंडियानापोलिस', ar: 'إنديانابوليس', ru: 'Индианаполис', ja: 'インディアナポリス', bn: 'ইন্ডিয়ানাপোলিস' },
+  'new-orleans': { en: 'New Orleans', es: 'Nueva Orleans', fr: 'La Nouvelle-Orléans', pt: 'Nova Orleans', zh: '新奥尔良', hi: 'न्यू ऑरलियन्स', ar: 'نيو أورليانز', ru: 'Новый Орлеан', ja: 'ニューオーリンズ', bn: 'নিউ অরলিন্স' },
+  'minneapolis': { en: 'Minneapolis', es: 'Minneápolis', fr: 'Minneapolis', pt: 'Minneapolis', zh: '明尼阿波利斯', hi: 'मिनियापोलिस', ar: 'منيابولس', ru: 'Миннеаполис', ja: 'ミネアポリス', bn: 'মিনিয়াপোলিস' },
+  'st-louis': { en: 'St. Louis', es: 'San Luis', fr: 'Saint-Louis', pt: 'Saint Louis', zh: '圣路易斯', hi: 'सेंट लुइस', ar: 'سانت لويس', ru: 'Сент-Луис', ja: 'セントルイス', bn: 'সেন্ট লুইস' },
+  'los-angeles': { en: 'Los Angeles', es: 'Los Ángeles', fr: 'Los Angeles', pt: 'Los Angeles', zh: '洛杉矶', hi: 'लॉस एंजिल्स', ar: 'لوس أنجلوس', ru: 'Лос-Анджелес', ja: 'ロサンゼルス', bn: 'লস অ্যাঞ্জেলেস' },
+  'san-francisco': { en: 'San Francisco', es: 'San Francisco', fr: 'San Francisco', pt: 'São Francisco', zh: '旧金山', hi: 'सैन फ्रांसिस्को', ar: 'سان فرانسيسكو', ru: 'Сан-Франциско', ja: 'サンフランシスコ', bn: 'সান ফ্রান্সিসকো' },
+  'san-diego': { en: 'San Diego', es: 'San Diego', fr: 'San Diego', pt: 'San Diego', zh: '圣迭戈', hi: 'सैन डिएगो', ar: 'سان دييغو', ru: 'Сан-Диего', ja: 'サンディエゴ', bn: 'সান দিয়েগো' },
+  'san-jose-ca': { en: 'San Jose (CA)', es: 'San José (CA)', fr: 'San José (CA)', pt: 'San José (CA)', zh: '圣何塞 (加州)', hi: 'सैन जोस (सीए)', ar: 'سان خوسيه (كاليفورنيا)', ru: 'Сан-Хосе (Калифорния)', ja: 'サンノゼ (カリフォルニア)', bn: 'সান জোসে (সিএ)' },
+  'la-habana': { en: 'Havana', es: 'La Habana', fr: 'La Havane', pt: 'Havana', zh: '哈瓦那', hi: 'हवाना', ar: 'هافانا', ru: 'Гавана', ja: 'ハバナ', bn: 'হাভানা' },
+  'mexico-city': { en: 'Mexico City', es: 'Ciudad de México', fr: 'Mexico', pt: 'Cidade do México', zh: '墨西哥城', hi: 'मेक्सिको सिटी', ar: 'مدينة مكسيكو', ru: 'Мехико', ja: 'メキシコシティ', bn: 'মেক্সিকো সিটি' },
+  'bogota': { en: 'Bogota', es: 'Bogotá', fr: 'Bogota', pt: 'Bogotá', zh: '波哥大', hi: 'बोगोटा', ar: 'بوغوتا', ru: 'Богота', ja: 'ボゴタ', bn: 'বোগোটা' },
+  'sao-paulo': { en: 'Sao Paulo', es: 'São Paulo', fr: 'São Paulo', pt: 'São Paulo', zh: '圣保罗', hi: 'साओ पाउलो', ar: 'ساو باولو', ru: 'Сан-Паулу', ja: 'サンパウロ', bn: 'সাঁও পাওলো' },
+  'panama': { en: 'Panama City', es: 'Ciudad de Panamá', fr: 'Panama', pt: 'Cidade do Panamá', zh: '巴拿马城', hi: 'पनामा सिटी', ar: 'بنما سيتي', ru: 'Панама', ja: 'パナマ市', bn: 'পানামা সিটি' },
+  'london': { en: 'London', es: 'Londres', fr: 'Londres', pt: 'Londres', zh: '伦敦', hi: 'लंदन', ar: 'لندن', ru: 'Лондон', ja: 'ロンドン', bn: 'লন্ডন' },
+  'paris': { en: 'Paris', es: 'París', fr: 'Paris', pt: 'Paris', zh: '巴黎', hi: 'पेरिस', ar: 'باريس', ru: 'Париж', ja: 'パリ', bn: 'প্যারিস' },
+  'berlin': { en: 'Berlin', es: 'Berlín', fr: 'Berlin', pt: 'Berlim', zh: '柏林', hi: 'बर्लिन', ar: 'برلين', ru: 'Берлин', ja: 'ベルリン', bn: 'বার্লিন' },
+  'rome': { en: 'Rome', es: 'Roma', fr: 'Rome', pt: 'Roma', zh: '罗马', hi: 'रोम', ar: 'روما', ru: 'Рим', ja: 'ローマ', bn: 'রোম' },
+  'amsterdam': { en: 'Amsterdam', es: 'Ámsterdam', fr: 'Amsterdam', pt: 'Amsterdã', zh: '阿姆斯特丹', hi: 'एम्स्टर्डम', ar: 'أمستردام', ru: 'Амстердам', ja: 'アムステルダム', bn: 'আমস্টারডাম' },
+  'lisbon': { en: 'Lisbon', es: 'Lisboa', fr: 'Lisbonne', pt: 'Lisboa', zh: '里斯本', hi: 'लिस्बन', ar: 'لشبونة', ru: 'Лиссабон', ja: 'リスボン', bn: 'লিসবন' },
+  'brussels': { en: 'Brussels', es: 'Bruselas', fr: 'Bruxelles', pt: 'Bruxelas', zh: '布鲁塞尔', hi: 'ब्रुसेल्स', ar: 'بروكسل', ru: 'Брюссель', ja: 'ブリュッセル', bn: 'ব্রাসেলস' },
+  'vienna': { en: 'Vienna', es: 'Viena', fr: 'Vienne', pt: 'Viena', zh: '维也纳', hi: 'वियना', ar: 'فيينا', ru: 'Вена', ja: 'ウィーン', bn: 'ভিয়েনা' },
+  'athens': { en: 'Athens', es: 'Atenas', fr: 'Athènes', pt: 'Atenas', zh: '雅典', hi: 'एथेंस', ar: 'أثينا', ru: 'Афины', ja: 'アテネ', bn: 'এথেন্স' },
+  'zurich': { en: 'Zurich', es: 'Zúrich', fr: 'Zurich', pt: 'Zurique', zh: '苏黎世', hi: 'ज्यूरिख', ar: 'زيورخ', ru: 'Цюрих', ja: 'チューリッヒ', bn: 'জুরিখ' },
+  'moscow': { en: 'Moscow', es: 'Moscú', fr: 'Moscou', pt: 'Moscou', zh: '莫斯科', hi: 'मास्को', ar: 'موسكو', ru: 'Москва', ja: 'モスクワ', bn: 'মস্কো' },
+  'tokyo': { en: 'Tokyo', es: 'Tokio', fr: 'Tokyo', pt: 'Tóquio', zh: '东京', hi: 'टोक्यो', ar: 'طوكيو', ru: 'Токио', ja: '東京', bn: 'টোকিও' },
+  'seoul': { en: 'Seoul', es: 'Seúl', fr: 'Séoul', pt: 'Seul', zh: '首尔', hi: 'सियोल', ar: 'سيول', ru: 'Сеул', ja: 'ソウル', bn: 'সিওল' },
+  'beijing': { en: 'Beijing', es: 'Pekín', fr: 'Pékin', pt: 'Pequim', zh: '北京', hi: 'बीजिंग', ar: 'بكين', ru: 'Пекин', ja: '北京', bn: 'বেইজিং' },
+  'singapore': { en: 'Singapore', es: 'Singapur', fr: 'Singapour', pt: 'Singapura', zh: '新加坡', hi: 'सिंगापुर', ar: 'سنغافورة', ru: 'Сингапур', ja: 'シンガポール', bn: 'সিঙ্গাপুর' },
+  'new-delhi': { en: 'New Delhi', es: 'Nueva Delhi', fr: 'New Delhi', pt: 'Nova Déli', zh: '新德里', hi: 'नई दिल्ली', ar: 'نيودلهي', ru: 'Нью-Дели', ja: 'ニューデリー', bn: 'নয়াদিল্লি' },
+  'dubai': { en: 'Dubai', es: 'Dubái', fr: 'Dubaï', pt: 'Dubai', zh: '迪拜', hi: 'दुबई', ar: 'دبي', ru: 'Дубай', ja: 'ドバイ', bn: 'দুবাই' },
+  'istanbul': { en: 'Istanbul', es: 'Estambul', fr: 'Istanbul', pt: 'Istambul', zh: '伊斯坦布尔', hi: 'इस्तांबुल', ar: 'إسطنبول', ru: 'Стамбул', ja: 'イスタンブール', bn: 'ইস্তাম্বুল' },
+  'cairo': { en: 'Cairo', es: 'El Cairo', fr: 'Le Caire', pt: 'Cairo', zh: '开罗', hi: 'काहिरा', ar: 'القاهرة', ru: 'Каир', ja: 'カイロ', bn: 'কায়রো' },
+  'johannesburg': { en: 'Johannesburg', es: 'Johannesburgo', fr: 'Johannesbourg', pt: 'Joanesburgo', zh: '约翰内斯堡', hi: 'जोहान्सबर्ग', ar: 'جوهانسبرغ', ru: 'Йоханнесбург', ja: 'ヨハネスブルグ', bn: 'জোহানেসবার্গ' },
+  'sydney': { en: 'Sydney', es: 'Sídney', fr: 'Sydney', pt: 'Sydney', zh: '悉尼', hi: 'सिडनी', ar: 'سيدني', ru: 'Сидней', ja: 'シドニー', bn: 'সিডনি' },
+  'stockholm': { en: 'Stockholm', es: 'Estocolmo', fr: 'Stockholm', pt: 'Estocolmo', zh: '斯德哥尔摩', hi: 'स्टॉकहोम', ar: 'ستوكهولم', ru: 'Стокгольм', ja: 'ストックホルム', bn: 'স্টকহোম' },
+  'copenhagen': { en: 'Copenhagen', es: 'Copenhague', fr: 'Copenhague', pt: 'Copenhague', zh: '哥本哈根', hi: 'कोपेनहेगन', ar: 'كوبنهاغن', ru: 'Копенгаген', ja: 'コペンハーゲン', bn: 'কোপেনহেগেন' },
+  'reykjavik': { en: 'Reykjavik', es: 'Reikiavik', fr: 'Reykjavik', pt: 'Reykjavik', zh: '雷克雅未克', hi: 'रेकजाविक', ar: 'ريكيافيك', ru: 'Рейкьявик', ja: 'レイキャビク', bn: 'রেকিয়াভিক' },
+  'dublin': { en: 'Dublin', es: 'Dublín', fr: 'Dublin', pt: 'Dublin', zh: '都柏林', hi: 'डबलिन', ar: 'دبلن', ru: 'Дублин', ja: 'ダブリン', bn: 'ডাবলিন' },
+  'warsaw': { en: 'Warsaw', es: 'Varsovia', fr: 'Varsovie', pt: 'Varsóvia', zh: '华沙', hi: 'वारसॉ', ar: 'وارسو', ru: 'Варшава', ja: 'ワルシャワ', bn: 'ওয়ারশ' },
+  'prague': { en: 'Prague', es: 'Praga', fr: 'Prague', pt: 'Praga', zh: '布拉格', hi: 'प्राग', ar: 'براغ', ru: 'Прага', ja: 'プラハ', bn: 'প্রাগ' },
+  'bucharest': { en: 'Bucharest', es: 'Bucarest', fr: 'Bucarest', pt: 'Bucareste', zh: '布加勒斯特', hi: 'बुखारेस्ट', ar: 'بوخارست', ru: 'Бухарест', ja: 'ブカレスト', bn: 'বুখারেস্ট' },
+  'kyiv': { en: 'Kyiv', es: 'Kiev', fr: 'Kyiv', pt: 'Kiev', zh: '基辅', hi: 'कीव', ar: 'كييف', ru: 'Киев', ja: 'キーウ', bn: 'কিয়েভ' },
+  'belgrade': { en: 'Belgrade', es: 'Belgrado', fr: 'Belgrade', pt: 'Belgrado', zh: '贝尔格莱德', hi: 'बेलग्रेड', ar: 'بلغراد', ru: 'Белград', ja: 'ベオグラード', bn: 'বেলগ্রেড' },
+  'jakarta': { en: 'Jakarta', es: 'Yakarta', fr: 'Jakarta', pt: 'Jacarta', zh: '雅加达', hi: 'जकार्ता', ar: 'جاكرتا', ru: 'Джакарта', ja: 'ジャカルタ', bn: 'জাকার্তা' },
+  'hanoi': { en: 'Hanoi', es: 'Hanói', fr: 'Hanoï', pt: 'Hanói', zh: '河内', hi: 'हनोई', ar: 'هانوي', ru: 'Ханой', ja: 'ハノイ', bn: 'হ্যানয়' },
+  'ho-chi-minh': { en: 'Ho Chi Minh City', es: 'Ciudad Ho Chi Minh', fr: 'Hô Chi Minh-Ville', pt: 'Cidade de Ho Chi Minh', zh: '胡志明市', hi: 'हो ची मिन्ह सिटी', ar: 'مدينة هو تشي منه', ru: 'Хошимин', ja: 'ホーチミン市', bn: 'হো চি মিন সিটি' },
+  'taipei': { en: 'Taipei', es: 'Taipéi', fr: 'Taipei', pt: 'Taipei', zh: '台北', hi: 'ताइपे', ar: 'تايبيه', ru: 'Тайбэй', ja: '台北', bn: 'তাইপেই' },
+  'kathmandu': { en: 'Kathmandu', es: 'Katmandú', fr: 'Katmandou', pt: 'Catmandu', zh: '加德满都', hi: 'काठमांडू', ar: 'كاتماندو', ru: 'Катманду', ja: 'カトマンズ', bn: 'কাঠমান্ডু' },
+  'dhaka': { en: 'Dhaka', es: 'Daca', fr: 'Dacca', pt: 'Daca', zh: '达卡', hi: 'ढाका', ar: 'دكا', ru: 'Дакка', ja: 'ダッカ', bn: 'ঢাকা' },
+  'ulaanbaatar': { en: 'Ulaanbaatar', es: 'Ulán Bator', fr: 'Oulan-Bator', pt: 'Ulan Bator', zh: '乌兰巴托', hi: 'उलानबटार', ar: 'أولان باتور', ru: 'Улан-Батор', ja: 'ウランバートル', bn: 'উলানবাটর' },
+  'riyadh': { en: 'Riyadh', es: 'Riad', fr: 'Riyad', pt: 'Riade', zh: '利雅得', hi: 'रियाद', ar: 'الرياض', ru: 'Эр-Рияд', ja: 'リヤド', bn: 'রিয়াদ' },
+  'jeddah': { en: 'Jeddah', es: 'Yeda', fr: 'Djeddah', pt: 'Jidá', zh: '吉达', hi: 'जेद्दा', ar: 'جدة', ru: 'Джидда', ja: 'ジッダ', bn: 'জেদ্দা' },
+  'tehran': { en: 'Tehran', es: 'Teherán', fr: 'Téhéran', pt: 'Teerã', zh: '德黑兰', hi: 'तेहरान', ar: 'طهران', ru: 'Тегеран', ja: 'テヘラン', bn: 'তেহরান' },
+  'kuwait-city': { en: 'Kuwait City', es: 'Ciudad de Kuwait', fr: 'Koweït', pt: 'Cidade do Kuwait', zh: '科威特城', hi: 'कुवैत सिटी', ar: 'مدينة الكويت', ru: 'Эль-Кувейт', ja: 'クウェート市', bn: 'কুয়েত সিটি' },
+  'addis-ababa': { en: 'Addis Ababa', es: 'Adís Abeba', fr: 'Addis-Abeba', pt: 'Adis Abeba', zh: '亚的斯亚贝巴', hi: 'अदीस अबाबा', ar: 'أديس أबाबा', ru: 'Аддис-Абеба', ja: 'アディスアベバ', bn: 'আদ্দিস আবাবা' },
+  'accra': { en: 'Accra', es: 'Acra', fr: 'Accra', pt: 'Acra', zh: '阿克拉', hi: 'अकरा', ar: 'أكرا', ru: 'Аккра', ja: 'アクラ', bn: 'আক্রা' },
+  'algiers': { en: 'Algiers', es: 'Argel', fr: 'Alger', pt: 'Argel', zh: '阿尔及尔', hi: 'अल्जीयर्स', ar: 'الجزائر', ru: 'Алжир', ja: 'アルジェ', bn: 'আলজিয়ার্স' },
+  'cape-town': { en: 'Cape Town', es: 'Ciudad del Cabo', fr: 'Le Cap', pt: 'Cidade do Cabo', zh: '开普敦', hi: 'केप टाउन', ar: 'كيب تاون', ru: 'Кейптаун', ja: 'ケープタウン', bn: 'কেপ টাউন' },
+  'guatemala-city': { en: 'Guatemala City', es: 'Ciudad de Guatemala', fr: 'Guatemala', pt: 'Cidade da Guatemala', zh: '危地马拉城', hi: 'ग्वाटेमाला सिटी', ar: 'مدينة غواتيمالا', ru: 'Гватемала', ja: 'グアテマラシティ', bn: 'গুয়াতেমালা সিটি' },
+  'adelaide': { en: 'Adelaide', es: 'Adelaida', fr: 'Adélaïde', pt: 'Adelaide', zh: '阿德莱德', hi: 'एडिलेड', ar: 'أديلايد', ru: 'Аделаида', ja: 'アデレード', bn: 'অ্যাডিলেড' }
+};
+
+export function getTranslatedCity(city: TranslatableCity, langCode: string): string {
+  if (!city) return '';
+  const normLang = langCode.split('-')[0];
+  const translations = CITY_NAME_TRANSLATIONS[city.id];
+  if (translations && translations[normLang]) {
+    return translations[normLang];
+  }
+  if (normLang === 'en' && translations && translations.en) {
+    return translations.en;
+  }
+  return city.name;
+}
+
+export function getCitySeoSlug(city: TranslatableCity, langCode: string): string {
+  if (!city) return '';
+  const normLang = langCode.split('-')[0];
+  if (normLang === 'en') {
+    return `time-in-${city.id}`;
+  }
+  return city.seoSlug || `hora-en-${city.id}`;
 }
 
 export const useLanguage = (): LanguageContextType => {

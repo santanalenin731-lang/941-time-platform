@@ -3,7 +3,6 @@ import { Header } from './components/Header';
 import { HeroClock } from './components/HeroClock';
 import { WorldClock } from './components/WorldClock';
 import { TimeComparator } from './components/TimeComparator';
-import { ToolsSection } from './components/ToolsSection';
 import { Stopwatch } from './components/Stopwatch';
 import { Timer } from './components/Timer';
 import { Alarm } from './components/Alarm';
@@ -17,12 +16,13 @@ import { BlogListPage } from './components/BlogListPage';
 import { BlogPostPage } from './components/BlogPostPage';
 import { CITIES_DATABASE, City, getDetectedUserCity } from './data/cities';
 import { getBlogPostBySlug } from './data/blogPosts';
-import { LanguageProvider } from './lib/i18n.tsx';
+import { LanguageProvider, useLanguage, getTranslatedCity, getTranslatedCountry, getCitySeoSlug } from './lib/i18n.tsx';
 import { trackPageView, trackCitySelect } from './lib/firebase';
 
-export type TabType = 'home' | 'world-clock' | 'compare' | 'tools' | 'stopwatch' | 'timer' | 'alarm' | 'about' | 'privacy' | 'blog';
+export type TabType = 'home' | 'world-clock' | 'compare' | 'stopwatch' | 'timer' | 'alarm' | 'about' | 'privacy' | 'blog';
 
 const AppContent: React.FC = () => {
+  const { languageInfo } = useLanguage();
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [activeBlogSlug, setActiveBlogSlug] = useState<string | null>(null);
   const [primaryCity, setPrimaryCity] = useState<City>(() => getDetectedUserCity());
@@ -68,16 +68,22 @@ const AppContent: React.FC = () => {
         pageTitle = `Blog 9:41 AM — ${activeBlogSlug}`;
       } else {
         window.location.hash = 'blog';
-        pageTitle = 'Blog 9:41 AM — Inteligencia Horaria, Tiempo & Cultura Tech';
+        pageTitle = languageInfo.code === 'en'
+          ? 'Blog 9:41 AM — Time Intelligence & Tech Culture'
+          : 'Blog 9:41 AM — Inteligencia Horaria, Tiempo & Cultura Tech';
       }
     } else if (primaryCity) {
-      const slug = primaryCity.seoSlug || `hora-en-${primaryCity.id}`;
+      const cityName = getTranslatedCity(primaryCity, languageInfo.code);
+      const countryName = getTranslatedCountry(primaryCity.countryCode, languageInfo.locale, primaryCity.country);
+      const slug = getCitySeoSlug(primaryCity, languageInfo.code);
       window.location.hash = slug;
-      pageTitle = primaryCity.seoTitle || `Hora exacta en ${primaryCity.name}`;
+      pageTitle = languageInfo.code === 'en'
+        ? `Exact time in ${cityName}, ${countryName} — 9:41 AM`
+        : `Hora exacta en ${cityName}, ${countryName} — 9:41 AM`;
     }
     document.title = pageTitle;
     trackPageView(pageTitle);
-  }, [primaryCity, activeTab, activeBlogSlug]);
+  }, [primaryCity, activeTab, activeBlogSlug, languageInfo]);
 
   // Initial SEO Hash Resolution on Load
   useEffect(() => {
@@ -91,7 +97,8 @@ const AppContent: React.FC = () => {
         setActiveTab('blog');
         setActiveBlogSlug(slug);
       } else {
-        const matched = CITIES_DATABASE.find(c => c.seoSlug === hash || c.id === hash.replace('hora-en-', ''));
+        const cleanSlug = hash.replace('hora-en-', '').replace('time-in-', '');
+        const matched = CITIES_DATABASE.find(c => c.seoSlug === hash || c.id === cleanSlug);
         if (matched) {
           setPrimaryCity(matched);
         }
@@ -194,10 +201,6 @@ const AppContent: React.FC = () => {
           />
         )}
 
-        {activeTab === 'tools' && (
-          <ToolsSection />
-        )}
-
         {activeTab === 'stopwatch' && (
           <Stopwatch />
         )}
@@ -207,7 +210,7 @@ const AppContent: React.FC = () => {
         )}
 
         {activeTab === 'alarm' && (
-          <Alarm />
+          <Alarm is24Hour={is24Hour} />
         )}
 
         {activeTab === 'blog' && (

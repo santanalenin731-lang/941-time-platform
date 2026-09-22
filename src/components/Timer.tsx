@@ -3,7 +3,7 @@ import { Play, Pause, RotateCcw } from 'lucide-react';
 import { useLanguage } from '../lib/i18n.tsx';
 
 export const Timer: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, languageInfo } = useLanguage();
   const [isRunning, setIsRunning] = useState(false);
   const [initialTimeMs, setInitialTimeMs] = useState(5 * 60 * 1000); // Default 5 mins
   const [timeMs, setTimeMs] = useState(5 * 60 * 1000);
@@ -99,7 +99,7 @@ export const Timer: React.FC = () => {
             }}
           >
             {isRunning ? <Pause size={18} /> : <Play size={18} />}
-            <span>{isRunning ? 'Pause' : 'Start'}</span>
+            <span>{isRunning ? (languageInfo.code === 'es' ? 'Pausar' : 'Pause') : (languageInfo.code === 'es' ? 'Iniciar' : 'Start')}</span>
           </button>
 
           <button
@@ -123,7 +123,7 @@ export const Timer: React.FC = () => {
             }}
           >
             <RotateCcw size={18} />
-            <span>Reset</span>
+            <span>{languageInfo.code === 'es' ? 'Reiniciar' : 'Reset'}</span>
           </button>
         </div>
       </div>

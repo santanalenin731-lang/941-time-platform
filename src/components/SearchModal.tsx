@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CITIES_DATABASE, City } from '../data/cities';
 import { getTimeInTimezone } from '../lib/timeEngine';
 import { Search, X } from 'lucide-react';
-import { useLanguage, getTranslatedCountry } from '../lib/i18n.tsx';
+import { useLanguage, getTranslatedCountry, getTranslatedCity, getTranslatedRegion, getCitySeoSlug } from '../lib/i18n.tsx';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -43,12 +43,22 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
   if (!isOpen) return null;
 
   const filteredCities = CITIES_DATABASE.filter(city => {
+    if (!query.trim()) return true;
     const q = query.toLowerCase().trim();
+    const transName = getTranslatedCity(city, languageInfo.code).toLowerCase();
+    const transCountry = getTranslatedCountry(city.countryCode, languageInfo.locale, city.country).toLowerCase();
+    const transRegion = getTranslatedRegion(city.region, languageInfo.code).toLowerCase();
+    const localizedSlug = getCitySeoSlug(city, languageInfo.code).toLowerCase();
+
     return (
       city.name.toLowerCase().includes(q) ||
+      transName.includes(q) ||
       city.country.toLowerCase().includes(q) ||
+      transCountry.includes(q) ||
       city.timezone.toLowerCase().includes(q) ||
       city.region.toLowerCase().includes(q) ||
+      transRegion.includes(q) ||
+      localizedSlug.includes(q) ||
       (city.seoSlug && city.seoSlug.toLowerCase().includes(q))
     );
   });
@@ -123,8 +133,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
             </div>
           ) : (
             filteredCities.map((city) => {
-              const time = getTimeInTimezone(city.timezone, false, false);
-              const seoSlug = city.seoSlug || `hora-en-${city.id}`;
+              const time = getTimeInTimezone(city.timezone, false, false, 0, languageInfo.locale);
+              const seoSlug = getCitySeoSlug(city, languageInfo.code);
               return (
                 <div
                   key={city.id}
@@ -150,10 +160,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
                     <div style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--color-navy)' }}>
-                      {city.name}
+                      {getTranslatedCity(city, languageInfo.code)}
                     </div>
                     <div style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)' }}>
-                      {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)} · {city.region}
+                      {getTranslatedCountry(city.countryCode, languageInfo.locale, city.country)} · {getTranslatedRegion(city.region, languageInfo.code)}
                     </div>
                     {/* SEO Friendly Link Banner Badge */}
                     <div style={{
@@ -165,7 +175,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
                       gap: '0.25rem',
                       marginTop: '0.15rem'
                     }}>
-                      <span>🔗 941.am/#{seoSlug}</span>
+                      <span>941.am/#{seoSlug}</span>
                     </div>
                   </div>
 
