@@ -233,8 +233,8 @@ export const PWAInstallButton: React.FC = () => {
         aria-label="PWA Installation"
         style={{
           position: 'fixed',
-          bottom: '22px',
-          right: '22px',
+          bottom: 'calc(24px + env(safe-area-inset-bottom, 0px))',
+          right: 'calc(18px + env(safe-area-inset-right, 0px))',
           zIndex: 9999,
           display: 'flex',
           alignItems: 'center',

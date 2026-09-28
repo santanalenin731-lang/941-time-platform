@@ -177,12 +177,21 @@ export function getTimeInTimezone(
     ? `${hoursStr}:${minsStr}:${secsStr}`
     : `${hoursStr}:${minsStr}`;
 
+  // Calculate 24-hour integer for accurate timeline matching
+  const hour24Formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    hour: 'numeric',
+    hour12: false
+  });
+  const hour24Str = hour24Formatter.format(targetTime);
+  const hours24 = parseInt(hour24Str, 10) % 24;
+
   return {
     timeString: timeFormatter.format(targetTime),
     timeDigits,
     dateString: dateFormatter.format(targetTime),
     utcOffset: tzNamePart,
-    hours: parseInt(hoursStr, 10),
+    hours: hours24,
     minutes: parseInt(minsStr, 10),
     seconds: parseInt(secsStr, 10),
     period: period.toUpperCase(),

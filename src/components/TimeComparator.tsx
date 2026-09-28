@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
-import { getTimeInTimezone, getTimeDifference } from '../lib/timeEngine';
-import { Users } from 'lucide-react';
+import { getTimeInTimezone, getTimeDifference, findBestMeetingTime } from '../lib/timeEngine';
+import { Users, ArrowLeftRight, CalendarCheck, Clock, Sparkles } from 'lucide-react';
 import { useLanguage, getTranslatedCountry, getTranslatedCity } from '../lib/i18n.tsx';
+import '../styles/comparator.css';
 
 interface TimeComparatorProps {
   initialCityA?: City;
   initialCityB?: City;
   is24Hour: boolean;
+}
+
+interface TimelineSlotData {
+  hourIndex: number;
+  timeLabel: string;
+  cityAHour: number;
+  cityAHourDisplay: string;
+  cityBHour: number;
+  cityBHourDisplay: string;
+  isWorkA: boolean;
+  isWorkB: boolean;
+  isMutual: boolean;
+  isCurrentA: boolean;
+  isCurrentB: boolean;
 }
 
 export const TimeComparator: React.FC<TimeComparatorProps> = ({
@@ -18,75 +33,161 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
   const [cityA, setCityA] = useState<City>(initialCityA);
   const [cityB, setCityB] = useState<City>(initialCityB);
   const { languageInfo, t } = useLanguage();
+  const timelineScrollRef = useRef<HTMLDivElement>(null);
 
+  // Sync state if initial props change
+  useEffect(() => {
+    if (initialCityA) setCityA(initialCityA);
+  }, [initialCityA]);
+
+  useEffect(() => {
+    if (initialCityB) setCityB(initialCityB);
+  }, [initialCityB]);
+
+  // Current real-time clocks for both cities
   const timeA = getTimeInTimezone(cityA.timezone, is24Hour, true, 0, languageInfo.locale);
   const timeB = getTimeInTimezone(cityB.timezone, is24Hour, true, 0, languageInfo.locale);
   const diff = getTimeDifference(cityA, cityB, languageInfo.locale);
 
-  // Generate 24-hour timeline slots
-  const hoursArray = Array.from({ length: 24 }, (_, i) => i);
+  // Swap cities handler
+  const handleSwapCities = () => {
+    const temp = cityA;
+    setCityA(cityB);
+    setCityB(temp);
+  };
+
+  // Format hour label based on 12/24 hour format
+  const formatHourString = (hour24: number, full: boolean = false): string => {
+    if (is24Hour) {
+      return full ? `${hour24}:00` : `${hour24}`;
+    }
+    const period = hour24 >= 12 ? 'PM' : 'AM';
+    const h12 = hour24 % 12 || 12;
+    return full ? `${h12}:00 ${period}` : `${h12} ${period}`;
+  };
+
+  // Generate synchronized 24-hour slots for City A and City B
+  const timelineSlots = useMemo<TimelineSlotData[]>(() => {
+    const now = new Date();
+    const curAHours24 = timeA.hours;
+    const curAMinutes = timeA.minutes;
+    const curBHours24 = timeB.hours;
+
+    const slots: TimelineSlotData[] = [];
+
+    for (let hA = 0; hA < 24; hA++) {
+      // Calculate universal timestamp when City A is at hour hA:00 today
+      const slotTime = new Date(now.getTime() + (hA - curAHours24) * 3600000 - curAMinutes * 60000);
+
+      // Extract City B's 24-hour hour at this exact moment
+      const partsB = new Intl.DateTimeFormat('en-US', {
+        timeZone: cityB.timezone,
+        hour: 'numeric',
+        hour12: false
+      }).formatToParts(slotTime);
+      const hBPart = partsB.find(p => p.type === 'hour')?.value || '0';
+      const hB24 = parseInt(hBPart, 10) % 24;
+
+      const isWorkA = hA >= 9 && hA <= 17;
+      const isWorkB = hB24 >= 9 && hB24 <= 17;
+      const isMutual = isWorkA && isWorkB;
+
+      slots.push({
+        hourIndex: hA,
+        timeLabel: formatHourString(hA, false),
+        cityAHour: hA,
+        cityAHourDisplay: formatHourString(hA, false),
+        cityBHour: hB24,
+        cityBHourDisplay: formatHourString(hB24, false),
+        isWorkA,
+        isWorkB,
+        isMutual,
+        isCurrentA: hA === curAHours24,
+        isCurrentB: hB24 === curBHours24
+      });
+    }
+
+    return slots;
+  }, [cityA.timezone, cityB.timezone, timeA.hours, timeA.minutes, timeB.hours, is24Hour]);
+
+  // Compute Mutual Working Overlap Range
+  const mutualOverlap = useMemo(() => {
+    const mutuals = timelineSlots.filter(s => s.isMutual);
+    if (mutuals.length === 0) {
+      // Calculate alternative recommendation from timeEngine
+      const alt = findBestMeetingTime([cityA, cityB]);
+      return {
+        hasOverlap: false,
+        count: 0,
+        alt
+      };
+    }
+
+    const first = mutuals[0];
+    const last = mutuals[mutuals.length - 1];
+
+    const startAStr = formatHourString(first.cityAHour, true);
+    const endAStr = formatHourString((last.cityAHour + 1) % 24, true);
+
+    const startBStr = formatHourString(first.cityBHour, true);
+    const endBStr = formatHourString((last.cityBHour + 1) % 24, true);
+
+    return {
+      hasOverlap: true,
+      count: mutuals.length,
+      startA: startAStr,
+      endA: endAStr,
+      startB: startBStr,
+      endB: endBStr
+    };
+  }, [timelineSlots, cityA, cityB, is24Hour]);
+
+  // Determine if dates differ between cities
+  const dateDiffBadge = useMemo(() => {
+    if (timeA.dateString === timeB.dateString) return null;
+    if (diff.diffHours > 0) {
+      return '+1 d';
+    } else if (diff.diffHours < 0) {
+      return '-1 d';
+    }
+    return null;
+  }, [timeA.dateString, timeB.dateString, diff.diffHours]);
+
+  // Auto-scroll timeline towards the current hour or mutual overlap on mobile
+  useEffect(() => {
+    if (timelineScrollRef.current) {
+      const targetHour = timelineSlots.find(s => s.isMutual)?.cityAHour ?? timeA.hours;
+      // Scroll proportionally (approx 29px per column)
+      const scrollPos = Math.max(0, targetHour * 29 - 80);
+      timelineScrollRef.current.scrollTo({ left: scrollPos, behavior: 'smooth' });
+    }
+  }, [cityA.id, cityB.id]);
 
   return (
-    <div style={{
-      maxWidth: '1000px',
-      margin: '2rem auto',
-      padding: '2rem 1.5rem',
-      background: 'var(--color-bg-card)',
-      borderRadius: 'var(--radius-lg)',
-      boxShadow: 'var(--shadow-card)',
-      border: '1px solid var(--color-border)'
-    }}>
+    <div className="tc-container">
       {/* Header */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          fontFamily: 'var(--font-display)',
-          fontSize: '1.5rem',
-          fontWeight: 800,
-          color: 'var(--color-navy)'
-        }}>
-          <Users size={24} color="var(--color-sky-hover)" />
+      <div className="tc-header">
+        <div className="tc-header-title">
+          <Users size={26} color="var(--color-navy)" />
           <span>{t.comparator.title}</span>
         </div>
       </div>
 
-      {/* Selectors for City A & City B */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr auto 1fr',
-        gap: '1rem',
-        alignItems: 'center',
-        marginBottom: '2rem'
-      }}>
-        {/* City A Selector */}
-        <div style={{
-          padding: '1.25rem',
-          borderRadius: 'var(--radius-md)',
-          background: 'var(--color-bg-secondary)',
-          border: '1px solid var(--color-border)'
-        }}>
-          <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text-muted)', display: 'block', marginBottom: '0.4rem' }}>
+      {/* Responsive Cities & Difference Layout */}
+      <div className="tc-cities-layout">
+        {/* City A Card */}
+        <div className="tc-city-card">
+          <label className="tc-city-label" htmlFor="select-city-a">
             {getTranslatedCity(cityA, languageInfo.code)}
           </label>
           <select
+            id="select-city-a"
+            className="tc-city-select"
             value={cityA.id}
             onChange={(e) => {
               const selected = CITIES_DATABASE.find(c => c.id === e.target.value);
               if (selected) setCityA(selected);
             }}
-            style={{
-              width: '100%',
-              padding: '0.6rem 0.8rem',
-              borderRadius: 'var(--radius-sm)',
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-white)',
-              fontSize: '1rem',
-              fontWeight: 700,
-              color: 'var(--color-navy)',
-              outline: 'none'
-            }}
           >
             {CITIES_DATABASE.map(c => (
               <option key={c.id} value={c.id}>
@@ -95,65 +196,48 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
             ))}
           </select>
 
-          <div style={{ marginTop: '1rem' }}>
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '2.4rem',
-              fontWeight: 700,
-              color: 'var(--color-navy)',
-              lineHeight: 1
-            }}>
+          <div className="tc-city-clock-box">
+            <div className="tc-city-time">
               {timeA.timeString}
             </div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>
-              {timeA.dateString} · {timeA.utcOffset}
+            <div className="tc-city-meta">
+              <span>{timeA.dateString}</span>
+              <span>·</span>
+              <span>{timeA.utcOffset}</span>
             </div>
           </div>
         </div>
 
-        {/* Difference Indicator Box */}
-        <div style={{
-          textAlign: 'center',
-          padding: '0.9rem 1.25rem',
-          borderRadius: 'var(--radius-md)',
-          background: 'var(--color-sky-light)',
-          border: '1px solid var(--color-sky)',
-          color: 'var(--color-navy-deep)',
-          fontWeight: 700,
-          fontSize: '0.9rem',
-          boxShadow: 'var(--shadow-soft)'
-        }}>
-          <div>{t.comparator.difference}</div>
-          <div style={{ fontSize: '1.15rem', color: 'var(--color-navy)', marginTop: '0.2rem' }}>{diff.formattedDiff}</div>
+        {/* Difference & Swap Component */}
+        <div className="tc-diff-container">
+          <div className="tc-diff-badge">
+            <div>{t.comparator.difference}</div>
+            <div className="tc-diff-value">{diff.formattedDiff}</div>
+          </div>
+
+          <button
+            className="tc-swap-btn"
+            onClick={handleSwapCities}
+            title={t.comparator.swapCities}
+            aria-label={t.comparator.swapCities}
+          >
+            <ArrowLeftRight size={18} />
+          </button>
         </div>
 
-        {/* City B Selector */}
-        <div style={{
-          padding: '1.25rem',
-          borderRadius: 'var(--radius-md)',
-          background: 'var(--color-bg-secondary)',
-          border: '1px solid var(--color-border)'
-        }}>
-          <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text-muted)', display: 'block', marginBottom: '0.4rem' }}>
+        {/* City B Card */}
+        <div className="tc-city-card">
+          <label className="tc-city-label" htmlFor="select-city-b">
             {getTranslatedCity(cityB, languageInfo.code)}
           </label>
           <select
+            id="select-city-b"
+            className="tc-city-select"
             value={cityB.id}
             onChange={(e) => {
               const selected = CITIES_DATABASE.find(c => c.id === e.target.value);
               if (selected) setCityB(selected);
             }}
-            style={{
-              width: '100%',
-              padding: '0.6rem 0.8rem',
-              borderRadius: 'var(--radius-sm)',
-              border: '1px solid var(--color-border)',
-              background: 'var(--color-white)',
-              fontSize: '1rem',
-              fontWeight: 700,
-              color: 'var(--color-navy)',
-              outline: 'none'
-            }}
           >
             {CITIES_DATABASE.map(c => (
               <option key={c.id} value={c.id}>
@@ -162,115 +246,168 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
             ))}
           </select>
 
-          <div style={{ marginTop: '1rem' }}>
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '2.4rem',
-              fontWeight: 700,
-              color: 'var(--color-navy)',
-              lineHeight: 1
-            }}>
+          <div className="tc-city-clock-box">
+            <div className="tc-city-time">
               {timeB.timeString}
             </div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>
-              {timeB.dateString} · {timeB.utcOffset}
+            <div className="tc-city-meta">
+              <span>{timeB.dateString}</span>
+              {dateDiffBadge && (
+                <span className="tc-day-tag" title="Day Difference">
+                  {dateDiffBadge}
+                </span>
+              )}
+              <span>·</span>
+              <span>{timeB.utcOffset}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Interactive 24-Hour Visual Timeline */}
-      <div style={{
-        marginTop: '2rem',
-        padding: '1.5rem',
-        background: 'var(--color-bg-secondary)',
-        borderRadius: 'var(--radius-md)',
-        border: '1px solid var(--color-border)'
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '1rem'
-        }}>
-          <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-navy)' }}>
+      {/* Recommended Overlap Intelligence Card */}
+      <div className="tc-overlap-card">
+        <div className="tc-overlap-header">
+          <div className="tc-overlap-title">
+            <CalendarCheck size={19} color="#0284C7" />
+            <span>{t.comparator.mutualWindow}</span>
+          </div>
+          {mutualOverlap.hasOverlap && (
+            <span className="tc-overlap-count-badge">
+              <Sparkles size={13} />
+              {mutualOverlap.count} {mutualOverlap.count === 1 ? t.comparator.hourOverlap : t.comparator.hoursOverlap}
+            </span>
+          )}
+        </div>
+
+        {mutualOverlap.hasOverlap ? (
+          <div className="tc-overlap-times-row">
+            <div className="tc-overlap-city-badge">
+              <span className="tc-overlap-city-name">{getTranslatedCity(cityA, languageInfo.code)}:</span>
+              <span>{mutualOverlap.startA} – {mutualOverlap.endA}</span>
+            </div>
+            <span style={{ color: '#0284C7', fontWeight: 800 }}>⟷</span>
+            <div className="tc-overlap-city-badge">
+              <span className="tc-overlap-city-name">{getTranslatedCity(cityB, languageInfo.code)}:</span>
+              <span>{mutualOverlap.startB} – {mutualOverlap.endB}</span>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div style={{ fontSize: '0.88rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>
+              {t.comparator.noOverlap}
+            </div>
+            {mutualOverlap.alt && mutualOverlap.alt.bestLocalTimes.length >= 2 && (
+              <div className="tc-overlap-times-row">
+                <div className="tc-overlap-city-badge">
+                  <span className="tc-overlap-city-name">{getTranslatedCity(cityA, languageInfo.code)}:</span>
+                  <span>{mutualOverlap.alt.bestLocalTimes[0].localTime}</span>
+                </div>
+                <span style={{ color: '#0284C7', fontWeight: 800 }}>⟷</span>
+                <div className="tc-overlap-city-badge">
+                  <span className="tc-overlap-city-name">{getTranslatedCity(cityB, languageInfo.code)}:</span>
+                  <span>{mutualOverlap.alt.bestLocalTimes[1].localTime}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* 24-Hour Visual Synchronized Timeline */}
+      <div className="tc-timeline-section">
+        <div className="tc-timeline-header">
+          <div className="tc-timeline-title">
             {t.comparator.overlap}
-          </span>
-        </div>
-
-        {/* Timeline Row for City A */}
-        <div style={{ marginBottom: '1.25rem' }}>
-          <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-navy)', marginBottom: '0.3rem' }}>
-            {getTranslatedCity(cityA, languageInfo.code)}
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(24, 1fr)', gap: '2px', height: '36px' }}>
-            {hoursArray.map(hour => {
-              const isWork = hour >= 9 && hour <= 17;
-              const isCurrent = hour === timeA.hours;
-              return (
-                <div
-                  key={hour}
-                  title={`${hour}:00 · ${getTranslatedCity(cityA, languageInfo.code)}`}
-                  style={{
-                    background: isCurrent
-                      ? 'var(--color-navy)'
-                      : isWork
-                      ? 'var(--color-sky-light)'
-                      : '#E2E8F0',
-                    border: isWork ? '1px solid var(--color-sky)' : 'none',
-                    borderRadius: '3px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.68rem',
-                    fontWeight: 700,
-                    color: isCurrent ? 'var(--color-white)' : isWork ? 'var(--color-navy)' : 'var(--color-text-muted)'
-                  }}
-                >
-                  {hour}
-                </div>
-              );
-            })}
+          <div className="tc-scroll-hint">
+            <Clock size={13} />
+            <span>{t.comparator.scrollHint}</span>
           </div>
         </div>
 
-        {/* Timeline Row for City B */}
-        <div>
-          <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-navy)', marginBottom: '0.3rem' }}>
-            {getTranslatedCity(cityB, languageInfo.code)}
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(24, 1fr)', gap: '2px', height: '36px' }}>
-            {hoursArray.map(hour => {
-              const isWork = hour >= 9 && hour <= 17;
-              const isCurrent = hour === timeB.hours;
-              return (
-                <div
-                  key={hour}
-                  title={`${hour}:00 · ${getTranslatedCity(cityB, languageInfo.code)}`}
-                  style={{
-                    background: isCurrent
-                      ? 'var(--color-navy)'
-                      : isWork
-                      ? 'var(--color-sky-light)'
-                      : '#E2E8F0',
-                    border: isWork ? '1px solid var(--color-sky)' : 'none',
-                    borderRadius: '3px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.68rem',
-                    fontWeight: 700,
-                    color: isCurrent ? 'var(--color-white)' : isWork ? 'var(--color-navy)' : 'var(--color-text-muted)'
-                  }}
-                >
-                  {hour}
+        {/* Scrollable Timeline Grid */}
+        <div className="tc-timeline-scroll" ref={timelineScrollRef}>
+          <div className="tc-timeline-grid">
+            {/* Header row with hours */}
+            <div className="tc-hour-header-row">
+              <div />
+              {timelineSlots.map(slot => (
+                <div key={slot.hourIndex} className="tc-hour-header-cell">
+                  {slot.timeLabel}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+
+            {/* City A Row */}
+            <div className="tc-timeline-row">
+              <div className="tc-timeline-city-label" title={getTranslatedCity(cityA, languageInfo.code)}>
+                {getTranslatedCity(cityA, languageInfo.code)}
+              </div>
+              {timelineSlots.map(slot => {
+                const cellClass = slot.isMutual
+                  ? 'is-mutual'
+                  : slot.isWorkA
+                  ? 'is-single-work'
+                  : 'is-off';
+
+                return (
+                  <div
+                    key={slot.hourIndex}
+                    className={`tc-hour-cell ${cellClass} ${slot.isCurrentA ? 'is-current' : ''}`}
+                    title={`${getTranslatedCity(cityA, languageInfo.code)}: ${slot.cityAHourDisplay}`}
+                  >
+                    <span>{slot.cityAHour}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* City B Row */}
+            <div className="tc-timeline-row">
+              <div className="tc-timeline-city-label" title={getTranslatedCity(cityB, languageInfo.code)}>
+                {getTranslatedCity(cityB, languageInfo.code)}
+              </div>
+              {timelineSlots.map(slot => {
+                const cellClass = slot.isMutual
+                  ? 'is-mutual'
+                  : slot.isWorkB
+                  ? 'is-single-work'
+                  : 'is-off';
+
+                return (
+                  <div
+                    key={slot.hourIndex}
+                    className={`tc-hour-cell ${cellClass} ${slot.isCurrentB ? 'is-current' : ''}`}
+                    title={`${getTranslatedCity(cityB, languageInfo.code)}: ${slot.cityBHourDisplay}`}
+                  >
+                    <span>{slot.cityBHour}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Color Legend */}
+        <div className="tc-legend">
+          <div className="tc-legend-item">
+            <span className="tc-legend-box mutual" />
+            <span>{t.comparator.mutualTag}</span>
+          </div>
+          <div className="tc-legend-item">
+            <span className="tc-legend-box single" />
+            <span>{t.comparator.singleTag}</span>
+          </div>
+          <div className="tc-legend-item">
+            <span className="tc-legend-box off" />
+            <span>{t.comparator.offTag}</span>
+          </div>
+          <div className="tc-legend-item">
+            <span className="tc-legend-box current" />
+            <span>{t.comparator.currentTag}</span>
           </div>
         </div>
       </div>
     </div>
   );
 };
-

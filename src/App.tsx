@@ -86,6 +86,23 @@ const AppContent: React.FC = () => {
     trackPageView(pageTitle);
   }, [primaryCity, activeTab, activeBlogSlug, languageInfo]);
 
+  // Scroll to top immediately whenever active tab or blog slug changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [activeTab, activeBlogSlug]);
+
+  const handleNavigate = (tab: TabType) => {
+    setActiveTab(tab);
+    if (tab !== 'blog') {
+      setActiveBlogSlug(null);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  };
+
   // Initial SEO Hash Resolution on Load
   useEffect(() => {
     const hash = window.location.hash.replace('#', '').trim();
@@ -145,10 +162,7 @@ const AppContent: React.FC = () => {
       <Header
         city={primaryCity}
         activeTab={activeTab}
-        setActiveTab={(tab) => {
-          setActiveTab(tab);
-          if (tab !== 'blog') setActiveBlogSlug(null);
-        }}
+        setActiveTab={handleNavigate}
         onOpenSearch={() => setIsSearchOpen(true)}
         is24Hour={is24Hour}
         setIs24Hour={setIs24Hour}
@@ -225,22 +239,22 @@ const AppContent: React.FC = () => {
           ) : (
             <BlogListPage
               onSelectPost={handleSelectBlogPost}
-              onGoHome={() => setActiveTab('home')}
+              onGoHome={() => handleNavigate('home')}
             />
           )
         )}
 
         {activeTab === 'about' && (
-          <AboutPage onGoHome={() => setActiveTab('home')} />
+          <AboutPage onGoHome={() => handleNavigate('home')} />
         )}
 
         {activeTab === 'privacy' && (
-          <PrivacyPage onGoHome={() => setActiveTab('home')} />
+          <PrivacyPage onGoHome={() => handleNavigate('home')} />
         )}
       </main>
 
       {/* Footer */}
-      <Footer onNavigate={setActiveTab} />
+      <Footer onNavigate={handleNavigate} />
 
       {/* Floating PWA Install Button */}
       <PWAInstallButton />

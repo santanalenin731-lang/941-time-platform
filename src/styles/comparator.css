@@ -1,0 +1,472 @@
+/* Meeting Planner & Time Comparator Styles */
+
+.tc-container {
+  max-width: 1040px;
+  margin: 2rem auto;
+  padding: 2rem 1.75rem;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 20px -2px rgba(7, 26, 51, 0.06), 0 2px 6px -1px rgba(7, 26, 51, 0.04);
+  border: 1px solid var(--color-border);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.tc-header {
+  margin-bottom: 1.5rem;
+}
+
+.tc-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-navy);
+}
+
+/* Cities layout: 3-column on desktop, vertical stack on mobile */
+.tc-cities-layout {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.25rem;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+.tc-city-card {
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0; /* Prevents flex/grid blowouts */
+}
+
+.tc-city-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  display: block;
+  margin-bottom: 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tc-city-select {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color var(--transition-fast);
+}
+
+.tc-city-select:focus {
+  border-color: var(--color-sky-hover);
+}
+
+.tc-city-clock-box {
+  margin-top: 1rem;
+}
+
+.tc-city-time {
+  font-family: var(--font-mono);
+  font-size: clamp(1.85rem, 4.5vw, 2.35rem);
+  font-weight: 700;
+  color: var(--color-navy);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tc-city-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tc-day-tag {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--color-sky-light);
+  color: var(--color-navy-deep);
+}
+
+/* Difference & Swap Component */
+.tc-diff-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0 0.25rem;
+}
+
+.tc-diff-badge {
+  text-align: center;
+  padding: 0.85rem 1.15rem;
+  border-radius: var(--radius-md);
+  background: var(--color-sky-light);
+  border: 1px solid var(--color-sky);
+  color: var(--color-navy-deep);
+  font-weight: 700;
+  font-size: 0.88rem;
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15);
+  white-space: nowrap;
+}
+
+.tc-diff-value {
+  font-size: 1.18rem;
+  color: var(--color-navy);
+  margin-top: 0.2rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
+.tc-swap-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 1px solid var(--color-sky);
+  color: var(--color-navy);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.tc-swap-btn:hover {
+  background: var(--color-sky-light);
+  transform: rotate(180deg) scale(1.06);
+}
+
+.tc-swap-btn:active {
+  transform: rotate(180deg) scale(0.96);
+}
+
+/* Recommended Overlap Window Card */
+.tc-overlap-card {
+  background: linear-gradient(135deg, rgba(224, 242, 254, 0.65) 0%, rgba(240, 253, 244, 0.8) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.08);
+}
+
+.tc-overlap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.tc-overlap-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-navy);
+}
+
+.tc-overlap-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: #0284C7;
+  color: #FFFFFF;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.tc-overlap-times-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-navy-dark);
+}
+
+.tc-overlap-city-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: #FFFFFF;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: var(--color-navy);
+  font-family: var(--font-mono);
+}
+
+.tc-overlap-city-name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* 24-Hour Visual Timeline Section */
+.tc-timeline-section {
+  padding: 1.4rem 1.25rem;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.tc-timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tc-timeline-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-navy);
+}
+
+.tc-scroll-hint {
+  font-size: 0.78rem;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+}
+
+/* Horizontal scrollable track */
+.tc-timeline-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  padding-bottom: 0.75rem;
+  margin: 0 -0.25rem;
+}
+
+.tc-timeline-grid {
+  min-width: 740px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tc-timeline-row {
+  display: grid;
+  grid-template-columns: 90px repeat(24, 1fr);
+  gap: 3px;
+  align-items: center;
+}
+
+.tc-timeline-city-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 6px;
+}
+
+.tc-hour-header-row {
+  display: grid;
+  grid-template-columns: 90px repeat(24, 1fr);
+  gap: 3px;
+  margin-bottom: 2px;
+}
+
+.tc-hour-header-cell {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+  text-align: center;
+  font-family: var(--font-mono);
+}
+
+.tc-hour-cell {
+  height: 38px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+  position: relative;
+}
+
+.tc-hour-cell.is-mutual {
+  background: #0284C7;
+  color: #FFFFFF;
+  border: 1px solid #0369A1;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.25);
+}
+
+.tc-hour-cell.is-single-work {
+  background: var(--color-sky-light);
+  color: var(--color-navy-deep);
+  border: 1px solid rgba(56, 189, 248, 0.6);
+}
+
+.tc-hour-cell.is-off {
+  background: #E2E8F0;
+  color: var(--color-text-muted);
+  border: 1px solid transparent;
+}
+
+.tc-hour-cell.is-current {
+  outline: 2px solid var(--color-navy-dark);
+  outline-offset: -1px;
+  font-weight: 800;
+}
+
+.tc-hour-cell:hover {
+  transform: translateY(-1px);
+  z-index: 2;
+}
+
+/* Legend */
+.tc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.tc-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tc-legend-box {
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.tc-legend-box.mutual {
+  background: #0284C7;
+  border: 1px solid #0369A1;
+}
+
+.tc-legend-box.single {
+  background: var(--color-sky-light);
+  border: 1px solid rgba(56, 189, 248, 0.6);
+}
+
+.tc-legend-box.off {
+  background: #E2E8F0;
+}
+
+.tc-legend-box.current {
+  background: #FFFFFF;
+  border: 2px solid var(--color-navy-dark);
+}
+
+/* Mobile & Tablet Adaptations */
+@media (max-width: 768px) {
+  .tc-container {
+    margin: 1rem auto;
+    padding: 1.25rem 0.95rem;
+    border-radius: var(--radius-md);
+  }
+
+  .tc-cities-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: stretch;
+    margin-bottom: 1.4rem;
+  }
+
+  .tc-diff-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.2rem 0;
+  }
+
+  .tc-diff-badge {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1rem;
+    margin-right: 0.6rem;
+  }
+
+  .tc-diff-value {
+    margin-top: 0;
+    font-size: 1.05rem;
+  }
+
+  .tc-swap-btn {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .tc-city-card {
+    padding: 1.1rem;
+  }
+
+  .tc-city-time {
+    font-size: 2.1rem;
+  }
+
+  .tc-overlap-times-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .tc-timeline-section {
+    padding: 1.15rem 0.9rem;
+  }
+}

@@ -58,6 +58,16 @@ export interface Translations {
     addCity: string;
     overlap: string;
     difference: string;
+    mutualWindow: string;
+    noOverlap: string;
+    hoursOverlap: string;
+    hourOverlap: string;
+    scrollHint: string;
+    swapCities: string;
+    mutualTag: string;
+    singleTag: string;
+    offTag: string;
+    currentTag: string;
   };
   tools: {
     title: string;
@@ -130,7 +140,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Arrastra para rotar la Tierra en 3D'
     },
     search: { title: 'Buscar Ciudad o País', placeholder: 'Escribe el nombre de una ciudad...', suggested: 'Ciudades Sugeridas', noResults: 'No se encontraron ciudades' },
-    comparator: { title: 'Planificador de Reuniones', addCity: 'Agregar Ciudad', overlap: 'Horario de Trabajo Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferencia:' },
+    comparator: { title: 'Planificador de Reuniones', addCity: 'Agregar Ciudad', overlap: 'Horario de Trabajo Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferencia:', mutualWindow: 'Ventana de Reunión Recomendada', noOverlap: 'Sin coincidencia directa en horario de oficina (9:00 AM - 5:00 PM)', hoursOverlap: 'horas de coincidencia laboral', hourOverlap: 'hora de coincidencia laboral', scrollHint: 'Desliza para ver las 24 horas', swapCities: 'Intercambiar ciudades', mutualTag: 'Coincidencia laboral', singleTag: 'Oficina (1 ciudad)', offTag: 'Fuera de horario', currentTag: 'Hora actual' },
     tools: { title: 'Herramientas', meetingPlanner: 'Planificador de Reuniones', stopwatch: 'Cronómetro', timer: 'Temporizador', alarm: 'Alarma', converter: 'Convertidor UTC' },
     worldClock: {
       title: 'Reloj Mundial',
@@ -190,7 +200,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Drag to rotate 3D Earth'
     },
     search: { title: 'Search City or Country', placeholder: 'Type a city name...', suggested: 'Suggested Cities', noResults: 'No cities found' },
-    comparator: { title: 'Meeting Planner', addCity: 'Add City', overlap: 'Recommended Working Overlap (9:00 AM - 5:00 PM)', difference: 'Difference:' },
+    comparator: { title: 'Meeting Planner', addCity: 'Add City', overlap: 'Recommended Working Overlap (9:00 AM - 5:00 PM)', difference: 'Difference:', mutualWindow: 'Recommended Meeting Window', noOverlap: 'No direct overlap during business hours (9:00 AM - 5:00 PM)', hoursOverlap: 'hours of working overlap', hourOverlap: 'hour of working overlap', scrollHint: 'Scroll horizontally to view 24 hours', swapCities: 'Swap cities', mutualTag: 'Mutual work hours', singleTag: 'Work (1 city)', offTag: 'Off hours', currentTag: 'Current time' },
     tools: { title: 'Time Tools', meetingPlanner: 'Meeting Planner', stopwatch: 'Stopwatch', timer: 'Timer', alarm: 'Alarm', converter: 'UTC Converter' },
     worldClock: {
       title: 'World Clock',
@@ -250,7 +260,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: '拖动以3D旋转地球'
     },
     search: { title: '搜索城市或国家', placeholder: '输入城市名称...', suggested: '推荐城市', noResults: '未找到匹配城市' },
-    comparator: { title: '会议计划', addCity: '添加城市', overlap: '推荐工作重叠时间 (9:00 AM - 5:00 PM)', difference: '时差:' },
+    comparator: { title: '会议计划', addCity: '添加城市', overlap: '推荐工作重叠时间 (9:00 AM - 5:00 PM)', difference: '时差:', mutualWindow: '推荐会议时间窗口', noOverlap: '工作时间内 (9:00 AM - 5:00 PM) 无直接重叠', hoursOverlap: '小时工作重叠', hourOverlap: '小时工作重叠', scrollHint: '水平滑动查看24小时', swapCities: '切换城市', mutualTag: '共同工作时间', singleTag: '工作时间 (单城)', offTag: '非工作时间', currentTag: '当前时间' },
     tools: { title: '时间工具', meetingPlanner: '会议计划', stopwatch: '秒表', timer: '倒计时', alarm: '闹钟', converter: 'UTC转换器' },
     worldClock: {
       title: '世界时钟',
@@ -310,7 +320,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: '3D पृथ्वी घुमाने के लिए खींचें'
     },
     search: { title: 'शहर या देश खोजें', placeholder: 'शहर का नाम लिखें...', suggested: 'सुझाए गए शहर', noResults: 'कोई शहर नहीं मिला' },
-    comparator: { title: 'बैठक योजनाकार', addCity: 'शहर जोड़ें', overlap: 'अनुशंसित कार्य समय (9:00 AM - 5:00 PM)', difference: 'अंतर:' },
+    comparator: { title: 'बैठक योजनाकार', addCity: 'शहर जोड़ें', overlap: 'अनुशंसित कार्य समय (9:00 AM - 5:00 PM)', difference: 'अंतर:', mutualWindow: 'अनुशंसित बैठक समय', noOverlap: 'कार्य घंटों (9:00 AM - 5:00 PM) में कोई सीधा ओवरलैप नहीं', hoursOverlap: 'घंटे कार्य ओवरलैप', hourOverlap: 'घंटा कार्य ओवरलैप', scrollHint: '24 घंटे देखने के लिए स्क्रॉल करें', swapCities: 'शहर बदलें', mutualTag: 'साझा कार्य समय', singleTag: 'कार्यालय समय (1 शहर)', offTag: 'कार्य समय से बाहर', currentTag: 'वर्तमान समय' },
     tools: { title: 'समय उपकरण', meetingPlanner: 'बैठक योजनाकार', stopwatch: 'स्टॉपवॉच', timer: 'टाइमर', alarm: 'अलार्म', converter: 'UTC कनवर्टर' },
     worldClock: {
       title: 'विश्व घड़ी',
@@ -370,7 +380,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'اسحب لتدوير الأرض 3D'
     },
     search: { title: 'البحث عن مدينة أو دولة', placeholder: 'اكتب اسم المدينة...', suggested: 'المدن المقترحة', noResults: 'لم يتم العثور على مدن' },
-    comparator: { title: 'مقارنة الأوقات', addCity: 'إضافة مدينة', overlap: 'تداخل العمل الموصى به (9:00 AM - 5:00 PM)', difference: 'الفرق:' },
+    comparator: { title: 'مقارنة الأوقات', addCity: 'إضافة مدينة', overlap: 'تداخل العمل الموصى به (9:00 AM - 5:00 PM)', difference: 'الفرق:', mutualWindow: 'نافذة الاجتماع الموصى بها', noOverlap: 'لا يوجد تداخل مباشر خلال ساعات العمل (9:00 AM - 5:00 PM)', hoursOverlap: 'ساعات تداخل العمل', hourOverlap: 'ساعة تداخل العمل', scrollHint: 'اسحب أفقيًا لعرض 24 ساعة', swapCities: 'تبديل المدن', mutualTag: 'أوقات عمل مشتركة', singleTag: 'ساعات عمل (مدينة واحدة)', offTag: 'خارج ساعات العمل', currentTag: 'الوقت الحالي' },
     tools: { title: 'مخطط الاجتماعات', meetingPlanner: 'مخطط الاجتماعات', stopwatch: 'ساعة إيقاف', timer: 'مؤقت', alarm: 'إنذار', converter: 'محول UTC' },
     worldClock: {
       title: 'الساعة العالمية',
@@ -430,7 +440,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Faites glisser pour tourner la Terre en 3D'
     },
     search: { title: 'Rechercher une Ville ou un Pays', placeholder: 'Entrez le nom d\'une ville...', suggested: 'Villes Suggérées', noResults: 'Aucune ville trouvée' },
-    comparator: { title: 'Planificateur de Réunions', addCity: 'Ajouter une Ville', overlap: 'Horaires de travail recommandés (9h00 - 17h00)', difference: 'Différence :' },
+    comparator: { title: 'Planificateur de Réunions', addCity: 'Ajouter une Ville', overlap: 'Horaires de travail recommandés (9h00 - 17h00)', difference: 'Différence :', mutualWindow: 'Créneau de réunion recommandé', noOverlap: 'Aucun chevauchement direct pendant les heures de bureau (9h00 - 17h00)', hoursOverlap: 'heures de chevauchement de travail', hourOverlap: 'heure de chevauchement de travail', scrollHint: 'Faites défiler horizontalement pour voir les 24 heures', swapCities: 'Intervertir les villes', mutualTag: 'Heures de travail communes', singleTag: 'Heures de bureau (1 ville)', offTag: 'Hors heures de bureau', currentTag: 'Heure actuelle' },
     tools: { title: 'Outils Temporels', meetingPlanner: 'Planificateur de Réunions', stopwatch: 'Chronomètre', timer: 'Minuteur', alarm: 'Alarme', converter: 'Convertisseur UTC' },
     worldClock: {
       title: 'Horloge Mondiale',
@@ -490,7 +500,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: '3D পৃথিবী ঘোরাতে ড্র্যাগ করুন'
     },
     search: { title: 'শহর বা দেশ অনুসন্ধান করুন', placeholder: 'একটি শহরের নাম লিখুন...', suggested: 'সুপারিশকৃত শহর', noResults: 'কোন শহর পাওয়া যায়নি' },
-    comparator: { title: 'মিটিং প্ল্যানার', addCity: 'শহর যোগ করুন', overlap: 'সুপারিশকৃত কর্মঘণ্টা (9:00 AM - 5:00 PM)', difference: 'পার্থক্য:' },
+    comparator: { title: 'মিটিং প্ল্যানার', addCity: 'শহর যোগ করুন', overlap: 'সুপারিশকৃত কর্মঘণ্টা (9:00 AM - 5:00 PM)', difference: 'পার্থক্য:', mutualWindow: 'সুপারিশকৃত মিটিং সময়', noOverlap: 'অফিস সময়ে (9:00 AM - 5:00 PM) কোনো সরাসরি মিল নেই', hoursOverlap: 'ঘণ্টা কাজের মিল', hourOverlap: 'ঘণ্টা কাজের মিল', scrollHint: '২৪ ঘণ্টা দেখতে স্ক্রল করুন', swapCities: 'শহর অদলবদল করুন', mutualTag: 'যৌথ কাজের সময়', singleTag: 'অফিস সময় (১টি শহর)', offTag: 'কাজের বাইরের সময়', currentTag: 'বর্তমান সময়' },
     tools: { title: 'মিটিং প্ল্যানার', meetingPlanner: 'মিটিং প্ল্যানার', stopwatch: 'স্টপওয়াচ', timer: 'টাইমার', alarm: 'অ্যালার্ম', converter: 'UTC কনভার্টার' },
     worldClock: {
       title: 'বিশ্ব ঘড়ি',
@@ -550,7 +560,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Arraste para girar a Terra em 3D'
     },
     search: { title: 'Buscar Cidade ou País', placeholder: 'Digite o nome de uma cidade...', suggested: 'Cidades Sugeridas', noResults: 'Nenhuma cidade encontrada' },
-    comparator: { title: 'Planejador de Reuniões', addCity: 'Adicionar Cidade', overlap: 'Horário de Trabalho Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferença:' },
+    comparator: { title: 'Planejador de Reuniões', addCity: 'Adicionar Cidade', overlap: 'Horário de Trabalho Recomendado (9:00 AM - 5:00 PM)', difference: 'Diferença:', mutualWindow: 'Janela de Reunião Recomendada', noOverlap: 'Sem sobreposição direta no horário comercial (9:00 AM - 5:00 PM)', hoursOverlap: 'horas de sobreposição de trabalho', hourOverlap: 'hora de sobreposição de trabalho', scrollHint: 'Deslize para ver as 24 horas', swapCities: 'Inverter cidades', mutualTag: 'Horário mútuo de trabalho', singleTag: 'Horário comercial (1 cidade)', offTag: 'Fora do expediente', currentTag: 'Hora atual' },
     tools: { title: 'Planejador de Reuniões', meetingPlanner: 'Planejador de Reuniões', stopwatch: 'Cronômetro', timer: 'Temporizador', alarm: 'Alarme', converter: 'Conversor UTC' },
     worldClock: {
       title: 'Relógio Mundial',
@@ -610,7 +620,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'Вращайте Землю 3D'
     },
     search: { title: 'Поиск города или страны', placeholder: 'Введите название города...', suggested: 'Рекомендуемые города', noResults: 'Города не найдены' },
-    comparator: { title: 'Планировщик встреч', addCity: 'Добавить город', overlap: 'Рекомендуемое рабочее время (9:00 - 17:00)', difference: 'Разница:' },
+    comparator: { title: 'Планировщик встреч', addCity: 'Добавить город', overlap: 'Рекомендуемое рабочее время (9:00 - 17:00)', difference: 'Разница:', mutualWindow: 'Рекомендуемое окно для встречи', noOverlap: 'Нет прямого пересечения в рабочее время (9:00 - 17:00)', hoursOverlap: 'ч. совместного рабочего времени', hourOverlap: 'ч. совместного рабочего времени', scrollHint: 'Прокрутите для просмотра 24 часов', swapCities: 'Поменять города местами', mutualTag: 'Общее рабочее время', singleTag: 'Рабочее время (1 город)', offTag: 'Нерабочее время', currentTag: 'Текущее время' },
     tools: { title: 'Планировщик встреч', meetingPlanner: 'Планировщик встреч', stopwatch: 'Секундомер', timer: 'Таймер', alarm: 'Будильник', converter: 'Конвертер UTC' },
     worldClock: {
       title: 'Мировое время',
@@ -670,7 +680,7 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       dragGlobe: 'ドラッグして3D地球を回転'
     },
     search: { title: '都市または国を検索', placeholder: '都市名を入力...', suggested: 'おすすめの都市', noResults: '都市が見つかりません' },
-    comparator: { title: 'ミーティングプランナー', addCity: '都市を追加', overlap: '推奨勤務時間 (9:00 AM - 5:00 PM)', difference: '時差:' },
+    comparator: { title: 'ミーティングプランナー', addCity: '都市を追加', overlap: '推奨勤務時間 (9:00 AM - 5:00 PM)', difference: '時差:', mutualWindow: '推奨ミーティング時間帯', noOverlap: '営業時間内 (9:00 AM - 5:00 PM) に直接の重複はありません', hoursOverlap: '時間の勤務時間重複', hourOverlap: '時間の勤務時間重複', scrollHint: '横スクロールで24時間を表示', swapCities: '都市を入れ替える', mutualTag: '共通の勤務時間', singleTag: '勤務時間 (1都市)', offTag: '時間外', currentTag: '現在時刻' },
     tools: { title: 'ミーティングプランナー', meetingPlanner: 'ミーティングプランナー', stopwatch: 'ストップウォッチ', timer: 'タイマー', alarm: 'アラーム', converter: 'UTCコンバーター' },
     worldClock: {
       title: '世界時計',
