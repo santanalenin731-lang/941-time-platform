@@ -71,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header style={{
       width: '100%',
-      background: 'rgba(240, 246, 250, 0.92)',
+      background: 'rgba(255, 255, 255, 0.98)',
       backdropFilter: 'blur(12px)',
       WebkitBackdropFilter: 'blur(12px)',
       borderBottom: showTime ? '1px solid rgba(7, 26, 51, 0.08)' : '1px solid transparent',

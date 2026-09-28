@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
 import { getTimeInTimezone, calculateSunTimes, getWeekNumber } from '../lib/timeEngine';
 import { useLanguage, getTranslatedCountry, getTranslatedCity } from '../lib/i18n.tsx';
@@ -21,6 +21,37 @@ export const HeroClock: React.FC<HeroClockProps> = ({
   const [timeData, setTimeData] = useState(() =>
     getTimeInTimezone(city.timezone, is24Hour, showSeconds, 0, languageInfo.locale)
   );
+
+  const [activeDeleteId, setActiveDeleteId] = useState<string | null>(null);
+  const touchTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isLongPressRef = useRef<boolean>(false);
+
+  const handleTouchStart = (cityId: string) => {
+    isLongPressRef.current = false;
+    touchTimerRef.current = setTimeout(() => {
+      isLongPressRef.current = true;
+      setActiveDeleteId(prev => prev === cityId ? null : cityId);
+    }, 450);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchTimerRef.current) {
+      clearTimeout(touchTimerRef.current);
+      touchTimerRef.current = null;
+    }
+  };
+
+  const handleCardClick = (stripCity: City) => {
+    if (isLongPressRef.current) {
+      isLongPressRef.current = false;
+      return;
+    }
+    if (activeDeleteId) {
+      setActiveDeleteId(null);
+      return;
+    }
+    onSelectCity(stripCity);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -208,14 +239,20 @@ export const HeroClock: React.FC<HeroClockProps> = ({
               style={{
                 position: 'relative',
                 background: '#FFFFFF',
-                border: '1px solid var(--color-border)',
+                border: activeDeleteId === stripCity.id ? '1px solid #e11d48' : '1px solid var(--color-border)',
                 borderRadius: 'var(--radius-sm)',
                 padding: '0.55rem 0.9rem',
                 textAlign: 'center',
                 cursor: 'pointer',
                 transition: 'var(--transition-fast)',
-                minWidth: '105px'
+                minWidth: '105px',
+                userSelect: 'none',
+                WebkitUserSelect: 'none'
               }}
+              onTouchStart={() => handleTouchStart(stripCity.id)}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchEnd}
+              onClick={() => handleCardClick(stripCity)}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = 'var(--color-sky-light)';
                 e.currentTarget.style.borderColor = 'var(--color-sky)';
@@ -224,9 +261,9 @@ export const HeroClock: React.FC<HeroClockProps> = ({
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = '#FFFFFF';
-                e.currentTarget.style.borderColor = 'var(--color-border)';
+                e.currentTarget.style.borderColor = activeDeleteId === stripCity.id ? '#e11d48' : 'var(--color-border)';
                 const btn = e.currentTarget.querySelector('.remove-btn') as HTMLElement;
-                if (btn) btn.style.opacity = '0';
+                if (btn && activeDeleteId !== stripCity.id) btn.style.opacity = '0';
               }}
             >
               <button
@@ -235,6 +272,7 @@ export const HeroClock: React.FC<HeroClockProps> = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   setStripCities(prev => prev.filter(c => c.id !== stripCity.id));
+                  setActiveDeleteId(null);
                 }}
                 style={{
                   position: 'absolute',
@@ -248,7 +286,8 @@ export const HeroClock: React.FC<HeroClockProps> = ({
                   height: '20px',
                   fontSize: '11px',
                   cursor: 'pointer',
-                  opacity: 0,
+                  opacity: activeDeleteId === stripCity.id ? 1 : 0,
+                  pointerEvents: activeDeleteId === stripCity.id ? 'auto' : undefined,
                   transition: 'opacity 0.2s',
                   display: 'flex',
                   alignItems: 'center',
@@ -260,7 +299,7 @@ export const HeroClock: React.FC<HeroClockProps> = ({
               >
                 ✕
               </button>
-              <div onClick={() => onSelectCity(stripCity)}>
+              <div>
                 <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>
                   {getTranslatedCity(stripCity, languageInfo.code)}
                 </div>
