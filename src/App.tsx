@@ -14,6 +14,7 @@ import { AboutPage } from './components/AboutPage';
 import { PrivacyPage } from './components/PrivacyPage';
 import { BlogListPage } from './components/BlogListPage';
 import { BlogPostPage } from './components/BlogPostPage';
+import { PWAInstallButton } from './components/PWAInstallButton';
 import { CITIES_DATABASE, City, getDetectedUserCity } from './data/cities';
 import { getBlogPostBySlug } from './data/blogPosts';
 import { LanguageProvider, useLanguage, getTranslatedCity, getTranslatedCountry, getCitySeoSlug } from './lib/i18n.tsx';
@@ -240,6 +241,9 @@ const AppContent: React.FC = () => {
 
       {/* Footer */}
       <Footer onNavigate={setActiveTab} />
+
+      {/* Floating PWA Install Button */}
+      <PWAInstallButton />
 
       {/* Instant Search Overlay */}
       <SearchModal

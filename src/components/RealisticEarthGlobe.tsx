@@ -9,7 +9,7 @@ interface RealisticEarthGlobeProps {
 
 export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }) => {
   const mountRef = useRef<HTMLDivElement | null>(null);
-  const globeRadius = 90;
+  const globeRadius = 99; // Aumentado en 10% (de 90 a 99)
 
   const getTargetAngles = (targetCity: City) => {
     const latRad = targetCity.lat * (Math.PI / 180);
@@ -326,7 +326,7 @@ export const RealisticEarthGlobe: React.FC<RealisticEarthGlobeProps> = ({ city }
           style={{
             width: '100%',
             maxWidth: '100%',
-            height: 'clamp(320px, 50vh, 540px)',
+            height: 'clamp(350px, 54vh, 595px)',
             cursor: isDraggingRef.current ? 'grabbing' : 'grab',
             position: 'relative',
             zIndex: 1,
