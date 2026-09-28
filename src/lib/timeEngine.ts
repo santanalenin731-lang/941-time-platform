@@ -11,19 +11,45 @@ export interface TimeState {
   latencyMs: number;
 }
 
-// Sunrise & Sunset solar calculation
+// Sunrise & Sunset solar calculation based on NOAA Solar Calculation Algorithm (Jean Meeus Astronomical Algorithms)
 export function calculateSunTimes(lat: number, lng: number, timezone: string, date: Date = new Date()) {
-  const dayOfYear = Math.floor(
-    (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
+  const d = new Date(date);
+
+  // Day of year in UTC
+  const startOfYear = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const dayOfYear = Math.floor((d.getTime() - startOfYear.getTime()) / 86400000) + 1;
+  const year = d.getUTCFullYear();
+  const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+  const daysInYear = isLeapYear ? 366 : 365;
+
+  // Fractional year gamma (radians)
+  const gamma = (2 * Math.PI / daysInYear) * (dayOfYear - 1 + (12 - 12) / 24);
+
+  // Equation of Time (EoT in minutes)
+  const eqtime = 229.18 * (
+    0.000075 +
+    0.001868 * Math.cos(gamma) -
+    0.032077 * Math.sin(gamma) -
+    0.014615 * Math.cos(2 * gamma) -
+    0.040849 * Math.sin(2 * gamma)
   );
 
-  // Solar declination
-  const declination = 23.45 * Math.sin((((284 + dayOfYear) * 360) / 365) * (Math.PI / 180));
-  const radLat = lat * (Math.PI / 180);
-  const radDec = declination * (Math.PI / 180);
+  // Solar declination (radians)
+  const decl = 0.006918 -
+    0.399912 * Math.cos(gamma) +
+    0.070257 * Math.sin(gamma) -
+    0.006758 * Math.cos(2 * gamma) +
+    0.000907 * Math.sin(2 * gamma) -
+    0.002697 * Math.cos(3 * gamma) +
+    0.00148 * Math.sin(3 * gamma);
 
-  const cosH = (Math.cos(90.83 * (Math.PI / 180)) - Math.sin(radLat) * Math.sin(radDec)) /
-               (Math.cos(radLat) * Math.cos(radDec));
+  const latRad = lat * (Math.PI / 180);
+  // Standard solar zenith angle for sunrise/sunset: 90.833°
+  // (90° zenith + 34 arcminutes atmospheric refraction + 16 arcminutes solar semi-diameter = 90° 50' = 90.833°)
+  const zenithRad = 90.833 * (Math.PI / 180);
+
+  const cosH = (Math.cos(zenithRad) - Math.sin(latRad) * Math.sin(decl)) /
+               (Math.cos(latRad) * Math.cos(decl));
 
   if (cosH > 1) {
     return { sunrise: "--:--", sunset: "--:--", dayLength: "0h 0m", isDaylight: false };
@@ -32,16 +58,34 @@ export function calculateSunTimes(lat: number, lng: number, timezone: string, da
     return { sunrise: "--:--", sunset: "--:--", dayLength: "24h 0m", isDaylight: true };
   }
 
-  const hourAngle = Math.acos(cosH) * (180 / Math.PI);
-  const solarNoonMinutesUTC = 720 - 4 * lng;
-  const sunriseMinutesUTC = solarNoonMinutesUTC - hourAngle * 4;
-  const sunsetMinutesUTC = solarNoonMinutesUTC + hourAngle * 4;
+  const haDeg = Math.acos(cosH) * (180 / Math.PI);
 
-  const tzDateStr = date.toLocaleString('en-US', { timeZone: timezone });
-  const tzDate = new Date(tzDateStr);
-  const utcDateStr = date.toLocaleString('en-US', { timeZone: 'UTC' });
-  const utcDate = new Date(utcDateStr);
-  const offsetMinutes = Math.round((tzDate.getTime() - utcDate.getTime()) / 60000);
+  // Solar noon in UTC minutes: 720 (12:00) - 4 * longitude - eqtime
+  // Longitude: positive for East, negative for West
+  const solarNoonMinutesUTC = 720 - 4 * lng - eqtime;
+  const sunriseMinutesUTC = solarNoonMinutesUTC - haDeg * 4;
+  const sunsetMinutesUTC = solarNoonMinutesUTC + haDeg * 4;
+
+  let offsetMinutes = 0;
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      timeZoneName: 'shortOffset'
+    });
+    const parts = formatter.formatToParts(d);
+    const tzPart = parts.find(p => p.type === 'timeZoneName')?.value || '';
+    const match = tzPart.match(/GMT([+-])(\d+)(?::(\d+))?/);
+    if (match) {
+      const sign = match[1] === '+' ? 1 : -1;
+      const hours = parseInt(match[2], 10);
+      const mins = match[3] ? parseInt(match[3], 10) : 0;
+      offsetMinutes = sign * (hours * 60 + mins);
+    }
+  } catch (e) {
+    const invDate = new Date(d.toLocaleString('en-US', { timeZone: timezone }));
+    const utcDate = new Date(d.toLocaleString('en-US', { timeZone: 'UTC' }));
+    offsetMinutes = Math.round((invDate.getTime() - utcDate.getTime()) / 60000);
+  }
 
   const sunriseMinutesLocal = sunriseMinutesUTC + offsetMinutes;
   const sunsetMinutesLocal = sunsetMinutesUTC + offsetMinutes;
@@ -59,7 +103,8 @@ export function calculateSunTimes(lat: number, lng: number, timezone: string, da
   const dlHours = Math.floor(dayLengthMins / 60);
   const dlMins = dayLengthMins % 60;
 
-  const nowMinutesLocal = tzDate.getHours() * 60 + tzDate.getMinutes();
+  const localDate = new Date(d.toLocaleString('en-US', { timeZone: timezone }));
+  const nowMinutesLocal = localDate.getHours() * 60 + localDate.getMinutes();
   const normSunrise = (Math.round(sunriseMinutesLocal) + 1440) % 1440;
   const normSunset = (Math.round(sunsetMinutesLocal) + 1440) % 1440;
   const isDaylight = normSunrise <= normSunset
