@@ -123,6 +123,30 @@ export interface Translations {
     tagline: string;
     legalTitle: string;
   };
+  cityDetail: {
+    officialTime: string;
+    solarCycleTitle: string;
+    solarNoon: string;
+    daylightProgress: string;
+    techSheetTitle: string;
+    ianaTimezone: string;
+    utcOffset: string;
+    dstTitle: string;
+    dstActive: string;
+    dstInactive: string;
+    dstNone: string;
+    coordinates: string;
+    population: string;
+    airportTitle: string;
+    worldDiffTitle: string;
+    planMeetingWith: string;
+    businessOpen: string;
+    businessClosed: string;
+    businessWeekend: string;
+    businessNight: string;
+    exploreOtherCities: string;
+    backToHome: string;
+  };
 }
 
 const TRANSLATIONS: Record<LanguageCode, Translations> = {
@@ -184,7 +208,31 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       localProcessingTitle: 'Procesamiento 100% Local y Seguro',
       localProcessingBody: 'Todas las configuraciones, zonas horarias y ciudades preferidas se gestionan exclusivamente de forma local en tu navegador para garantizar una experiencia 100% privada, rápida y segura.'
     },
-    footer: { tagline: '9:41 AM es una plataforma global de información temporal de alta precisión. Time, beautifully simple.', legalTitle: 'Información y Legal' }
+    footer: { tagline: '9:41 AM es una plataforma global de información temporal de alta precisión. Time, beautifully simple.', legalTitle: 'Información y Legal' },
+    cityDetail: {
+      officialTime: 'Hora Oficial Exacta',
+      solarCycleTitle: 'Ciclo Solar & Medición Astronómica NOAA',
+      solarNoon: 'Mediodía Solar (Cenit)',
+      daylightProgress: 'Progreso de luz solar',
+      techSheetTitle: 'Ficha Técnica & Geográfica',
+      ianaTimezone: 'Zona Horaria IANA',
+      utcOffset: 'Compensación UTC/GMT',
+      dstTitle: 'Horario de Verano (DST)',
+      dstActive: 'Activo actualmente',
+      dstInactive: 'Inactivo (Horario estándar)',
+      dstNone: 'Sin cambio de hora (Offset fijo anual)',
+      coordinates: 'Coordenadas Geográficas',
+      population: 'Población Metropolitana',
+      airportTitle: 'Aeropuerto Principal de Conexión',
+      worldDiffTitle: 'Diferencia Horaria con Capitales del Mundo',
+      planMeetingWith: 'Planificar Reunión con',
+      businessOpen: 'Horario Laboral Activo (9:00 AM – 6:00 PM)',
+      businessClosed: 'Fuera de Horario Laboral',
+      businessWeekend: 'Fin de Semana',
+      businessNight: 'Descanso Nocturno',
+      exploreOtherCities: 'Explorar Otras Ciudades Globales',
+      backToHome: 'Volver a la Portada'
+    }
   },
   en: {
     nav: { home: 'Current Time', worldClock: 'World Clock', compare: 'Meeting Planner', tools: 'Time Tools', blog: 'Blog' },
@@ -244,6 +292,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: 'At 9:41 AM, user privacy is our top priority. We do not collect, share, or sell any personal data, browsing history, or user information to third parties. We do not use advertising tracking cookies.',
       localProcessingTitle: '100% Local & Secure Processing',
       localProcessingBody: 'All settings, timezones, and city preferences are managed strictly locally within your browser to guarantee a 100% private, fast, and secure experience.'
+    },
+    cityDetail: {
+      officialTime: 'Official Exact Time',
+      solarCycleTitle: 'Solar Cycle & NOAA Astronomical Measurement',
+      solarNoon: 'Solar Noon (Zenith)',
+      daylightProgress: 'Daylight progress',
+      techSheetTitle: 'Technical & Geographic Data Sheet',
+      ianaTimezone: 'IANA Time Zone',
+      utcOffset: 'UTC/GMT Offset',
+      dstTitle: 'Daylight Saving Time (DST)',
+      dstActive: 'Currently Active',
+      dstInactive: 'Inactive (Standard Time)',
+      dstNone: 'No Daylight Saving Time (Fixed year-round offset)',
+      coordinates: 'Geographic Coordinates',
+      population: 'Metropolitan Population',
+      airportTitle: 'Primary Connection Airport',
+      worldDiffTitle: 'Time Difference with World Capitals',
+      planMeetingWith: 'Plan Meeting with',
+      businessOpen: 'Active Business Hours (9:00 AM – 6:00 PM)',
+      businessClosed: 'Outside Business Hours',
+      businessWeekend: 'Weekend',
+      businessNight: 'Night Rest Hours',
+      exploreOtherCities: 'Explore Other Global Cities',
+      backToHome: 'Back to Home'
     }
   },
   zh: {
@@ -304,6 +376,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: '在 9:41 AM，用户隐私是我们的首要任务。我们绝不收集、共享或向第三方出售任何个人数据、浏览历史或用户信息。我们不使用任何广告追踪 Cookie。',
       localProcessingTitle: '100% 本地安全处理',
       localProcessingBody: '所有设置、时区和偏好城市均在您的浏览器本地进行严格管理，以确保 100% 私密、快速和安全的体验。'
+    },
+    cityDetail: {
+      officialTime: '官方精确时间',
+      solarCycleTitle: '太阳周期与NOAA天文测量',
+      solarNoon: '太阳正午（天顶）',
+      daylightProgress: '日照进度',
+      techSheetTitle: '地理与技术数据表',
+      ianaTimezone: 'IANA时区',
+      utcOffset: 'UTC/GMT时差',
+      dstTitle: '夏令时（DST）',
+      dstActive: '当前生效',
+      dstInactive: '未生效（标准时间）',
+      dstNone: '无夏令时（全年固定时差）',
+      coordinates: '地理坐标',
+      population: '都市人口',
+      airportTitle: '主要枢纽机场',
+      worldDiffTitle: '与世界主要首都的时差',
+      planMeetingWith: '规划与该城市的会议',
+      businessOpen: '正常营业时间（上午9:00 - 下午6:00）',
+      businessClosed: '非工作时间',
+      businessWeekend: '周末',
+      businessNight: '夜间休息时间',
+      exploreOtherCities: '探索其他全球城市',
+      backToHome: '返回首页'
     }
   },
   hi: {
@@ -364,6 +460,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: '9:41 AM पर, आपकी गोपनीयता हमारी सर्वोच्च प्राथमिकता है। हम तीसरे पक्ष को किसी भी व्यक्तिगत डेटा, ब्राउज़िंग इतिहास या उपयोगकर्ता की जानकारी को एकत्र, साझा या बेचते नहीं हैं। हम विज्ञापन ट्रैकिंग कुकीज़ का उपयोग नहीं करते हैं।',
       localProcessingTitle: '100% स्थानीय और सुरक्षित प्रसंस्करण',
       localProcessingBody: '100% निजी, तेज़ और सुरक्षित अनुभव की गारंटी के लिए सभी सेटिंग्स, समय क्षेत्र और शहर की प्राथमिकताएं आपके ब्राउज़र में पूरी तरह स्थानीय रूप से प्रबंधित की जाती हैं।'
+    },
+    cityDetail: {
+      officialTime: 'आधिकारिक सटीक समय',
+      solarCycleTitle: 'सौर चक्र और NOAA खगोलीय मापन',
+      solarNoon: 'सौर दोपहर (शीर्ष बिंदु)',
+      daylightProgress: 'दिन के उजाले की प्रगति',
+      techSheetTitle: 'तकनीकी और भौगोलिक डेटा शीट',
+      ianaTimezone: 'IANA समय क्षेत्र',
+      utcOffset: 'UTC/GMT अंतर',
+      dstTitle: 'डेलाइट सेविंग टाइम (DST)',
+      dstActive: 'वर्तमान में सक्रिय',
+      dstInactive: 'निष्क्रिय (मानक समय)',
+      dstNone: 'कोई डेलाइट सेविंग नहीं (साल भर निश्चित ऑफसेट)',
+      coordinates: 'भौगोलिक निर्देशांक',
+      population: 'महानगरीय जनसंख्या',
+      airportTitle: 'प्रमुख संपर्क हवाई अड्डा',
+      worldDiffTitle: 'विश्व की राजधानियों के साथ समय अंतर',
+      planMeetingWith: 'के साथ बैठक की योजना बनाएं',
+      businessOpen: 'सक्रिय कार्य समय (सुबह 9:00 - शाम 6:00)',
+      businessClosed: 'कार्यालय समय के बाद',
+      businessWeekend: 'सप्ताहांत',
+      businessNight: 'रात्रि विश्राम',
+      exploreOtherCities: 'अन्य वैश्विक शहरों का अन्वेषण करें',
+      backToHome: 'होम पर लौटें'
     }
   },
   ar: {
@@ -424,6 +544,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: 'في 9:41 AM، تعتبر خصوصية المستخدم أولوية قصوى. نحن لا نجمع أو نشارك أو نبيع أي بيانات شخصية أو سجل تصفح أو معلومات خاصة بالمستخدم لأطراف ثالثة. نحن لا نستخدم كوكيز التتبع الإعلاني.',
       localProcessingTitle: 'معالجة محلية وآمنة 100%',
       localProcessingBody: 'يتم إدارة جميع الإعدادات والمناطق الزمنية والمدن المفضلة محلياً وبشكل صارم داخل متصفحك لضمان تجربة خاصة وسريعة وآمنة 100%.'
+    },
+    cityDetail: {
+      officialTime: 'الوقت الرسمي الدقيق',
+      solarCycleTitle: 'الدورة الشمسية والقياسات الفلكية لـ NOAA',
+      solarNoon: 'الظهيرة الشمسية (ذروة الشمس)',
+      daylightProgress: 'تقدم ضوء النهار',
+      techSheetTitle: 'صحيفة البيانات الفنية والجغرافية',
+      ianaTimezone: 'المنطقة الزمنية لـ IANA',
+      utcOffset: 'إزاحة UTC/GMT',
+      dstTitle: 'التوقيت الصيفي (DST)',
+      dstActive: 'نشط حالياً',
+      dstInactive: 'غير نشط (التوقيت القياسي)',
+      dstNone: 'لا يوجد توقيت صيفي (إزاحة ثابتة طوال العام)',
+      coordinates: 'الإحداثيات الجغرافية',
+      population: 'سكان الحاضرة',
+      airportTitle: 'المطار الرئيسي للربط الجوي',
+      worldDiffTitle: 'فارق التوقيت مع عواصم العالم',
+      planMeetingWith: 'جدولة اجتماع مع',
+      businessOpen: 'ساعات العمل الرسمية (9:00 صباحاً – 6:00 مساءً)',
+      businessClosed: 'خارج ساعات العمل',
+      businessWeekend: 'عطلة نهاية الأسبوع',
+      businessNight: 'أوقات الراحة الليلية',
+      exploreOtherCities: 'استكشاف مدن عالمية أخرى',
+      backToHome: 'العودة للرئيسية'
     }
   },
   fr: {
@@ -484,6 +628,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: 'Chez 9:41 AM, la confidentialité est notre priorité absolue. Nous ne collectons, ne partageons ni ne vendons aucune donnée personnelle, historique de navigation ou information utilisateur à des tiers. Aucun cookie publicitaire n\'est utilisé.',
       localProcessingTitle: 'Traitement 100% Local et Sécurisé',
       localProcessingBody: 'Tous les paramètres, fuseaux horaires et villes préférées sont gérés exclusivement en local dans votre navigateur pour garantir une expérience 100% privée, rapide et sécurisée.'
+    },
+    cityDetail: {
+      officialTime: 'Heure Officielle Exacte',
+      solarCycleTitle: 'Cycle Solaire & Mesure Astronomique NOAA',
+      solarNoon: 'Midi Solaire (Zénith)',
+      daylightProgress: 'Progression de la lumière du jour',
+      techSheetTitle: 'Fiche Technique & Géographique',
+      ianaTimezone: 'Fuseau Horaire IANA',
+      utcOffset: 'Décalage UTC/GMT',
+      dstTitle: 'Heure d\'Été (DST)',
+      dstActive: 'Actuellement Actif',
+      dstInactive: 'Inactif (Heure standard)',
+      dstNone: 'Pas d\'heure d\'été (Décalage fixe toute l\'année)',
+      coordinates: 'Coordonnées Géographiques',
+      population: 'Population Métropolitaine',
+      airportTitle: 'Aéroport Principal de Connexion',
+      worldDiffTitle: 'Décalage Horaire avec les Capitales Mondiales',
+      planMeetingWith: 'Planifier une Réunion avec',
+      businessOpen: 'Heures Ouvrables Actives (9h00 – 18h00)',
+      businessClosed: 'En Dehors des Heures de Bureau',
+      businessWeekend: 'Week-end',
+      businessNight: 'Repos Nocturne',
+      exploreOtherCities: 'Explorer d\'Autres Villes Mondiales',
+      backToHome: 'Retour à l\'Accueil'
     }
   },
   bn: {
@@ -544,6 +712,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: '9:41 AM এ ব্যবহারকারীর গোপনীয়তা আমাদের সর্বোচ্চ অগ্রাধিকার। আমরা কোনো ব্যক্তিগত ডেটা, ব্রাউজিং ইতিহাস বা তথ্য সংগ্রহ, শেয়ার বা বিক্রি করি না। আমরা বিজ্ঞাপন ট্র্যাকিং কুকিজ ব্যবহার করি না।',
       localProcessingTitle: '১০০% স্থানীয় ও নিরাপদ প্রক্রিয়া',
       localProcessingBody: '১০০% ব্যক্তিগত, দ্রুত ও নিরাপদ অভিজ্ঞতা নিশ্চিত করতে সমস্ত পছন্দ ও সময় অঞ্চল শুধুমাত্র আপনার ব্রাউজারে স্থানীয়ভাবে সংরক্ষিত হয়।'
+    },
+    cityDetail: {
+      officialTime: 'অফিসিয়াল সঠিক সময়',
+      solarCycleTitle: 'সৌর চক্র ও NOAA জ্যোতির্বিদ্যা পরিমাপ',
+      solarNoon: 'সৌর মধ্যাহ্ন (শীর্ষ)',
+      daylightProgress: 'দিনের আলোর অগ্রগতি',
+      techSheetTitle: 'প্রযুক্তিগত ও ভৌগোলিক তথ্য পত্র',
+      ianaTimezone: 'IANA সময় অঞ্চল',
+      utcOffset: 'UTC/GMT অফসেট',
+      dstTitle: 'দিবালোক সংরক্ষণ সময় (DST)',
+      dstActive: 'বর্তমানে সক্রিয়',
+      dstInactive: 'নিষ্ক্রিয় (মানক সময়)',
+      dstNone: 'কোনো ডেলাইট সেভিং নেই (সারা বছর স্থির)',
+      coordinates: 'ভৌগোলিক স্থানাঙ্ক',
+      population: 'মহানগরীর জনসংখ্যা',
+      airportTitle: 'প্রধান সংযোগ বিমানবন্দর',
+      worldDiffTitle: 'বিশ্বের রাজধানীগুলোর সাথে সময়ের পার্থক্য',
+      planMeetingWith: 'এর সাথে বৈঠকের পরিকল্পনা করুন',
+      businessOpen: 'কর্মঘণ্টা সক্রিয় (সকাল ৯:০০ - সন্ধ্যা ৬:০০)',
+      businessClosed: 'অফিসের সময় পর',
+      businessWeekend: 'সাপ্তাহিক ছুটি',
+      businessNight: 'রাতের বিশ্রাম',
+      exploreOtherCities: 'অন্যান্য বৈশ্বিক শহর অন্বেষণ করুন',
+      backToHome: 'হোমে ফিরে যান'
     }
   },
   pt: {
@@ -604,6 +796,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: 'No 9:41 AM, sua privacidade é nossa máxima prioridade. Não coletamos, compartilhamos ou vendemos nenhum tipo de dado pessoal, histórico de navegação ou informação a terceiros. Não utilizamos cookies de rastreamento publicitário.',
       localProcessingTitle: 'Processamento 100% Local e Seguro',
       localProcessingBody: 'Todas as configurações, fusos horários e cidades preferidas são gerenciados exclusivamente de forma local no seu navegador para garantir uma experiência 100% privada, rápida e segura.'
+    },
+    cityDetail: {
+      officialTime: 'Hora Oficial Exata',
+      solarCycleTitle: 'Ciclo Solar & Medição Astronômica NOAA',
+      solarNoon: 'Meio-dia Solar (Zênite)',
+      daylightProgress: 'Progresso da luz do dia',
+      techSheetTitle: 'Ficha Técnica e Geográfica',
+      ianaTimezone: 'Fuso Horário IANA',
+      utcOffset: 'Compensação UTC/GMT',
+      dstTitle: 'Horário de Verão (DST)',
+      dstActive: 'Atualmente Ativo',
+      dstInactive: 'Inativo (Horário padrão)',
+      dstNone: 'Sem horário de verão (Deslocamento fixo anual)',
+      coordinates: 'Coordenadas Geográficas',
+      population: 'População Metropolitana',
+      airportTitle: 'Aeroporto Principal de Conexão',
+      worldDiffTitle: 'Diferença de Horário com Capitais Mundiais',
+      planMeetingWith: 'Planejar Reunião com',
+      businessOpen: 'Horário Comercial Ativo (9:00 – 18:00)',
+      businessClosed: 'Fora do Horário de Escritório',
+      businessWeekend: 'Fim de Semana',
+      businessNight: 'Descanso Noturno',
+      exploreOtherCities: 'Explorar Outras Cidades Globais',
+      backToHome: 'Voltar ao Início'
     }
   },
   ru: {
@@ -664,6 +880,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: 'В 9:41 AM конфиденциальность пользователей является нашим главным приоритетом. Мы не собираем, не передаем и не продаем личные данные, историю просмотров или информацию о пользователях третьим лицам. Мы не используем рекламные файлы cookie.',
       localProcessingTitle: '100% локальная и безопасная обработка',
       localProcessingBody: 'Все настройки, часовые пояса и выбранные города управляются исключительно локально в вашем браузере для обеспечения 100% конфиденциального и быстрого использования.'
+    },
+    cityDetail: {
+      officialTime: 'Официальное точное время',
+      solarCycleTitle: 'Солнечный цикл и астрономические расчеты NOAA',
+      solarNoon: 'Солнечный полдень (Зенит)',
+      daylightProgress: 'Прогресс светового дня',
+      techSheetTitle: 'Технико-географическая карта',
+      ianaTimezone: 'Часовой пояс IANA',
+      utcOffset: 'Смещение UTC/GMT',
+      dstTitle: 'Летнее время (DST)',
+      dstActive: 'В настоящее время действует',
+      dstInactive: 'Не действует (Стандартное время)',
+      dstNone: 'Без перевода часов (Фиксированное смещение)',
+      coordinates: 'Географические координаты',
+      population: 'Население мегаполиса',
+      airportTitle: 'Главный узловой аэропорт',
+      worldDiffTitle: 'Разница во времени со столицами мира',
+      planMeetingWith: 'Запланировать встречу с',
+      businessOpen: 'Рабочее время (09:00 – 18:00)',
+      businessClosed: 'Нерабочие часы',
+      businessWeekend: 'Выходной день',
+      businessNight: 'Ночной отдых',
+      exploreOtherCities: 'Исследовать другие города мира',
+      backToHome: 'Вернуться на главную'
     }
   },
   ja: {
@@ -724,6 +964,30 @@ const TRANSLATIONS: Record<LanguageCode, Translations> = {
       noCookiesBody: '9:41 AMでは、ユーザーのプライバシー保護を最優先事項としています。個人データ、閲覧履歴、ユーザー情報を収集・共有・第三者に販売することは一切ありません。広告トラッキング用Cookieも一切使用していません。',
       localProcessingTitle: '100%ローカル＆安全なデータ処理',
       localProcessingBody: 'すべての設定、タイムゾーン、お気に入りの都市データはお使いのブラウザ内で100%ローカルに処理され、完全にプライベートで高速、かつ安全な体験を保証します。'
+    },
+    cityDetail: {
+      officialTime: '公式正確な時刻',
+      solarCycleTitle: '太陽サイクルとNOAA天文測定',
+      solarNoon: '太陽正午（天頂）',
+      daylightProgress: '日照進捗',
+      techSheetTitle: '技術・地理データシート',
+      ianaTimezone: 'IANAタイムゾーン',
+      utcOffset: 'UTC/GMT時差',
+      dstTitle: '夏時間（サマータイム / DST）',
+      dstActive: '現在適用中',
+      dstInactive: '適用外（標準時）',
+      dstNone: '夏時間なし（年間通して固定）',
+      coordinates: '地理座標',
+      population: '都市圏人口',
+      airportTitle: '主要ハブ空港',
+      worldDiffTitle: '世界の主要首都との時差',
+      planMeetingWith: 'この都市とのミーティングを計画',
+      businessOpen: '営業時間内（午前9:00 - 午後6:00）',
+      businessClosed: '営業時間外',
+      businessWeekend: '週末',
+      businessNight: '夜間休息時間',
+      exploreOtherCities: '世界の他の都市を探索',
+      backToHome: 'トップに戻る'
     }
   }
 };

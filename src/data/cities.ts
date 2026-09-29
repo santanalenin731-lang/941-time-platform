@@ -1915,6 +1915,13 @@ export const DEFAULT_USER_CITY = CITIES_DATABASE.find(c => c.id === "santo-domin
 
 export function getDetectedUserCity(): City {
   try {
+    // 0. Check for cached IP-detected city
+    const cachedIpCity = localStorage.getItem('941_detected_ip_city');
+    if (cachedIpCity) {
+      const match = CITIES_DATABASE.find(c => c.id === cachedIpCity);
+      if (match) return match;
+    }
+
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     if (userTimezone) {
       // 1. Exact timezone match in database
@@ -1961,3 +1968,72 @@ export function getRandomCities(excludeIds: string[], count: number = 2): City[]
   const shuffled = [...filtered].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 }
+
+export interface CityAirport {
+  name: string;
+  iata: string;
+}
+
+const AIRPORTS_MAP: Record<string, CityAirport> = {
+  "ciudad-de-mexico": { name: "Aeropuerto Internacional Benito Juárez", iata: "MEX" },
+  "santo-domingo": { name: "Aeropuerto Internacional Las Américas", iata: "SDQ" },
+  "nueva-york": { name: "John F. Kennedy International Airport", iata: "JFK" },
+  "madrid": { name: "Aeropuerto Adolfo Suárez Madrid-Barajas", iata: "MAD" },
+  "londres": { name: "London Heathrow Airport", iata: "LHR" },
+  "tokio": { name: "Tokyo Haneda Airport", iata: "HND" },
+  "paris": { name: "Aéroport de Paris-Charles de Gaulle", iata: "CDG" },
+  "los-angeles": { name: "Los Angeles International Airport", iata: "LAX" },
+  "miami": { name: "Miami International Airport", iata: "MIA" },
+  "chicago": { name: "O'Hare International Airport", iata: "ORD" },
+  "buenos-aires": { name: "Aeropuerto Internacional Ezeiza", iata: "EZE" },
+  "bogota": { name: "Aeropuerto Internacional El Dorado", iata: "BOG" },
+  "santiago": { name: "Aeropuerto Internacional Arturo Merino Benítez", iata: "SCL" },
+  "lima": { name: "Aeropuerto Internacional Jorge Chávez", iata: "LIM" },
+  "sao-paulo": { name: "Aeroporto Internacional de São Paulo-Guarulhos", iata: "GRU" },
+  "rio-de-janeiro": { name: "Aeroporto Internacional do Rio de Janeiro-Galeão", iata: "GIG" },
+  "berlin": { name: "Flughafen Berlin Brandenburg", iata: "BER" },
+  "roma": { name: "Aeroporto di Roma-Fiumicino", iata: "FCO" },
+  "amsterdam": { name: "Amsterdam Airport Schiphol", iata: "AMS" },
+  "toronto": { name: "Toronto Pearson International Airport", iata: "YYZ" },
+  "sidney": { name: "Sydney Kingsford Smith Airport", iata: "SYD" },
+  "dubai": { name: "Dubai International Airport", iata: "DXB" },
+  "singapur": { name: "Singapore Changi Airport", iata: "SIN" },
+  "hong-kong": { name: "Hong Kong International Airport", iata: "HKG" },
+  "seul": { name: "Incheon International Airport", iata: "ICN" },
+  "pekin": { name: "Beijing Capital International Airport", iata: "PEK" },
+  "shanghai": { name: "Shanghai Pudong International Airport", iata: "PVG" },
+  "moscu": { name: "Sheremetyevo International Airport", iata: "SVO" },
+  "estambul": { name: "Istanbul Airport", iata: "IST" },
+  "el-cairo": { name: "Cairo International Airport", iata: "CAI" },
+  "johannesburgo": { name: "O.R. Tambo International Airport", iata: "JNB" },
+  "la-paz": { name: "Aeropuerto Internacional El Alto", iata: "LPB" },
+  "san-juan": { name: "Aeropuerto Internacional Luis Muñoz Marín", iata: "SJU" },
+  "washington": { name: "Washington Dulles International Airport", iata: "IAD" },
+  "san-francisco": { name: "San Francisco International Airport", iata: "SFO" },
+  "seattle": { name: "Seattle-Tacoma International Airport", iata: "SEA" },
+  "boston": { name: "Boston Logan International Airport", iata: "BOS" },
+  "atlanta": { name: "Hartsfield-Jackson Atlanta International Airport", iata: "ATL" },
+  "houston": { name: "George Bush Intercontinental Airport", iata: "IAH" },
+  "dallas": { name: "Dallas/Fort Worth International Airport", iata: "DFW" },
+  "barcelona": { name: "Aeropuerto Josep Tarradellas Barcelona-El Prat", iata: "BCN" },
+  "munich": { name: "Flughafen München Franz Josef Strauß", iata: "MUC" },
+  "zurich": { name: "Flughafen Zürich", iata: "ZRH" },
+  "viena": { name: "Flughafen Wien-Schwechat", iata: "VIE" },
+  "bruselas": { name: "Brussels Airport", iata: "BRU" },
+  "lisboa": { name: "Aeroporto Humberto Delgado", iata: "LIS" },
+  "atenas": { name: "Athens International Airport Eleftherios Venizelos", iata: "ATH" },
+  "bangkok": { name: "Suvarnabhumi Airport", iata: "BKK" },
+  "nueva-delhi": { name: "Indira Gandhi International Airport", iata: "DEL" },
+  "mumbai": { name: "Chhatrapati Shivaji Maharaj International Airport", iata: "BOM" }
+};
+
+export function getCityAirport(city: City): CityAirport {
+  if (AIRPORTS_MAP[city.id]) {
+    return AIRPORTS_MAP[city.id];
+  }
+  return {
+    name: `Aeropuerto Internacional de ${city.name}`,
+    iata: city.countryCode
+  };
+}
+

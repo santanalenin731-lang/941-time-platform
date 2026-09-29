@@ -12,6 +12,7 @@ interface HeaderProps {
   onOpenSearch: () => void;
   is24Hour: boolean;
   setIs24Hour: (val: boolean) => void;
+  onLogoClick?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -20,7 +21,8 @@ export const Header: React.FC<HeaderProps> = ({
   setActiveTab,
   onOpenSearch,
   is24Hour,
-  setIs24Hour
+  setIs24Hour,
+  onLogoClick
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
@@ -94,7 +96,13 @@ export const Header: React.FC<HeaderProps> = ({
       }}>
         {/* Top Left: Logo Image and Dynamic Time */}
         <div
-          onClick={() => setActiveTab('home')}
+          onClick={() => {
+            if (onLogoClick) {
+              onLogoClick();
+            } else {
+              setActiveTab('home');
+            }
+          }}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -411,7 +419,11 @@ export const Header: React.FC<HeaderProps> = ({
                     <button
                       key={item.id}
                       onClick={() => {
-                        setActiveTab(item.id as any);
+                        if (item.id === 'home' && onLogoClick) {
+                          onLogoClick();
+                        } else {
+                          setActiveTab(item.id as any);
+                        }
                         setMenuOpen(false);
                       }}
                       style={{

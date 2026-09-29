@@ -1,0 +1,339 @@
+/* ==========================================================================
+   9:41 AM — Minimalist City Info Section (src/styles/cityDetail.css)
+   Clean, refined, executive styling matching 9:41 AM visual philosophy
+   Paleta institucional: Tonos de azul (#071A33, #0D47A1, #0284C7, #38BDF8, #E0F2FE)
+   Prohibición absoluta de emojis y colores que rompan la línea de diseño.
+   ========================================================================== */
+
+.city-info-section {
+  max-width: 1040px;
+  margin: 1.5rem auto 3.5rem;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* --- Section Header & Live Business Status --- */
+.city-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1.5rem;
+}
+
+.city-info-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-navy-dark);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.city-info-heading svg {
+  color: #0284C7;
+}
+
+/* Business Status Pill (Sobrio, tonos de azul y pizarra, sin emojis) */
+.city-business-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #F8FAFC;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.city-business-pill.open {
+  background: #F0F9FF;
+  border-color: #BAE6FD;
+  color: #0284C7;
+}
+
+.city-business-pill.open::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #0284C7;
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+}
+
+.city-business-pill.afterHours::before,
+.city-business-pill.weekend::before,
+.city-business-pill.night::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #94A3B8;
+  display: inline-block;
+}
+
+/* --- Solar & Daylight Metrics Card --- */
+.city-solar-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 1px 3px rgba(7, 26, 51, 0.03);
+}
+
+.city-solar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .city-solar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+}
+
+.city-solar-metric-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.city-solar-metric-label svg {
+  color: #0284C7;
+}
+
+.city-solar-metric-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-navy-dark);
+  letter-spacing: -0.01em;
+}
+
+/* Daylight Progress Bar (Tonos de Azul institucionales) */
+.city-daylight-bar-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+  margin-bottom: 0.4rem;
+}
+
+.city-daylight-bar-track {
+  width: 100%;
+  height: 6px;
+  background: #F1F5F9;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.city-daylight-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0D47A1 0%, #0284C7 60%, #38BDF8 100%);
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+/* --- Technical & Geographic Grid --- */
+.city-tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.city-tech-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.2rem;
+  box-shadow: 0 1px 3px rgba(7, 26, 51, 0.03);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.city-tech-card:hover {
+  border-color: #BAE6FD;
+  transform: translateY(-1px);
+}
+
+.city-tech-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.4rem;
+}
+
+.city-tech-card-header svg {
+  color: #0284C7;
+}
+
+.city-tech-card-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-navy-dark);
+  margin-bottom: 0.2rem;
+  word-break: break-word;
+}
+
+.city-tech-card-sub {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}
+
+/* --- World Comparison List --- */
+.city-diff-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(7, 26, 51, 0.03);
+}
+
+.city-diff-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-navy-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+}
+
+.city-diff-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.65rem;
+}
+
+.city-diff-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.9rem;
+  background: #F8FAFC;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.city-diff-item:hover {
+  background: #FFFFFF;
+  border-color: #0284C7;
+  transform: translateX(2px);
+}
+
+.city-diff-item-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.city-diff-item-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-navy-dark);
+}
+
+.city-diff-item-country {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+}
+
+.city-diff-item-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.city-diff-item-time {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-navy-dark);
+}
+
+/* Badges de Desfase Horario (Tonos de azul y pizarra sutil, sin rojo) */
+.city-diff-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+}
+
+.city-diff-badge.ahead {
+  background: #F0F9FF;
+  border: 1px solid #BAE6FD;
+  color: #0284C7;
+}
+
+.city-diff-badge.behind {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+}
+
+.city-diff-badge.same {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
+}
+
+/* Meeting Planner CTA */
+.city-diff-cta {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.city-diff-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #F0F9FF;
+  border: 1px solid #BAE6FD;
+  color: #0284C7;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.city-diff-cta-btn:hover {
+  background: #0284C7;
+  color: #FFFFFF;
+  border-color: #0284C7;
+}

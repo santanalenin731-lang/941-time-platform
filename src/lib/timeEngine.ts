@@ -111,11 +111,23 @@ export function calculateSunTimes(lat: number, lng: number, timezone: string, da
     ? (nowMinutesLocal >= normSunrise && nowMinutesLocal < normSunset)
     : (nowMinutesLocal >= normSunrise || nowMinutesLocal < normSunset);
 
+  const solarNoonMinutesLocal = (sunriseMinutesLocal + sunsetMinutesLocal) / 2;
+  const daylightSpan = normSunset >= normSunrise ? (normSunset - normSunrise) : (1440 - normSunrise + normSunset);
+  let daylightPercent = 0;
+  if (isDaylight && daylightSpan > 0) {
+    const elapsed = nowMinutesLocal >= normSunrise ? (nowMinutesLocal - normSunrise) : (1440 - normSunrise + nowMinutesLocal);
+    daylightPercent = Math.round((elapsed / daylightSpan) * 100);
+  } else if (!isDaylight) {
+    daylightPercent = nowMinutesLocal >= normSunset ? 100 : 0;
+  }
+
   return {
     sunrise: formatMinutesToTime(sunriseMinutesLocal),
     sunset: formatMinutesToTime(sunsetMinutesLocal),
+    solarNoon: formatMinutesToTime(solarNoonMinutesLocal),
     dayLength: `${dlHours}h ${dlMins}m`,
-    isDaylight
+    isDaylight,
+    daylightPercent: Math.min(100, Math.max(0, daylightPercent))
   };
 }
 
@@ -325,3 +337,130 @@ export function getWeekNumber(date: Date): number {
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
 }
+
+export interface DstInfo {
+  hasDst: boolean;
+  isDstActive: boolean;
+  currentOffsetMinutes: number;
+  utcOffsetString: string;
+  dstDiffMinutes: number;
+}
+
+/**
+ * Computa dinámicamente si una zona horaria aplica Horario de Verano (DST)
+ * y si se encuentra activo en el momento actual, analizando solsticios.
+ */
+export function getCityDstStatus(timezone: string): DstInfo {
+  try {
+    const year = new Date().getFullYear();
+    const janDate = new Date(year, 0, 15);
+    const julDate = new Date(year, 6, 15);
+    const nowDate = new Date();
+
+    const getOffsetMin = (d: Date) => {
+      const utcDate = new Date(d.toLocaleString('en-US', { timeZone: 'UTC' }));
+      const tzDate = new Date(d.toLocaleString('en-US', { timeZone: timezone }));
+      return Math.round((tzDate.getTime() - utcDate.getTime()) / 60000);
+    };
+
+    const janOffset = getOffsetMin(janDate);
+    const julOffset = getOffsetMin(julDate);
+    const nowOffset = getOffsetMin(nowDate);
+
+    const hasDst = janOffset !== julOffset;
+    const standardOffset = Math.min(janOffset, julOffset);
+    const isDstActive = hasDst && nowOffset > standardOffset;
+    const dstDiffMinutes = Math.abs(julOffset - janOffset);
+
+    const sign = nowOffset >= 0 ? '+' : '-';
+    const absM = Math.abs(nowOffset);
+    const h = Math.floor(absM / 60);
+    const m = absM % 60;
+    const utcOffsetString = m > 0 ? `UTC${sign}${h}:${m.toString().padStart(2, '0')}` : `UTC${sign}${h}`;
+
+    return {
+      hasDst,
+      isDstActive,
+      currentOffsetMinutes: nowOffset,
+      utcOffsetString,
+      dstDiffMinutes
+    };
+  } catch (e) {
+    return {
+      hasDst: false,
+      isDstActive: false,
+      currentOffsetMinutes: 0,
+      utcOffsetString: 'UTC',
+      dstDiffMinutes: 0
+    };
+  }
+}
+
+export type BusinessStatus = 'business' | 'afterHours' | 'night' | 'weekend';
+
+/**
+ * Determina el estado de conveniencia comercial de una ciudad en base a su hora local.
+ */
+export function getBusinessStatus(timezone: string): {
+  status: BusinessStatus;
+  hour: number;
+  isWeekend: boolean;
+} {
+  try {
+    const now = new Date();
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      weekday: 'short',
+      hour: 'numeric',
+      hour12: false
+    }).formatToParts(now);
+
+    let weekday = '';
+    let hour = 12;
+
+    parts.forEach(p => {
+      if (p.type === 'weekday') weekday = p.value;
+      if (p.type === 'hour') hour = parseInt(p.value, 10);
+    });
+
+    const isWeekend = weekday === 'Sat' || weekday === 'Sun';
+
+    if (isWeekend) {
+      return { status: 'weekend', hour, isWeekend: true };
+    }
+
+    if (hour >= 9 && hour < 18) {
+      return { status: 'business', hour, isWeekend: false };
+    }
+
+    if ((hour >= 7 && hour < 9) || (hour >= 18 && hour < 22)) {
+      return { status: 'afterHours', hour, isWeekend: false };
+    }
+
+    return { status: 'night', hour, isWeekend: false };
+  } catch (e) {
+    return { status: 'business', hour: 12, isWeekend: false };
+  }
+}
+
+/**
+ * Formatea coordenadas en grados, minutos y dirección cardinal (N/S, E/W).
+ */
+export function formatCoordinates(lat: number, lng: number): {
+  cardinal: string;
+  decimal: string;
+} {
+  const latDeg = Math.floor(Math.abs(lat));
+  const latMin = Math.round((Math.abs(lat) - latDeg) * 60);
+  const latDir = lat >= 0 ? 'N' : 'S';
+
+  const lngDeg = Math.floor(Math.abs(lng));
+  const lngMin = Math.round((Math.abs(lng) - lngDeg) * 60);
+  const lngDir = lng >= 0 ? 'E' : 'W';
+
+  return {
+    cardinal: `${latDeg}° ${latMin}' ${latDir}, ${lngDeg}° ${lngMin}' ${lngDir}`,
+    decimal: `${lat.toFixed(4)}°, ${lng.toFixed(4)}°`
+  };
+}
+

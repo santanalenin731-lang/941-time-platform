@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Header } from './components/Header';
 import { HeroClock } from './components/HeroClock';
 import { WorldClock } from './components/WorldClock';
@@ -14,21 +14,26 @@ import { AboutPage } from './components/AboutPage';
 import { PrivacyPage } from './components/PrivacyPage';
 import { BlogListPage } from './components/BlogListPage';
 import { BlogPostPage } from './components/BlogPostPage';
+import { CityInfoSection } from './components/CityInfoSection';
 import { PWAInstallButton } from './components/PWAInstallButton';
 import { CITIES_DATABASE, City, getDetectedUserCity } from './data/cities';
+import { detectUserCityByIp } from './lib/geoIp';
 import { getBlogPostBySlug } from './data/blogPosts';
 import { LanguageProvider, useLanguage, getTranslatedCity, getTranslatedCountry, getCitySeoSlug } from './lib/i18n.tsx';
 import { trackPageView, trackCitySelect } from './lib/firebase';
 
-export type TabType = 'home' | 'world-clock' | 'compare' | 'stopwatch' | 'timer' | 'alarm' | 'about' | 'privacy' | 'blog';
+export type TabType = 'home' | 'city-detail' | 'world-clock' | 'compare' | 'stopwatch' | 'timer' | 'alarm' | 'about' | 'privacy' | 'blog';
 
 const AppContent: React.FC = () => {
   const { languageInfo } = useLanguage();
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [activeBlogSlug, setActiveBlogSlug] = useState<string | null>(null);
-  const [primaryCity, setPrimaryCity] = useState<City>(() => getDetectedUserCity());
+  const detectedUserCityRef = useRef<City>(getDetectedUserCity());
+  const [primaryCity, setPrimaryCity] = useState<City>(() => detectedUserCityRef.current);
+  const [isSpecificCitySelected, setIsSpecificCitySelected] = useState(false);
   const [is24Hour, setIs24Hour] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const isManuallySelectedRef = useRef(false);
   const showSeconds = true; // Always show seconds permanently per user request
 
   // Load World Clock Cities from localStorage
@@ -73,7 +78,7 @@ const AppContent: React.FC = () => {
           ? 'Blog 9:41 AM — Time Intelligence & Tech Culture'
           : 'Blog 9:41 AM — Inteligencia Horaria, Tiempo & Cultura Tech';
       }
-    } else if (primaryCity) {
+    } else if (isSpecificCitySelected && primaryCity) {
       const cityName = getTranslatedCity(primaryCity, languageInfo.code);
       const countryName = getTranslatedCountry(primaryCity.countryCode, languageInfo.locale, primaryCity.country);
       const slug = getCitySeoSlug(primaryCity, languageInfo.code);
@@ -81,10 +86,17 @@ const AppContent: React.FC = () => {
       pageTitle = languageInfo.code === 'en'
         ? `Exact time in ${cityName}, ${countryName} — 9:41 AM`
         : `Hora exacta en ${cityName}, ${countryName} — 9:41 AM`;
+    } else if (primaryCity) {
+      if (window.location.hash && !window.location.hash.startsWith('#blog')) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+      pageTitle = languageInfo.code === 'en'
+        ? '9:41 AM — Time, beautifully simple'
+        : '9:41 AM — Hora exacta, hermosa y simple';
     }
     document.title = pageTitle;
     trackPageView(pageTitle);
-  }, [primaryCity, activeTab, activeBlogSlug, languageInfo]);
+  }, [primaryCity, activeTab, activeBlogSlug, languageInfo, isSpecificCitySelected]);
 
   // Scroll to top immediately whenever active tab or blog slug changes
   useEffect(() => {
@@ -118,10 +130,43 @@ const AppContent: React.FC = () => {
         const cleanSlug = hash.replace('hora-en-', '').replace('time-in-', '');
         const matched = CITIES_DATABASE.find(c => c.seoSlug === hash || c.id === cleanSlug);
         if (matched) {
+          isManuallySelectedRef.current = true;
+          setIsSpecificCitySelected(true);
           setPrimaryCity(matched);
+          setActiveTab('home');
         }
       }
     }
+  }, []);
+
+  // Background IP Geolocation Detection: Automatically detects real physical location (e.g. Dominican Republic)
+  // even if the user's computer/browser in an office has an inaccurate or generic timezone like America/La_Paz.
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '').trim();
+    const hasExplicitCityHash = Boolean(
+      hash &&
+      !hash.startsWith('blog') &&
+      CITIES_DATABASE.some(c => c.seoSlug === hash || c.id === hash.replace('hora-en-', '').replace('time-in-', ''))
+    );
+
+    if (hasExplicitCityHash) {
+      // User entered via a direct specific city URL link, do not override
+      return;
+    }
+
+    detectUserCityByIp().then(ipCity => {
+      if (ipCity) {
+        detectedUserCityRef.current = ipCity;
+        if (!isManuallySelectedRef.current) {
+          setPrimaryCity(prevCity => {
+            if (prevCity.id !== ipCity.id) {
+              return ipCity;
+            }
+            return prevCity;
+          });
+        }
+      }
+    });
   }, []);
 
   const handleAddWorldClockCity = (city: City) => {
@@ -135,10 +180,30 @@ const AppContent: React.FC = () => {
     setWorldClockCities(prev => prev.filter(c => c.id !== cityId));
   };
 
-  const handleSelectCityFromSearch = (city: City) => {
+  const handleSelectCity = (city: City) => {
+    isManuallySelectedRef.current = true;
+    setIsSpecificCitySelected(true);
     setPrimaryCity(city);
     setActiveTab('home');
     trackCitySelect(city.name, city.country);
+  };
+
+  const handleSelectCityFromSearch = (city: City) => {
+    handleSelectCity(city);
+  };
+
+  const handleLogoClick = () => {
+    isManuallySelectedRef.current = false;
+    setIsSpecificCitySelected(false);
+    setPrimaryCity(detectedUserCityRef.current);
+    setActiveTab('home');
+    setActiveBlogSlug(null);
+    if (window.location.hash && !window.location.hash.startsWith('#blog')) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   const handleSelectBlogPost = (slug: string) => {
@@ -166,6 +231,7 @@ const AppContent: React.FC = () => {
         onOpenSearch={() => setIsSearchOpen(true)}
         is24Hour={is24Hour}
         setIs24Hour={setIs24Hour}
+        onLogoClick={handleLogoClick}
       />
 
       {/* Main Content Body */}
@@ -176,24 +242,37 @@ const AppContent: React.FC = () => {
         maxWidth: '100vw',
         boxSizing: 'border-box'
       }}>
-        {activeTab === 'home' && (
+        {(activeTab === 'home' || activeTab === 'city-detail') && (
           <>
             {/* Master Clock - High contrast, maximum readability */}
             <HeroClock
               city={primaryCity}
               is24Hour={is24Hour}
               showSeconds={showSeconds}
-              onSelectCity={setPrimaryCity}
+              onSelectCity={handleSelectCity}
             />
 
             {/* Realistic 3D Earth Globe Section (Google Maps Style) */}
             <RealisticEarthGlobe
               city={primaryCity}
-              onSelectCity={setPrimaryCity}
+              onSelectCity={handleSelectCity}
             />
 
+            {/* Minimalist Enriched City Information Section — ONLY visible when searching/selecting a specific city */}
+            {isSpecificCitySelected && (
+              <CityInfoSection
+                city={primaryCity}
+                is24Hour={is24Hour}
+                onSelectCity={handleSelectCity}
+                onOpenMeetingPlanner={(selectedCity) => {
+                  setPrimaryCity(selectedCity);
+                  setActiveTab('compare');
+                }}
+              />
+            )}
+
             {/* Aesthetic Differentiation Section: Interactive 4-Row Typographic Country Stream */}
-            <CountryMarquee onSelectCity={setPrimaryCity} />
+            <CountryMarquee onSelectCity={handleSelectCity} />
           </>
         )}
 
