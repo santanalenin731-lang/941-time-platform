@@ -195,7 +195,24 @@ const AppContent: React.FC = () => {
   const handleLogoClick = () => {
     isManuallySelectedRef.current = false;
     setIsSpecificCitySelected(false);
-    setPrimaryCity(detectedUserCityRef.current);
+
+    const deviceTz = (() => {
+      try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone;
+      } catch {
+        return '';
+      }
+    })();
+    const isDominican =
+      deviceTz === 'America/Santo_Domingo' ||
+      deviceTz.includes('Santo_Domingo') ||
+      (typeof navigator !== 'undefined' && (navigator.language === 'es-DO' || (navigator.languages && navigator.languages.includes('es-DO'))));
+
+    const targetCity = isDominican
+      ? (CITIES_DATABASE.find(c => c.id === 'santo-domingo') || detectedUserCityRef.current)
+      : detectedUserCityRef.current;
+
+    setPrimaryCity(targetCity);
     setActiveTab('home');
     setActiveBlogSlug(null);
     if (window.location.hash && !window.location.hash.startsWith('#blog')) {

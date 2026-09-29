@@ -1915,22 +1915,55 @@ export const DEFAULT_USER_CITY = CITIES_DATABASE.find(c => c.id === "santo-domin
 
 export function getDetectedUserCity(): City {
   try {
+    const userTimezone = (() => {
+      try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone;
+      } catch {
+        return '';
+      }
+    })();
+
+    const isDominicanDevice =
+      userTimezone === 'America/Santo_Domingo' ||
+      userTimezone.includes('Santo_Domingo') ||
+      (typeof navigator !== 'undefined' && (navigator.language === 'es-DO' || (navigator.languages && navigator.languages.includes('es-DO'))));
+
+    // Si el dispositivo está en Santo Domingo, siempre Santo Domingo
+    if (isDominicanDevice) {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('941_detected_ip_city') === 'new-york') {
+        localStorage.removeItem('941_detected_ip_city');
+      }
+      return DEFAULT_USER_CITY;
+    }
+
     // 0. Check for cached IP-detected city
-    const cachedIpCity = localStorage.getItem('941_detected_ip_city');
+    const cachedIpCity = typeof localStorage !== 'undefined' ? localStorage.getItem('941_detected_ip_city') : null;
     if (cachedIpCity) {
       const match = CITIES_DATABASE.find(c => c.id === cachedIpCity);
       if (match) return match;
     }
 
-    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     if (userTimezone) {
       // 1. Exact timezone match in database
       const exactMatch = CITIES_DATABASE.find(c => c.timezone === userTimezone);
-      if (exactMatch) return exactMatch;
+      if (exactMatch) {
+        // Excepción conocida: America/La_Paz en equipos corporativos de República Dominicana
+        if (exactMatch.id === 'la-paz' && typeof navigator !== 'undefined' && navigator.language?.toLowerCase().startsWith('es')) {
+          return DEFAULT_USER_CITY;
+        }
+        return exactMatch;
+      }
 
       // 2. Match by current UTC offset string
       const now = new Date();
       const userTzOffset = new Intl.DateTimeFormat('en-US', { timeZone: userTimezone, timeZoneName: 'short' }).format(now);
+      const sdOffset = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Santo_Domingo', timeZoneName: 'short' }).format(now);
+      
+      const isSpanish = typeof navigator !== 'undefined' && navigator.language?.toLowerCase().startsWith('es');
+      if (userTzOffset === sdOffset && isSpanish) {
+        return DEFAULT_USER_CITY;
+      }
+
       const matchByOffset = CITIES_DATABASE.find(c => {
         const cOffset = new Intl.DateTimeFormat('en-US', { timeZone: c.timezone, timeZoneName: 'short' }).format(now);
         return cOffset === userTzOffset;

@@ -87,8 +87,33 @@ async function queryIpLocation(): Promise<GeoLocationResult | null> {
  * Resuelve la ciudad más adecuada de CITIES_DATABASE a partir de los datos de la IP.
  */
 export function resolveCityFromGeoIp(geo: GeoLocationResult): City {
-  // 1. Regla especial para República Dominicana
+  const deviceTz = (() => {
+    try {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch {
+      return '';
+    }
+  })();
+
+  const isDominicanDevice =
+    deviceTz === 'America/Santo_Domingo' ||
+    deviceTz.includes('Santo_Domingo') ||
+    (typeof navigator !== 'undefined' && (navigator.language === 'es-DO' || (navigator.languages && navigator.languages.includes('es-DO'))));
+
+  // 1. Si el dispositivo está en Santo Domingo, una IP de EE.UU. (ej. iCloud Private Relay o VPN) NUNCA debe sustituirla
+  if (isDominicanDevice) {
+    const sd = CITIES_DATABASE.find(c => c.id === 'santo-domingo');
+    if (sd) return sd;
+  }
+
+  // 2. Regla especial para República Dominicana por IP (ej. oficinas con timezone America/La_Paz)
   if (geo.countryCode === 'DO') {
+    const sd = CITIES_DATABASE.find(c => c.id === 'santo-domingo');
+    if (sd) return sd;
+  }
+
+  // 3. Si el dispositivo tiene America/La_Paz por error de Windows en RD y el navegador está en español
+  if (deviceTz === 'America/La_Paz' && (typeof navigator !== 'undefined' && navigator.language?.toLowerCase().startsWith('es'))) {
     const sd = CITIES_DATABASE.find(c => c.id === 'santo-domingo');
     if (sd) return sd;
   }
@@ -165,6 +190,27 @@ const CACHE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 horas
  */
 export async function detectUserCityByIp(): Promise<City | null> {
   try {
+    const deviceTz = (() => {
+      try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone;
+      } catch {
+        return '';
+      }
+    })();
+
+    const isDominicanDevice =
+      deviceTz === 'America/Santo_Domingo' ||
+      deviceTz.includes('Santo_Domingo') ||
+      (typeof navigator !== 'undefined' && (navigator.language === 'es-DO' || (navigator.languages && navigator.languages.includes('es-DO'))));
+
+    // Si el dispositivo está en Santo Domingo, siempre Santo Domingo y purgar New York
+    if (isDominicanDevice) {
+      const sd = CITIES_DATABASE.find(c => c.id === 'santo-domingo') || DEFAULT_USER_CITY;
+      localStorage.setItem(STORAGE_KEY_CITY, sd.id);
+      localStorage.setItem(STORAGE_KEY_TIMESTAMP, Date.now().toString());
+      return sd;
+    }
+
     // 1. Verificar si hay una ciudad válida en caché reciente
     const cachedCityId = localStorage.getItem(STORAGE_KEY_CITY);
     const cachedTime = localStorage.getItem(STORAGE_KEY_TIMESTAMP);
