@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search, Menu, X, Clock, Globe, Users, Languages, Check, Info, ShieldCheck, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLanguage, SUPPORTED_LANGUAGES, LanguageCode } from '../lib/i18n.tsx';
 import { getTimeInTimezone } from '../lib/timeEngine';
+import { trackLanguageChange, trackTimeFormatToggle } from '../lib/firebase';
 
 import { TabType } from '../App';
 
@@ -267,7 +268,10 @@ export const Header: React.FC<HeaderProps> = ({
                   border: '1px solid #D5E1ED'
                 }}>
                   <button
-                    onClick={() => setIs24Hour(false)}
+                    onClick={() => {
+                      setIs24Hour(false);
+                      trackTimeFormatToggle('12h');
+                    }}
                     style={{
                       flex: 1,
                       padding: '0.5rem 0.6rem',
@@ -287,7 +291,10 @@ export const Header: React.FC<HeaderProps> = ({
                     {t.header.format12h} (AM/PM)
                   </button>
                   <button
-                    onClick={() => setIs24Hour(true)}
+                    onClick={() => {
+                      setIs24Hour(true);
+                      trackTimeFormatToggle('24h');
+                    }}
                     style={{
                       flex: 1,
                       padding: '0.5rem 0.6rem',
@@ -370,6 +377,7 @@ export const Header: React.FC<HeaderProps> = ({
                           key={lang.code}
                           onClick={() => {
                             setLanguage(lang.code as LanguageCode);
+                            trackLanguageChange(lang.code);
                             setLangMenuOpen(false);
                           }}
                           style={{

@@ -20,7 +20,7 @@ import { CITIES_DATABASE, City, getDetectedUserCity } from './data/cities';
 import { detectUserCityByIp } from './lib/geoIp';
 import { getBlogPostBySlug } from './data/blogPosts';
 import { LanguageProvider, useLanguage, getTranslatedCity, getTranslatedCountry, getCitySeoSlug } from './lib/i18n.tsx';
-import { trackPageView, trackCitySelect } from './lib/firebase';
+import { trackPageView, trackCitySelect, trackToolUsage } from './lib/firebase';
 
 export type TabType = 'home' | 'city-detail' | 'world-clock' | 'compare' | 'stopwatch' | 'timer' | 'alarm' | 'about' | 'privacy' | 'blog';
 
@@ -31,6 +31,7 @@ const AppContent: React.FC = () => {
   const detectedUserCityRef = useRef<City>(getDetectedUserCity());
   const [primaryCity, setPrimaryCity] = useState<City>(() => detectedUserCityRef.current);
   const [isSpecificCitySelected, setIsSpecificCitySelected] = useState(false);
+  const [isCityTransitioning, setIsCityTransitioning] = useState(false);
   const [is24Hour, setIs24Hour] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const isManuallySelectedRef = useRef(false);
@@ -110,6 +111,7 @@ const AppContent: React.FC = () => {
     if (tab !== 'blog') {
       setActiveBlogSlug(null);
     }
+    trackToolUsage(tab, 'navigate');
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -180,16 +182,22 @@ const AppContent: React.FC = () => {
     setWorldClockCities(prev => prev.filter(c => c.id !== cityId));
   };
 
-  const handleSelectCity = (city: City) => {
+  const handleSelectCity = (city: City, source: string = 'direct') => {
     isManuallySelectedRef.current = true;
     setIsSpecificCitySelected(true);
     setPrimaryCity(city);
     setActiveTab('home');
-    trackCitySelect(city.name, city.country);
+    trackCitySelect(city.name, city.country, source);
+
+    // Trigger visual screen transition / flash
+    setIsCityTransitioning(true);
+    setTimeout(() => {
+      setIsCityTransitioning(false);
+    }, 400);
   };
 
   const handleSelectCityFromSearch = (city: City) => {
-    handleSelectCity(city);
+    handleSelectCity(city, 'search_modal');
   };
 
   const handleLogoClick = () => {
@@ -267,6 +275,8 @@ const AppContent: React.FC = () => {
               is24Hour={is24Hour}
               showSeconds={showSeconds}
               onSelectCity={handleSelectCity}
+              isSpecificCitySelected={isSpecificCitySelected}
+              isTransitioning={isCityTransitioning}
             />
 
             {/* Realistic 3D Earth Globe Section (Google Maps Style) */}

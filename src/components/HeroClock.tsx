@@ -8,13 +8,16 @@ interface HeroClockProps {
   is24Hour: boolean;
   showSeconds: boolean;
   onSelectCity: (city: City) => void;
+  isSpecificCitySelected?: boolean;
+  isTransitioning?: boolean;
 }
 
 export const HeroClock: React.FC<HeroClockProps> = ({
   city,
   is24Hour,
   showSeconds,
-  onSelectCity
+  onSelectCity,
+  isTransitioning
 }) => {
   const { languageInfo } = useLanguage();
 
@@ -96,14 +99,17 @@ export const HeroClock: React.FC<HeroClockProps> = ({
   const weekNum = getWeekNumber(tzDate);
 
   return (
-    <section style={{
-      width: '100%',
-      maxWidth: 'var(--max-width)',
-      margin: '0.5rem auto 3rem auto',
-      padding: '0 1rem',
-      boxSizing: 'border-box',
-      overflowX: 'hidden'
-    }}>
+    <section
+      className={isTransitioning ? 'city-transition-active' : ''}
+      style={{
+        width: '100%',
+        maxWidth: 'var(--max-width)',
+        margin: '0.5rem auto 3rem auto',
+        padding: '0 1rem',
+        boxSizing: 'border-box',
+        overflowX: 'hidden'
+      }}
+    >
       {/* Status & Subhead */}
       <div style={{ marginBottom: '1.25rem', maxWidth: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>

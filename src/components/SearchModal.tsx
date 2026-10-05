@@ -3,6 +3,7 @@ import { CITIES_DATABASE, City } from '../data/cities';
 import { getTimeInTimezone } from '../lib/timeEngine';
 import { Search, X } from 'lucide-react';
 import { useLanguage, getTranslatedCountry, getTranslatedCity, getTranslatedRegion, getCitySeoSlug } from '../lib/i18n.tsx';
+import { trackCitySearch } from '../lib/firebase';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -139,6 +140,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
                 <div
                   key={city.id}
                   onClick={() => {
+                    if (query.trim()) {
+                      trackCitySearch(query.trim(), filteredCities.length);
+                    }
                     onSelectCity(city);
                     onClose();
                   }}
