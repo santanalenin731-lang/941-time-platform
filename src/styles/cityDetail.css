@@ -83,18 +83,17 @@
 
 /* --- Solar & Daylight Metrics Card --- */
 .city-solar-card {
-  background: linear-gradient(180deg, #F8FAFD 0%, #EEF5FA 100%);
-  border: 1px solid #D2E4F2;
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%);
+  border: 1px solid #C4DCEF;
+  border-bottom: 1.5px solid #B4D3EB;
   border-radius: var(--radius-lg);
   padding: 1.5rem 1.75rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 10px 25px -4px rgba(7, 26, 51, 0.08), 0 4px 10px -2px rgba(2, 132, 199, 0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.city-solar-card:hover {
-  box-shadow: 0 14px 30px -4px rgba(7, 26, 51, 0.12), 0 6px 14px -2px rgba(2, 132, 199, 0.1);
-  border-color: #BAE6FD;
+  box-shadow: 
+    0 2px 5px rgba(7, 26, 51, 0.04),
+    0 12px 28px -4px rgba(7, 26, 51, 0.12),
+    0 8px 20px -2px rgba(2, 132, 199, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 .city-solar-grid {
@@ -166,21 +165,19 @@
 }
 
 .city-tech-card {
-  background: linear-gradient(180deg, #F8FAFD 0%, #EDF4FA 100%);
-  border: 1px solid #D2E4F2;
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%);
+  border: 1px solid #C4DCEF;
+  border-bottom: 1.5px solid #B4D3EB;
   border-radius: var(--radius-md);
   padding: 1.25rem 1.35rem;
-  box-shadow: 0 8px 20px -3px rgba(7, 26, 51, 0.07), 0 3px 8px -2px rgba(2, 132, 199, 0.05);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+  box-shadow: 
+    0 2px 4px rgba(7, 26, 51, 0.04),
+    0 11px 26px -3px rgba(7, 26, 51, 0.11),
+    0 6px 16px -2px rgba(2, 132, 199, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.city-tech-card:hover {
-  border-color: #BAE6FD;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px -4px rgba(7, 26, 51, 0.12), 0 5px 12px -2px rgba(2, 132, 199, 0.09);
 }
 
 .city-tech-card-header {

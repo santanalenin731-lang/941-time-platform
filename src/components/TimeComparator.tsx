@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
 import { getTimeInTimezone, getTimeDifference, findBestMeetingTime } from '../lib/timeEngine';
-import { Users, ArrowLeftRight, CalendarCheck, Clock, Sparkles } from 'lucide-react';
+import { Users, ArrowLeftRight, CalendarCheck, Clock } from 'lucide-react';
 import { useLanguage, getTranslatedCountry, getTranslatedCity } from '../lib/i18n.tsx';
 import '../styles/comparator.css';
 
@@ -273,7 +273,6 @@ export const TimeComparator: React.FC<TimeComparatorProps> = ({
           </div>
           {mutualOverlap.hasOverlap && (
             <span className="tc-overlap-count-badge">
-              <Sparkles size={13} />
               {mutualOverlap.count} {mutualOverlap.count === 1 ? t.comparator.hourOverlap : t.comparator.hoursOverlap}
             </span>
           )}

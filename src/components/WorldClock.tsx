@@ -232,22 +232,23 @@ export const WorldClock: React.FC<WorldClockProps> = ({
                 style={{
                   padding: '1.25rem',
                   borderRadius: 'var(--radius-md)',
-                  background: '#FFFFFF',
-                  border: '1px solid var(--color-border)',
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%)',
+                  border: '1px solid #C4DCEF',
+                  borderBottom: '1.5px solid #B4D3EB',
+                  boxShadow: '0 2px 4px rgba(7, 26, 51, 0.04), 0 11px 26px -3px rgba(7, 26, 51, 0.11), 0 6px 16px -2px rgba(2, 132, 199, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   gap: '1rem',
-                  position: 'relative',
-                  transition: 'var(--transition-fast)'
+                  position: 'relative'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-sky)';
+                  e.currentTarget.style.borderColor = '#BAE6FD';
                   const btn = e.currentTarget.querySelector('.wc-remove-btn') as HTMLElement;
                   if (btn) btn.style.opacity = '1';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  e.currentTarget.style.borderColor = '#C4DCEF';
                   const btn = e.currentTarget.querySelector('.wc-remove-btn') as HTMLElement;
                   if (btn) btn.style.opacity = '0';
                 }}
@@ -305,8 +306,8 @@ export const WorldClock: React.FC<WorldClockProps> = ({
                       fontWeight: 600,
                       padding: '0.2rem 0.5rem',
                       borderRadius: 'var(--radius-sm)',
-                      background: 'var(--color-white)',
-                      border: '1px solid var(--color-border)',
+                      background: 'rgba(255, 255, 255, 0.92)',
+                      border: '1px solid #C4DCEF',
                       color: 'var(--color-navy)'
                     }}>
                       {diff.formattedDiff}

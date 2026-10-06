@@ -41,16 +41,6 @@ export const CityInfoSection: React.FC<CityInfoSectionProps> = ({
 
   return (
     <section id="city-info-section" className="city-info-section" aria-label={`Información de ${cityName}`}>
-      {/* Section Header */}
-      <div className="city-info-header">
-        <h2 className="city-info-heading">
-          <span>{cityName}</span>
-          <span style={{ color: 'var(--color-text-light)', fontWeight: 400, fontSize: '0.95rem' }}>
-            · {t.cityDetail.techSheetTitle}
-          </span>
-        </h2>
-      </div>
-
       {/* 1. Solar & Daylight Metrics Card (Soft Light Blue with Depth) */}
       <div className="city-solar-card">
         <div className="city-solar-grid">

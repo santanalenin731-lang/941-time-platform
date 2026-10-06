@@ -6,8 +6,8 @@
   padding: 2rem 1.75rem;
   background: var(--color-bg-card);
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 20px -2px rgba(7, 26, 51, 0.06), 0 2px 6px -1px rgba(7, 26, 51, 0.04);
-  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px -4px rgba(7, 26, 51, 0.06), 0 4px 10px -2px rgba(2, 132, 199, 0.04);
+  border: 1px solid #DCE8F2;
   box-sizing: border-box;
   width: 100%;
 }
@@ -38,8 +38,14 @@
 .tc-city-card {
   padding: 1.25rem;
   border-radius: var(--radius-md);
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%);
+  border: 1px solid #C4DCEF;
+  border-bottom: 1.5px solid #B4D3EB;
+  box-shadow: 
+    0 2px 4px rgba(7, 26, 51, 0.04),
+    0 11px 26px -3px rgba(7, 26, 51, 0.11),
+    0 6px 16px -2px rgba(2, 132, 199, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
   box-sizing: border-box;
   width: 100%;
   min-width: 0; /* Prevents flex/grid blowouts */
@@ -60,8 +66,8 @@
   width: 100%;
   padding: 0.65rem 0.85rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
-  background: var(--color-white);
+  border: 1px solid #C4DCEF;
+  background: rgba(255, 255, 255, 0.95);
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--color-navy);
@@ -123,12 +129,17 @@
   text-align: center;
   padding: 0.85rem 1.15rem;
   border-radius: var(--radius-md);
-  background: var(--color-sky-light);
-  border: 1px solid var(--color-sky);
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%);
+  border: 1px solid #C4DCEF;
+  border-bottom: 1.5px solid #B4D3EB;
   color: var(--color-navy-deep);
   font-weight: 700;
   font-size: 0.88rem;
-  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15);
+  box-shadow: 
+    0 2px 4px rgba(7, 26, 51, 0.04),
+    0 8px 20px -3px rgba(7, 26, 51, 0.10),
+    0 4px 12px -2px rgba(2, 132, 199, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
   white-space: nowrap;
 }
 
@@ -147,16 +158,18 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: var(--color-white);
-  border: 1px solid var(--color-sky);
-  color: var(--color-navy);
+  background: #FFFFFF;
+  border: 1px solid #C4DCEF;
+  border-bottom: 1.5px solid #B4D3EB;
+  color: #0284C7;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 6px rgba(7, 26, 51, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 .tc-swap-btn:hover {
-  background: var(--color-sky-light);
+  background: #EAF3FB;
+  border-color: #BAE6FD;
   transform: rotate(180deg) scale(1.06);
 }
 
@@ -166,12 +179,17 @@
 
 /* Recommended Overlap Window Card */
 .tc-overlap-card {
-  background: linear-gradient(135deg, rgba(224, 242, 254, 0.65) 0%, rgba(240, 253, 244, 0.8) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.45);
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%);
+  border: 1px solid #C4DCEF;
+  border-bottom: 1.5px solid #B4D3EB;
   border-radius: var(--radius-md);
-  padding: 1.1rem 1.25rem;
+  padding: 1.25rem 1.4rem;
   margin-bottom: 1.75rem;
-  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.08);
+  box-shadow: 
+    0 2px 4px rgba(7, 26, 51, 0.04),
+    0 11px 26px -3px rgba(7, 26, 51, 0.11),
+    0 6px 16px -2px rgba(2, 132, 199, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 .tc-overlap-header {
@@ -193,14 +211,9 @@
 }
 
 .tc-overlap-count-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-full);
-  background: #0284C7;
-  color: #FFFFFF;
-  font-size: 0.78rem;
+  display: inline-block;
+  color: #0284C7;
+  font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.2px;
 }
@@ -219,10 +232,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  background: #FFFFFF;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  border: 1px solid #C4DCEF;
   color: var(--color-navy);
   font-family: var(--font-mono);
 }
@@ -237,9 +250,15 @@
 /* 24-Hour Visual Timeline Section */
 .tc-timeline-section {
   padding: 1.4rem 1.25rem;
-  background: var(--color-bg-secondary);
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%);
+  border: 1px solid #C4DCEF;
+  border-bottom: 1.5px solid #B4D3EB;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
+  box-shadow: 
+    0 2px 4px rgba(7, 26, 51, 0.04),
+    0 11px 26px -3px rgba(7, 26, 51, 0.11),
+    0 6px 16px -2px rgba(2, 132, 199, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 .tc-timeline-header {
@@ -263,10 +282,10 @@
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.95);
   padding: 0.2rem 0.55rem;
   border-radius: var(--radius-full);
-  border: 1px solid var(--color-border);
+  border: 1px solid #C4DCEF;
 }
 
 /* Horizontal scrollable track */

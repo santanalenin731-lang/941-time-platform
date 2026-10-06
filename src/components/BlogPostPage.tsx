@@ -136,11 +136,13 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
       {/* Featured Snippet Box (Position 0 Google Box) */}
       {langPost.featuredSnippet && (
         <div style={{
-          background: 'linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)',
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%)',
           borderRadius: 'var(--radius-md)',
+          border: '1px solid #C4DCEF',
+          borderBottom: '1.5px solid #B4D3EB',
           padding: '1.75rem 2rem',
           marginBottom: '2.5rem',
-          boxShadow: '0 8px 24px rgba(2, 132, 199, 0.08)'
+          boxShadow: '0 2px 4px rgba(7, 26, 51, 0.04), 0 11px 26px -3px rgba(7, 26, 51, 0.11), 0 6px 16px -2px rgba(2, 132, 199, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.95)'
         }}>
           <div style={{
             fontSize: '0.82rem',
@@ -169,9 +171,11 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
         <div style={{
           margin: '2.5rem 0',
           padding: '1.5rem',
-          background: 'var(--color-bg-secondary)',
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%)',
           borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--color-border)'
+          border: '1px solid #C4DCEF',
+          borderBottom: '1.5px solid #B4D3EB',
+          boxShadow: '0 2px 4px rgba(7, 26, 51, 0.04), 0 11px 26px -3px rgba(7, 26, 51, 0.11), 0 6px 16px -2px rgba(2, 132, 199, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.95)'
         }}>
           <div style={{
             fontSize: '0.8rem',
@@ -241,24 +245,23 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
                   key={relPost.id}
                   onClick={() => onSelectPost(relPost.slug)}
                   style={{
-                    background: 'var(--color-white)',
+                    background: 'linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%)',
                     borderRadius: 'var(--radius-lg)',
-                    border: '1px solid rgba(2, 132, 199, 0.15)',
+                    border: '1px solid #C4DCEF',
+                    borderBottom: '1.5px solid #B4D3EB',
                     padding: '1.5rem',
                     cursor: 'pointer',
-                    boxShadow: '0 12px 32px rgba(7, 26, 51, 0.1), 0 4px 12px rgba(2, 132, 199, 0.08)',
-                    transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                    boxShadow: '0 2px 4px rgba(7, 26, 51, 0.04), 0 11px 26px -3px rgba(7, 26, 51, 0.11), 0 6px 16px -2px rgba(2, 132, 199, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
+                    transition: 'border-color 0.2s ease',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-6px)';
-                    e.currentTarget.style.boxShadow = '0 20px 45px rgba(2, 132, 199, 0.24), 0 6px 18px rgba(7, 26, 51, 0.12)';
+                    e.currentTarget.style.borderColor = '#BAE6FD';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(7, 26, 51, 0.1), 0 4px 12px rgba(2, 132, 199, 0.08)';
+                    e.currentTarget.style.borderColor = '#C4DCEF';
                   }}
                 >
                   <div>

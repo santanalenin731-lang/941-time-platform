@@ -187,11 +187,12 @@ export const Alarm: React.FC<AlarmProps> = ({ is24Hour = false }) => {
     <div style={{
       maxWidth: '1000px',
       margin: '2rem auto',
-      padding: '2rem 1.5rem',
-      background: 'var(--color-bg-card)',
+      padding: '2.5rem 1.75rem',
+      background: 'linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%)',
       borderRadius: 'var(--radius-lg)',
-      boxShadow: 'var(--shadow-card)',
-      border: '1px solid var(--color-border)'
+      border: '1px solid #C4DCEF',
+      borderBottom: '1.5px solid #B4D3EB',
+      boxShadow: '0 2px 4px rgba(7, 26, 51, 0.04), 0 11px 26px -3px rgba(7, 26, 51, 0.11), 0 6px 16px -2px rgba(2, 132, 199, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.95)'
     }}>
       {/* Active Ringing Alarm Notification Modal */}
       {ringingAlarm && (
@@ -255,10 +256,12 @@ export const Alarm: React.FC<AlarmProps> = ({ is24Hour = false }) => {
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            background: 'var(--color-bg-secondary)',
+            background: 'rgba(255, 255, 255, 0.95)',
             borderRadius: 'var(--radius-md)',
-            padding: '0.35rem 0.6rem',
-            border: '1px solid var(--color-border)',
+            padding: '0.4rem 0.75rem',
+            border: '1px solid #C4DCEF',
+            borderBottom: '1.5px solid #B4D3EB',
+            boxShadow: '0 2px 5px rgba(7, 26, 51, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
             gap: '0.35rem'
           }}>
             {/* Hour select */}
@@ -396,10 +399,13 @@ export const Alarm: React.FC<AlarmProps> = ({ is24Hour = false }) => {
                   justifyContent: 'space-between',
                   padding: '1rem 1.35rem',
                   borderRadius: 'var(--radius-md)',
-                  background: alarm.isActive ? 'var(--color-sky-light)' : 'var(--color-bg-secondary)',
+                  background: alarm.isActive ? 'linear-gradient(180deg, #FFFFFF 0%, #EAF3FB 100%)' : '#F8FAFC',
                   border: '1px solid',
-                  borderColor: alarm.isActive ? 'var(--color-sky)' : 'var(--color-border)',
-                  boxShadow: alarm.isActive ? '0 4px 12px rgba(2, 132, 199, 0.08)' : 'none',
+                  borderColor: alarm.isActive ? '#C4DCEF' : '#E2E8F0',
+                  borderBottom: alarm.isActive ? '1.5px solid #B4D3EB' : '1px solid #E2E8F0',
+                  boxShadow: alarm.isActive 
+                    ? '0 2px 4px rgba(7, 26, 51, 0.04), 0 8px 20px -3px rgba(7, 26, 51, 0.10), 0 4px 12px -2px rgba(2, 132, 199, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95)' 
+                    : 'none',
                   transition: 'all 0.2s ease'
                 }}>
                   <div style={{ textAlign: 'left', display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
