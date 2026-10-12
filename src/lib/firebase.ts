@@ -5,23 +5,25 @@ import { getAnalytics, isSupported, logEvent, Analytics } from 'firebase/analyti
  * Configuración oficial de Firebase para el proyecto 941 Time Platform (platform-941-app).
  * El measurementId se obtiene automáticamente al habilitar Google Analytics en Firebase Console.
  */
+const env = (import.meta as any).env || {};
+
 export const firebaseConfig = {
-  apiKey: "AIzaSyBLE7GUJfrRW6vR6fBoU2RUooOkK9nKyps",
-  authDomain: "platform-941-app.firebaseapp.com",
-  projectId: "platform-941-app",
-  storageBucket: "platform-941-app.firebasestorage.app",
-  messagingSenderId: "1018514208706",
-  appId: "1:1018514208706:web:eb4e290de123d13446885b",
-  measurementId: (import.meta as any).env?.VITE_FIREBASE_MEASUREMENT_ID || "G-8X2ESZZSR7"
+  apiKey: env.VITE_FIREBASE_API_KEY || "",
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || "platform-941-app.firebaseapp.com",
+  projectId: env.VITE_FIREBASE_PROJECT_ID || "platform-941-app",
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || "platform-941-app.firebasestorage.app",
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || "1018514208706",
+  appId: env.VITE_FIREBASE_APP_ID || "1:1018514208706:web:eb4e290de123d13446885b",
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || "G-8X2ESZZSR7"
 };
 
-// Inicialización de la aplicación Firebase
-export const app = initializeApp(firebaseConfig);
+// Inicialización segura de la aplicación Firebase
+export const app = firebaseConfig.apiKey ? initializeApp(firebaseConfig) : null;
 
 // Instancia segura de Analytics (se activa si el entorno lo soporta y existe un measurementId configurado)
 export let analytics: Analytics | null = null;
 
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && app) {
   isSupported().then(supported => {
     if (supported && firebaseConfig.measurementId) {
       try {

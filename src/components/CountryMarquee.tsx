@@ -95,7 +95,25 @@ const COUNTRY_MAPPINGS: CountryMapping[] = [
   { countryName: "Kenia", cityId: "nairobi" },
   { countryName: "Nigeria", cityId: "lagos" },
   { countryName: "Bolivia", cityId: "la-paz" },
-  { countryName: "Guatemala", cityId: "guatemala-city" }
+  { countryName: "Guatemala", cityId: "guatemala-city" },
+  { countryName: "Nicaragua", cityId: "managua" },
+  { countryName: "Belice", cityId: "ciudad-de-belice" },
+  { countryName: "Guyana", cityId: "georgetown" },
+  { countryName: "Surinam", cityId: "paramaribo" },
+  { countryName: "Haití", cityId: "puerto-principe" },
+  { countryName: "Bahamas", cityId: "nasau" },
+  { countryName: "Trinidad y Tobago", cityId: "puerto-espana" },
+  { countryName: "Barbados", cityId: "bridgetown" },
+  { countryName: "Curazao", cityId: "willemstad" },
+  { countryName: "Aruba", cityId: "oranjestad" },
+  { countryName: "Santa Lucía", cityId: "castries" },
+  { countryName: "Antigua y Barbuda", cityId: "saint-john" },
+  { countryName: "Granada", cityId: "saint-george" },
+  { countryName: "San Vicente y las Granadinas", cityId: "kingstown" },
+  { countryName: "Dominica", cityId: "roseau" },
+  { countryName: "San Cristóbal y Nieves", cityId: "basseterre" },
+  { countryName: "Islas Caimán", cityId: "george-town-caiman" },
+  { countryName: "Bermudas", cityId: "hamilton-bermudas" }
 ];
 
 // Helper to generate dense row items with extreme size contrast and 100% blue colors (no black)

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CITIES_DATABASE, City } from '../data/cities';
 import { getTimeInTimezone } from '../lib/timeEngine';
 import { Search, X } from 'lucide-react';
-import { useLanguage, getTranslatedCountry, getTranslatedCity, getTranslatedRegion, getCitySeoSlug } from '../lib/i18n.tsx';
+import { useLanguage, getTranslatedCountry, getTranslatedCity, getTranslatedRegion, getCitySeoSlug, normalizeText } from '../lib/i18n.tsx';
 import { trackCitySearch } from '../lib/firebase';
 
 interface SearchModalProps {
@@ -45,22 +45,29 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
 
   const filteredCities = CITIES_DATABASE.filter(city => {
     if (!query.trim()) return true;
-    const q = query.toLowerCase().trim();
-    const transName = getTranslatedCity(city, languageInfo.code).toLowerCase();
-    const transCountry = getTranslatedCountry(city.countryCode, languageInfo.locale, city.country).toLowerCase();
-    const transRegion = getTranslatedRegion(city.region, languageInfo.code).toLowerCase();
-    const localizedSlug = getCitySeoSlug(city, languageInfo.code).toLowerCase();
+    const q = normalizeText(query);
+    const transName = normalizeText(getTranslatedCity(city, languageInfo.code));
+    const transCountry = normalizeText(getTranslatedCountry(city.countryCode, languageInfo.locale, city.country));
+    const transRegion = normalizeText(getTranslatedRegion(city.region, languageInfo.code));
+    const localizedSlug = normalizeText(getCitySeoSlug(city, languageInfo.code));
+    const cityName = normalizeText(city.name);
+    const cityCountry = normalizeText(city.country);
+    const timezone = normalizeText(city.timezone);
+    const region = normalizeText(city.region);
+    const seoSlug = normalizeText(city.seoSlug || '');
+    const code = normalizeText(city.countryCode);
 
     return (
-      city.name.toLowerCase().includes(q) ||
+      cityName.includes(q) ||
       transName.includes(q) ||
-      city.country.toLowerCase().includes(q) ||
+      cityCountry.includes(q) ||
       transCountry.includes(q) ||
-      city.timezone.toLowerCase().includes(q) ||
-      city.region.toLowerCase().includes(q) ||
+      timezone.includes(q) ||
+      region.includes(q) ||
       transRegion.includes(q) ||
       localizedSlug.includes(q) ||
-      (city.seoSlug && city.seoSlug.toLowerCase().includes(q))
+      seoSlug.includes(q) ||
+      code === q
     );
   });
 

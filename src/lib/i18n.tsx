@@ -1255,7 +1255,38 @@ export const CITY_NAME_TRANSLATIONS: Record<string, Record<string, string>> = {
   'algiers': { en: 'Algiers', es: 'Argel', fr: 'Alger', pt: 'Argel', zh: '阿尔及尔', hi: 'अल्जीयर्स', ar: 'الجزائر', ru: 'Алжир', ja: 'アルジェ', bn: 'আলজিয়ার্স' },
   'cape-town': { en: 'Cape Town', es: 'Ciudad del Cabo', fr: 'Le Cap', pt: 'Cidade do Cabo', zh: '开普敦', hi: 'केप टाउन', ar: 'كيب تاون', ru: 'Кейптаун', ja: 'ケープタウン', bn: 'কেপ টাউন' },
   'guatemala-city': { en: 'Guatemala City', es: 'Ciudad de Guatemala', fr: 'Guatemala', pt: 'Cidade da Guatemala', zh: '危地马拉城', hi: 'ग्वाटेमाला सिटी', ar: 'مدينة غواتيمالا', ru: 'Гватемала', ja: 'グアテマラシティ', bn: 'গুয়াতেমালা সিটি' },
-  'adelaide': { en: 'Adelaide', es: 'Adelaida', fr: 'Adélaïde', pt: 'Adelaide', zh: '阿德莱德', hi: 'एडिलेड', ar: 'أديلايد', ru: 'Аделаида', ja: 'アデレード', bn: 'অ্যাডিলেড' }
+  'adelaide': { en: 'Adelaide', es: 'Adelaida', fr: 'Adélaïde', pt: 'Adelaide', zh: '阿德莱德', hi: 'एडिलेड', ar: 'أديلايد', ru: 'Аделаида', ja: 'アデレード', bn: 'অ্যাডিলেড' },
+  'lima': { en: 'Lima', es: 'Lima', fr: 'Lima', pt: 'Lima', zh: '利马', hi: 'लीमा', ar: 'ليما', ru: 'Лима', ja: 'リマ', bn: 'লিমা' },
+  'managua': { en: 'Managua', es: 'Managua', fr: 'Managua', pt: 'Manágua', zh: '马那瓜', hi: 'मानागुआ', ar: 'ماناغوا', ru: 'Манагуа', ja: 'マナグア', bn: 'মানাগুয়া' },
+  'ciudad-de-belice': { en: 'Belize City', es: 'Ciudad de Belice', fr: 'Belize City', pt: 'Cidade de Belize', zh: '伯利兹城', hi: 'बेलीज़ सिटी', ar: 'مدينة بليز', ru: 'Белиз', ja: 'ベリーズシティ', bn: 'বেলিজ সিটি' },
+  'georgetown': { en: 'Georgetown', es: 'Georgetown', fr: 'Georgetown', pt: 'Georgetown', zh: '乔治敦', hi: 'जॉर्जटाउन', ar: 'جورج تاون', ru: 'Джорджтаун', ja: 'ジョージタウン', bn: 'জর্জটাউন' },
+  'paramaribo': { en: 'Paramaribo', es: 'Paramaribo', fr: 'Paramaribo', pt: 'Paramaribo', zh: '帕拉马里博', hi: 'पारामारिबो', ar: 'باراماريبو', ru: 'Парамарибо', ja: 'パラマリボ', bn: 'প্যারামারিবো' },
+  'cayena': { en: 'Cayenne', es: 'Cayena', fr: 'Cayenne', pt: 'Caiena', zh: '卡宴', hi: 'केयेन', ar: 'كايين', ru: 'Кайенна', ja: 'カイエンヌ', bn: 'কায়েন' },
+  'manaus': { en: 'Manaus', es: 'Manaos', fr: 'Manaus', pt: 'Manaus', zh: '马瑙斯', hi: 'मनौस', ar: 'ماناوس', ru: 'Манаус', ja: 'マナウス', bn: 'মানাউস' },
+  'fernando-de-noronha': { en: 'Fernando de Noronha', es: 'Fernando de Noronha', fr: 'Fernando de Noronha', pt: 'Fernando de Noronha', zh: '费尔南多-迪诺罗尼亚', hi: 'फर्नांडो डी नोरोन्हा', ar: 'فرناندو دي نورونيا', ru: 'Фернанду-ди-Норонья', ja: 'フェルナンド・デ・ノローニャ', bn: 'ফার্নান্দো ডি নোরোনহা' },
+  'isla-de-pascua': { en: 'Easter Island', es: 'Isla de Pascua', fr: 'Île de Pâques', pt: 'Ilha de Páscoa', zh: '复活节岛', hi: 'ईस्टर द्वीप', ar: 'جزيرة القيامة', ru: 'Остров Пасхи', ja: 'イースター島', bn: 'ইস্টার দ্বীপ' },
+  'islas-galapagos': { en: 'Galapagos Islands', es: 'Islas Galápagos', fr: 'Îles Galápagos', pt: 'Ilhas Galápagos', zh: '加拉帕戈斯群岛', hi: 'गैलापागोस द्वीपसमूह', ar: 'جزر غالاباغوس', ru: 'Галапагосские острова', ja: 'ガラパゴス諸島', bn: 'গালাপাগোস দ্বীপপুঞ্জ' },
+  'puerto-principe': { en: 'Port-au-Prince', es: 'Puerto Príncipe', fr: 'Port-au-Prince', pt: 'Porto Príncipe', zh: '太子港', hi: 'पोर्ट-ऑ-प्रिंस', ar: 'بورت أو برنس', ru: 'Порт-о-Пренс', ja: 'ポルトープランス', bn: 'পোর্ট-অ-প্রিন্স' },
+  'nasau': { en: 'Nassau', es: 'Nasáu', fr: 'Nassau', pt: 'Nassau', zh: '拿骚', hi: 'नासाउ', ar: 'नासाओ', ru: 'Нассау', ja: 'ナッソー', bn: 'নাসাউ' },
+  'puerto-espana': { en: 'Port of Spain', es: 'Puerto España', fr: "Port-d'Espagne", pt: 'Porto de Espanha', zh: '西班牙港', hi: 'पोर्ट ऑफ स्पेन', ar: 'بورت أوف سبين', ru: 'Порт-оф-Спейн', ja: 'ポートオブスペイン', bn: 'পোর্ট অব স্পেন' },
+  'bridgetown': { en: 'Bridgetown', es: 'Bridgetown', fr: 'Bridgetown', pt: 'Bridgetown', zh: '布里奇敦', hi: 'ब्रिजटाउन', ar: 'بريدجتاون', ru: 'Бриджтаун', ja: 'ブリッジタウン', bn: 'ব্রিজটাউন' },
+  'willemstad': { en: 'Willemstad', es: 'Willemstad', fr: 'Willemstad', pt: 'Willemstad', zh: '威廉斯塔德', hi: 'विलेमस्टेड', ar: 'ويلمستاد', ru: 'Виллемстад', ja: 'ウィレムスタット', bn: 'ভিলেমসটাড' },
+  'oranjestad': { en: 'Oranjestad', es: 'Oranjestad', fr: 'Oranjestad', pt: 'Oranjestad', zh: '奥拉涅斯塔德', hi: 'ओरांजस्टैड', ar: 'أورانجيستاد', ru: 'Ораньестад', ja: 'オラニエスタッド', bn: 'ওরাঞ্জেস্টাড' },
+  'castries': { en: 'Castries', es: 'Castries', fr: 'Castries', pt: 'Castries', zh: '卡斯特里', hi: 'कास्ट्रीज', ar: 'كاستريس', ru: 'Кастри', ja: 'カストリーズ', bn: 'ক্যাস্ট্রিস' },
+  'saint-john': { en: "Saint John's", es: 'Saint John', fr: "Saint John's", pt: "Saint John's", zh: '圣约翰', hi: 'सेंट जॉन्स', ar: 'سانت جونز', ru: 'Сент-Джонс', ja: 'セントジョンズ', bn: 'সেন্ট জনস' },
+  'saint-george': { en: "St. George's", es: 'Saint George', fr: 'Saint-Georges', pt: 'São Jorge', zh: '圣乔治', hi: 'सेंट जॉर्ज', ar: 'سانت جورجز', ru: 'Сент-Джорджес', ja: 'セントジョージズ', bn: 'সেন্ট জর্জ' },
+  'kingstown': { en: 'Kingstown', es: 'Kingstown', fr: 'Kingstown', pt: 'Kingstown', zh: '金斯敦', hi: 'किंग्सटाउन', ar: 'كينغستاون', ru: 'Кингстаун', ja: 'キングスタウン', bn: 'কিংসটাউন' },
+  'roseau': { en: 'Roseau', es: 'Roseau', fr: 'Roseau', pt: 'Roseau', zh: '罗索', hi: 'रोसेउ', ar: 'روسو', ru: 'Розо', ja: 'ロゾー', bn: 'রোসো' },
+  'basseterre': { en: 'Basseterre', es: 'Basseterre', fr: 'Basseterre', pt: 'Basseterre', zh: '巴斯特尔', hi: 'बासेटेरे', ar: 'باستير', ru: 'Бастер', ja: 'バセテール', bn: 'বাসেটেরে' },
+  'george-town-caiman': { en: 'George Town', es: 'George Town', fr: 'George Town', pt: 'George Town', zh: '乔治敦', hi: 'जॉर्ज टाउन', ar: 'جورج تاون', ru: 'Джорджтаун', ja: 'ジョージタウン', bn: 'জর্জ টাউন' },
+  'hamilton-bermudas': { en: 'Hamilton', es: 'Hamilton', fr: 'Hamilton', pt: 'Hamilton', zh: '汉密尔顿', hi: 'हैमिल्टन', ar: 'هاميلتون', ru: 'Гамильтон', ja: 'ハミルトン', bn: 'হ্যামিল্টন' },
+  'calgary': { en: 'Calgary', es: 'Calgary', fr: 'Calgary', pt: 'Calgary', zh: '卡尔加里', hi: 'कैलगरी', ar: 'كالغاري', ru: 'Калгари', ja: 'カルガリー', bn: 'ক্যালগারি' },
+  'winnipeg': { en: 'Winnipeg', es: 'Winnipeg', fr: 'Winnipeg', pt: 'Winnipeg', zh: '温尼伯', hi: 'विन्निपेग', ar: 'وينيبيغ', ru: 'Виннипег', ja: 'ウィニペグ', bn: 'উইনিপেগ' },
+  'halifax': { en: 'Halifax', es: 'Halifax', fr: 'Halifax', pt: 'Halifax', zh: '哈利法克斯', hi: 'हैलिफ़ैक्स', ar: 'هاليفاكس', ru: 'Галифакс', ja: 'ハリファックス', bn: 'হ্যালিফ্যাক্স' },
+  'st-johns': { en: "St. John's", es: "St. John's", fr: 'Saint-Jean de Terre-Neuve', pt: 'São João da Terra Nova', zh: '圣约翰斯', hi: 'सेंट जॉन्स', ar: 'سانت جونز', ru: 'Сент-Джонс', ja: 'セントジョンズ', bn: 'সেন্ট জনস' },
+  'tijuana': { en: 'Tijuana', es: 'Tijuana', fr: 'Tijuana', pt: 'Tijuana', zh: '蒂华纳', hi: 'तिजुआना', ar: 'تيخوانا', ru: 'Тихуана', ja: 'ティフアナ', bn: 'তিজুয়ানা' },
+  'cancun': { en: 'Cancun', es: 'Cancún', fr: 'Cancún', pt: 'Cancún', zh: '坎昆', hi: 'कैनकन', ar: 'كانكون', ru: 'Канкун', ja: 'カンクン', bn: 'ক্যানকুন' },
+  'hermosillo': { en: 'Hermosillo', es: 'Hermosillo', fr: 'Hermosillo', pt: 'Hermosillo', zh: '埃莫西约', hi: 'हर्मोसिलो', ar: 'هيرموسيلو', ru: 'Эрмосильо', ja: 'エルモシージョ', bn: 'হার্মোসিলো' }
 };
 
 export function getTranslatedCity(city: TranslatableCity, langCode: string): string {
@@ -1278,6 +1309,14 @@ export function getCitySeoSlug(city: TranslatableCity, langCode: string): string
     return `time-in-${city.id}`;
   }
   return city.seoSlug || `hora-en-${city.id}`;
+}
+
+export function normalizeText(text: string): string {
+  return (text || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
 }
 
 export const useLanguage = (): LanguageContextType => {

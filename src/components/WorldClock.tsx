@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { City, CITIES_DATABASE } from '../data/cities';
 import { getTimeInTimezone, getTimeDifference, calculateSunTimes } from '../lib/timeEngine';
-import { useLanguage, getTranslatedCountry, getTranslatedCity, getTranslatedRegion } from '../lib/i18n.tsx';
+import { useLanguage, getTranslatedCountry, getTranslatedCity, getTranslatedRegion, normalizeText } from '../lib/i18n.tsx';
 import { Search, Plus, X } from 'lucide-react';
 import dayImage from '../assets/world-clock/day.jpg';
 import nightImage from '../assets/world-clock/night.jpg';
@@ -51,18 +51,27 @@ export const WorldClock: React.FC<WorldClockProps> = ({
 
   const filteredSearchCities = unaddedCities.filter(c => {
     if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase().trim();
-    const transName = getTranslatedCity(c, languageInfo.code).toLowerCase();
-    const transCountry = getTranslatedCountry(c.countryCode, languageInfo.locale, c.country).toLowerCase();
-    const transRegion = getTranslatedRegion(c.region, languageInfo.code).toLowerCase();
+    const q = normalizeText(searchQuery);
+    const transName = normalizeText(getTranslatedCity(c, languageInfo.code));
+    const transCountry = normalizeText(getTranslatedCountry(c.countryCode, languageInfo.locale, c.country));
+    const transRegion = normalizeText(getTranslatedRegion(c.region, languageInfo.code));
+    const cityName = normalizeText(c.name);
+    const cityCountry = normalizeText(c.country);
+    const timezone = normalizeText(c.timezone);
+    const region = normalizeText(c.region);
+    const seoSlug = normalizeText(c.seoSlug || '');
+    const code = normalizeText(c.countryCode);
+
     return (
-      c.name.toLowerCase().includes(q) ||
+      cityName.includes(q) ||
       transName.includes(q) ||
-      c.country.toLowerCase().includes(q) ||
+      cityCountry.includes(q) ||
       transCountry.includes(q) ||
-      c.region.toLowerCase().includes(q) ||
+      timezone.includes(q) ||
+      region.includes(q) ||
       transRegion.includes(q) ||
-      (c.seoSlug && c.seoSlug.toLowerCase().includes(q))
+      seoSlug.includes(q) ||
+      code === q
     );
   });
 
